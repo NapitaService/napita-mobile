@@ -15,13 +15,13 @@ import { colors } from '@/theme';
 export default function BusinessToday() {
   const { t } = useTranslation();
   const format = useFormat();
-  const { business, bags, pickups, receivingOrders, setReceivingOrders, startDraft } = useBusiness();
+  const { business, bags, pickups, countsFor, receivingOrders, setReceivingOrders, startDraft } = useBusiness();
 
   const live = bags.filter((b) => b.live);
   const published = live.reduce((sum, b) => sum + b.quantity, 0);
-  const reserved = live.reduce((sum, b) => sum + b.reserved, 0);
+  const reserved = live.reduce((sum, b) => sum + countsFor(b.id).reserved, 0);
   // Business side always shows pesos (napita-docs/product/currency-and-payments.md).
-  const sales = live.reduce((sum, b) => sum + b.reserved * b.price, 0);
+  const sales = live.reduce((sum, b) => sum + countsFor(b.id).reserved * b.price, 0);
   const window = format.windowParts(business.pickupFrom, business.pickupTo);
 
   const newBag = () => {
@@ -84,7 +84,7 @@ export default function BusinessToday() {
                   </Text>
                   <Text style={{ fontSize: 13, color: colors.grey }}>
                     {t('business.today.pickupRow', {
-                      bags: t('business.today.bags', { count: p.bags }),
+                      bags: t('business.today.bags', { count: p.quantity }),
                       code: p.code,
                     })}
                   </Text>

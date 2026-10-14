@@ -52,17 +52,24 @@ function BagCard({ bag }: { bag: BusinessBag }) {
   const { t } = useTranslation();
   const format = useFormat();
   const { language } = useSettings();
-  const { setQuantity, publishToday } = useBusiness();
+  const { setQuantity, publishToday, countsFor } = useBusiness();
+  const { reserved, delivered } = countsFor(bag.id);
 
   const window = format.window(bag.from, bag.to);
   const when = bag.live
     ? t('business.bags.today', { window })
     : t('business.bags.repeats', { days: formatDays(bag.days, language, false), window });
-  const soldOut = bag.live && bag.reserved >= bag.quantity;
+  // Sold out = every bag reserved (customers pay when they reserve).
+  const soldOut = bag.live && reserved >= bag.quantity;
   const status = !bag.live
     ? t('business.bags.notPublished')
-    : t('business.bags.reservedOf', { reserved: bag.reserved, count: bag.quantity }) +
-      (soldOut ? ` · ${t('business.bags.soldOut')}` : '');
+    : [
+        t('business.bags.reservedOf', { reserved, count: bag.quantity }),
+        delivered > 0 && t('business.bags.deliveredCount', { count: delivered }),
+        soldOut && t('business.bags.soldOut'),
+      ]
+        .filter(Boolean)
+        .join(' · ');
 
   return (
     <View style={styles.card}>
@@ -96,8 +103,8 @@ function BagCard({ bag }: { bag: BusinessBag }) {
               accessibilityRole="button"
               accessibilityLabel={t('business.bags.oneLess')}
               onPress={() => setQuantity(bag.id, bag.quantity - 1)}
-              disabled={bag.quantity <= bag.reserved}
-              style={[styles.stepButton, bag.quantity <= bag.reserved && { opacity: 0.4 }]}>
+              disabled={bag.quantity <= reserved}
+              style={[styles.stepButton, bag.quantity <= reserved && { opacity: 0.4 }]}>
               <Text font="bold" style={{ fontSize: 20 }}>
                 −
               </Text>

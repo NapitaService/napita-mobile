@@ -9,6 +9,7 @@ import {
   type Allergen,
   type BagType,
   type BusinessBag,
+  type Pickup,
 } from '@/data/business';
 
 /** The bag being created in the "Nueva bolsa" flow. */
@@ -46,7 +47,12 @@ function newDraft(): BagDraft {
 type BusinessState = {
   business: typeof SAMPLE_BUSINESS;
   bags: BusinessBag[];
-  pickups: typeof samplePickups;
+  pickups: Pickup[];
+  /** Bags reserved and handed over for one bag today, counted from `pickups`. */
+  countsFor: (bagId: string) => { reserved: number; delivered: number };
+  /** Marks an order as handed over. */
+  handOver: (pickupId: string) => void;
+  undoHandOver: (pickupId: string) => void;
   receivingOrders: boolean;
   setReceivingOrders: (on: boolean) => void;
   setQuantity: (id: string, quantity: number) => void;
@@ -63,14 +69,34 @@ const BusinessContext = createContext<BusinessState | null>(null);
 /** Business-mode state. Sample data in memory until napita-backend exists. */
 export function BusinessProvider({ children }: { children: ReactNode }) {
   const [bags, setBags] = useState(sampleBags);
+  const [pickups, setPickups] = useState(samplePickups);
   const [receivingOrders, setReceivingOrders] = useState(true);
   const [draft, setDraft] = useState(newDraft);
 
-  const setQuantity = useCallback((id: string, quantity: number) => {
-    setBags((all) =>
-      all.map((b) => (b.id === id ? { ...b, quantity: Math.min(50, Math.max(b.reserved, quantity)) } : b))
-    );
-  }, []);
+  const countsFor = useCallback(
+    (bagId: string) => {
+      const forBag = pickups.filter((p) => p.bagId === bagId);
+      return {
+        reserved: forBag.reduce((sum, p) => sum + p.quantity, 0),
+        delivered: forBag.filter((p) => p.delivered).reduce((sum, p) => sum + p.quantity, 0),
+      };
+    },
+    [pickups]
+  );
+
+  // Never below what customers already reserved.
+  const setQuantity = useCallback(
+    (id: string, quantity: number) => {
+      const min = countsFor(id).reserved;
+      setBags((all) => all.map((b) => (b.id === id ? { ...b, quantity: Math.min(50, Math.max(min, quantity)) } : b)));
+    },
+    [countsFor]
+  );
+
+  const setDelivered = (pickupId: string, delivered: boolean) =>
+    setPickups((all) => all.map((p) => (p.id === pickupId ? { ...p, delivered } : p)));
+  const handOver = useCallback((pickupId: string) => setDelivered(pickupId, true), []);
+  const undoHandOver = useCallback((pickupId: string) => setDelivered(pickupId, false), []);
 
   const publishToday = useCallback((id: string) => {
     setBags((all) => all.map((b) => (b.id === id ? { ...b, live: true, quantity: b.usualQuantity } : b)));
@@ -83,7 +109,7 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
     (name: string) => {
       const { customName: _, ...bag } = draft;
       setBags((all) => [
-        { ...bag, id: `bag-${Date.now()}`, name, usualQuantity: bag.quantity, reserved: 0, live: true },
+        { ...bag, id: `bag-${Date.now()}`, name, usualQuantity: bag.quantity, live: true },
         ...all,
       ]);
     },
@@ -95,7 +121,10 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
       value={{
         business: SAMPLE_BUSINESS,
         bags,
-        pickups: samplePickups,
+        pickups,
+        countsFor,
+        handOver,
+        undoHandOver,
         receivingOrders,
         setReceivingOrders,
         setQuantity,

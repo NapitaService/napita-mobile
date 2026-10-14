@@ -53,7 +53,6 @@ export type BusinessBag = {
   quantity: number;
   /** Quantity used by "Publicar hoy" on a paused bag. */
   usualQuantity: number;
-  reserved: number;
   from: string;
   to: string;
   repeatWeekly: boolean;
@@ -61,7 +60,20 @@ export type BusinessBag = {
   live: boolean;
 };
 
-export type Pickup = { id: string; name: string; bags: number; code: string; delivered: boolean };
+/**
+ * A customer's reservation for today, to hand over at pickup. Reserved and
+ * delivered counts on Hoy and Bolsas are worked out from this list.
+ */
+export type Pickup = {
+  id: string;
+  /** First name and last initial, as customers appear to businesses. */
+  name: string;
+  bagId: string;
+  quantity: number;
+  /** The 4-digit code the customer shows (also inside their QR code). */
+  code: string;
+  delivered: boolean;
+};
 
 /** The signed-in business, as set during sign-up (napita-docs/design/flows/business-signup.md). */
 export const SAMPLE_BUSINESS = {
@@ -81,7 +93,6 @@ export const sampleBags: BusinessBag[] = [
     price: 12900,
     quantity: 4,
     usualQuantity: 4,
-    reserved: 2,
     from: '18:00',
     to: '19:00',
     repeatWeekly: true,
@@ -97,7 +108,6 @@ export const sampleBags: BusinessBag[] = [
     price: 16900,
     quantity: 2,
     usualQuantity: 2,
-    reserved: 2,
     from: '18:00',
     to: '19:00',
     repeatWeekly: true,
@@ -113,7 +123,6 @@ export const sampleBags: BusinessBag[] = [
     price: 6900,
     quantity: 0,
     usualQuantity: 3,
-    reserved: 0,
     from: '17:00',
     to: '18:00',
     repeatWeekly: true,
@@ -123,10 +132,21 @@ export const sampleBags: BusinessBag[] = [
 ];
 
 export const samplePickups: Pickup[] = [
-  { id: 'p1', name: 'Valentina R.', bags: 1, code: '4821', delivered: false },
-  { id: 'p2', name: 'Santiago M.', bags: 2, code: '7310', delivered: false },
-  { id: 'p3', name: 'Camila G.', bags: 1, code: '1956', delivered: true },
+  { id: 'order-1', name: 'Valentina R.', bagId: 'bag-1', quantity: 1, code: '4821', delivered: false },
+  { id: 'order-2', name: 'Santiago M.', bagId: 'bag-1', quantity: 2, code: '7310', delivered: false },
+  { id: 'order-3', name: 'Andrés P.', bagId: 'bag-2', quantity: 1, code: '5094', delivered: false },
+  { id: 'order-4', name: 'Camila G.', bagId: 'bag-2', quantity: 1, code: '1956', delivered: true },
 ];
+
+/**
+ * Reads the code from a customer's QR ("napita:order:<id>:<code>", see the
+ * customer Pedidos screen) or a typed 4-digit code. Returns null for anything else.
+ */
+export function readPickupCode(data: string) {
+  const qr = /^napita:order:[^:]+:(\d{4})$/.exec(data.trim());
+  if (qr) return qr[1];
+  return /^\d{4}$/.test(data.trim()) ? data.trim() : null;
+}
 
 /**
  * Three price choices for a bag worth `value` pesos. The middle one is about a
