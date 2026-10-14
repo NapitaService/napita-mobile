@@ -11,7 +11,37 @@
     "seePlaces": "See places near me",
     "haveBusiness": "I have a business",
     "haveAccount": "Already have an account?",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "newHere": "New here?",
+    "createAccount": "Create your account"
+  },
+  "account": {
+    "back": "Back",
+    "createTitle": "Create your account",
+    "createSubtitle": "To reserve bags and save your favorite places.",
+    "signInTitle": "Sign in",
+    "signInSubtitle": "Good to see you again.",
+    "continueApple": "Continue with Apple",
+    "continueGoogle": "Continue with Google",
+    "orWithPhone": "or with your phone",
+    "name": "Your name",
+    "namePlaceholder": "What's your name?",
+    "phone": "Mobile number",
+    "phonePlaceholder": "300 000 0000",
+    "sendCode": "Send me a code",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "noAccount": "Don't have an account?",
+    "createOne": "Create one",
+    "comingSoonTitle": "Coming soon",
+    "comingSoonBody": "This option isn't ready yet. For now, use your phone number.",
+    "ok": "Got it",
+    "codeTitle": "Enter the code",
+    "codeSubtitle": "We sent it by WhatsApp or SMS to {{phone}}.",
+    "codeLabel": "6-digit code",
+    "resend": "Resend code",
+    "resent": "We sent you a new code.",
+    "changeNumber": "Change number"
   },
   "tabs": {
     "discover": "Discover",
@@ -95,8 +125,6 @@
     "usuallyPosts": "Usually posts around {{time}}"
   },
   "profile": {
-    "namePlaceholder": "[Your name]",
-    "emailPlaceholder": "[you@email.com]",
     "bagsCollected": "Bags picked up",
     "placesDiscovered": "Places discovered",
     "language": "Language",
@@ -110,7 +138,11 @@
     "helpPrivacy": "Help and privacy",
     "haveBusiness": "Have a business?",
     "switchToBusiness": "Switch to business mode",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "guestTitle": "Create your account",
+    "guestBody": "To reserve bags, save favorites and see your orders.",
+    "createAccount": "Create account",
+    "signIn": "I have an account"
   },
   "business": {
     "badge": "Business mode",

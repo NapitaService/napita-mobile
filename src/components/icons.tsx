@@ -118,6 +118,12 @@ export const ChevronRightIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const ChevronLeftIcon = (p: IconProps) => (
+  <Icon strokeWidth={2.2} {...p}>
+    <Path d="m15 6-6 6 6 6" />
+  </Icon>
+);
+
 export const FiltersIcon = (p: IconProps) => (
   <Icon {...p}>
     <Path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" />

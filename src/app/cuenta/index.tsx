@@ -1,0 +1,125 @@
+import { router, useLocalSearchParams } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { BackButton, Field, Input, PhoneInput, PrimaryButton } from '@/components/form';
+import { Text } from '@/components/text';
+import { formatPhone } from '@/settings/account';
+import { colors } from '@/theme';
+
+/**
+ * Crea tu cuenta / Inicia sesión. Not in the design canvas yet: sign-in method
+ * chosen as phone code + Apple + Google (see napita-docs/decisions/).
+ * Styling follows ShopOnboardDetails.dc.html.
+ */
+export default function AccountScreen() {
+  const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+  const { modo } = useLocalSearchParams<{ modo?: 'crear' | 'entrar' }>();
+  const creating = modo !== 'entrar';
+
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const ready = phone.length === 10 && (!creating || name.trim().length > 0);
+
+  // Apple and Google need napita-backend (Supabase auth) before they can work.
+  const comingSoon = () =>
+    Alert.alert(t('account.comingSoonTitle'), t('account.comingSoonBody'), [{ text: t('account.ok') }]);
+
+  const sendCode = () =>
+    router.push({ pathname: '/cuenta/codigo', params: { phone, name: creating ? name.trim() : '' } });
+
+  const switchMode = () => router.setParams({ modo: creating ? 'entrar' : 'crear' });
+
+  return (
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <StatusBar style="dark" />
+      <ScrollView
+        style={styles.screen}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 24 }]}
+        keyboardShouldPersistTaps="handled">
+        <BackButton />
+
+        <View style={{ gap: 6 }}>
+          <Text font="display" style={styles.title} accessibilityRole="header">
+            {creating ? t('account.createTitle') : t('account.signInTitle')}
+          </Text>
+          <Text style={styles.subtitle}>{creating ? t('account.createSubtitle') : t('account.signInSubtitle')}</Text>
+        </View>
+
+        <View style={{ gap: 10 }}>
+          <Pressable accessibilityRole="button" onPress={comingSoon} style={[styles.social, styles.apple]}>
+            <Text font="bold" style={{ fontSize: 16, color: colors.white }}>
+              {t('account.continueApple')}
+            </Text>
+          </Pressable>
+          <Pressable accessibilityRole="button" onPress={comingSoon} style={[styles.social, styles.google]}>
+            <Text font="bold" style={{ fontSize: 16 }}>
+              {t('account.continueGoogle')}
+            </Text>
+          </Pressable>
+        </View>
+
+        <View style={styles.dividerRow}>
+          <View style={styles.dividerLine} />
+          <Text style={{ fontSize: 14, color: colors.grey }}>{t('account.orWithPhone')}</Text>
+          <View style={styles.dividerLine} />
+        </View>
+
+        {creating && (
+          <Field label={t('account.name')}>
+            <Input
+              value={name}
+              onChangeText={setName}
+              placeholder={t('account.namePlaceholder')}
+              textContentType="givenName"
+              autoComplete="name-given"
+              autoCapitalize="words"
+              returnKeyType="next"
+            />
+          </Field>
+        )}
+
+        <Field label={t('account.phone')}>
+          <PhoneInput
+            value={formatPhone(phone)}
+            onChangeText={(text) => setPhone(text.replace(/\D/g, '').slice(0, 10))}
+            placeholder={t('account.phonePlaceholder')}
+            maxLength={12}
+            returnKeyType="done"
+            onSubmitEditing={() => ready && sendCode()}
+          />
+        </Field>
+
+        <PrimaryButton label={t('account.sendCode')} onPress={sendCode} disabled={!ready} />
+
+        <View style={styles.switchRow}>
+          <Text style={{ fontSize: 15, color: colors.grey }}>
+            {creating ? t('account.haveAccount') : t('account.noAccount')}{' '}
+          </Text>
+          <Pressable accessibilityRole="link" onPress={switchMode} hitSlop={12}>
+            <Text font="bold" style={{ fontSize: 15, color: colors.green }}>
+              {creating ? t('account.signIn') : t('account.createOne')}
+            </Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: colors.white },
+  content: { paddingHorizontal: 20, gap: 18 },
+  title: { fontSize: 28, lineHeight: 34, letterSpacing: -0.5 },
+  subtitle: { fontSize: 15, lineHeight: 21, color: colors.grey },
+  social: { height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  apple: { backgroundColor: colors.black },
+  google: { backgroundColor: colors.white, borderWidth: 1.5, borderColor: colors.chipBorder },
+  dividerRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  dividerLine: { flex: 1, height: 1, backgroundColor: colors.border },
+  switchRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', minHeight: 44 },
+});

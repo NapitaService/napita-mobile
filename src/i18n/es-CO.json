@@ -11,7 +11,37 @@
     "seePlaces": "Ver lugares cerca de mí",
     "haveBusiness": "Tengo un negocio",
     "haveAccount": "¿Ya tienes cuenta?",
-    "signIn": "Inicia sesión"
+    "signIn": "Inicia sesión",
+    "newHere": "¿Primera vez aquí?",
+    "createAccount": "Crea tu cuenta"
+  },
+  "account": {
+    "back": "Atrás",
+    "createTitle": "Crea tu cuenta",
+    "createSubtitle": "Para reservar bolsas y guardar tus lugares favoritos.",
+    "signInTitle": "Inicia sesión",
+    "signInSubtitle": "Qué bueno verte de nuevo.",
+    "continueApple": "Continuar con Apple",
+    "continueGoogle": "Continuar con Google",
+    "orWithPhone": "o con tu celular",
+    "name": "Tu nombre",
+    "namePlaceholder": "¿Cómo te llamas?",
+    "phone": "Celular",
+    "phonePlaceholder": "300 000 0000",
+    "sendCode": "Enviarme un código",
+    "haveAccount": "¿Ya tienes cuenta?",
+    "signIn": "Inicia sesión",
+    "noAccount": "¿No tienes cuenta?",
+    "createOne": "Crea una",
+    "comingSoonTitle": "Muy pronto",
+    "comingSoonBody": "Esta opción todavía no está lista. Por ahora usa tu celular.",
+    "ok": "Entendido",
+    "codeTitle": "Escribe el código",
+    "codeSubtitle": "Te lo enviamos por WhatsApp o SMS al {{phone}}.",
+    "codeLabel": "Código de 6 dígitos",
+    "resend": "Reenviar código",
+    "resent": "Te enviamos un código nuevo.",
+    "changeNumber": "Cambiar número"
   },
   "tabs": {
     "discover": "Descubrir",
@@ -97,8 +127,6 @@
     "usuallyPosts": "Suele publicar cerca de las {{time}}"
   },
   "profile": {
-    "namePlaceholder": "[Tu nombre]",
-    "emailPlaceholder": "[tu@correo.com]",
     "bagsCollected": "Bolsas recogidas",
     "placesDiscovered": "Lugares descubiertos",
     "language": "Idioma",
@@ -112,7 +140,11 @@
     "helpPrivacy": "Ayuda y privacidad",
     "haveBusiness": "¿Tienes un negocio?",
     "switchToBusiness": "Cambiar a modo negocio",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "guestTitle": "Crea tu cuenta",
+    "guestBody": "Para reservar bolsas, guardar favoritos y ver tus pedidos.",
+    "createAccount": "Crear cuenta",
+    "signIn": "Ya tengo cuenta"
   },
   "business": {
     "badge": "Modo negocio",

@@ -23,6 +23,7 @@ export const colors = {
   mapLand: '#E8EDE4',
   mapPark: '#D3E2CC',
   userDot: '#2F6FDB',
+  black: '#000000', // "Continuar con Apple" (Apple's button rules)
 } as const;
 
 /** Font family names, as registered in src/app/_layout.tsx. */
