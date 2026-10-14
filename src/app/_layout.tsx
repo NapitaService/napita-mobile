@@ -12,6 +12,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
 import { AccountProvider } from '@/settings/account';
+import { BusinessProvider } from '@/settings/business';
 import { SettingsProvider } from '@/settings/settings';
 import { colors } from '@/theme';
 
@@ -37,13 +38,22 @@ export default function RootLayout() {
   return (
     <SettingsProvider>
       <AccountProvider>
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.mist } }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="(customer)" options={{ animation: 'fade' }} />
-          <Stack.Screen name="(business)" options={{ animation: 'fade' }} />
-          <Stack.Screen name="cuenta/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
-          <Stack.Screen name="cuenta/codigo" options={{ contentStyle: { backgroundColor: colors.white } }} />
-        </Stack>
+        <BusinessProvider>
+          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.mist } }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(customer)" options={{ animation: 'fade' }} />
+            <Stack.Screen name="(business)" options={{ animation: 'fade' }} />
+            <Stack.Screen name="cuenta/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
+            <Stack.Screen name="cuenta/codigo" options={{ contentStyle: { backgroundColor: colors.white } }} />
+            <Stack.Screen name="nueva-bolsa/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
+            <Stack.Screen name="nueva-bolsa/precio" options={{ contentStyle: { backgroundColor: colors.white } }} />
+            <Stack.Screen name="nueva-bolsa/horario" options={{ contentStyle: { backgroundColor: colors.white } }} />
+            <Stack.Screen
+              name="nueva-bolsa/publicada"
+              options={{ contentStyle: { backgroundColor: colors.white }, gestureEnabled: false }}
+            />
+          </Stack>
+        </BusinessProvider>
       </AccountProvider>
     </SettingsProvider>
   );
