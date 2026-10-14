@@ -48,6 +48,12 @@ export default function RootLayout() {
             <Stack.Screen name="nueva-bolsa/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
             <Stack.Screen name="nueva-bolsa/precio" options={{ contentStyle: { backgroundColor: colors.white } }} />
             <Stack.Screen name="nueva-bolsa/horario" options={{ contentStyle: { backgroundColor: colors.white } }} />
+            <Stack.Screen name="entrega/escanear" options={{ contentStyle: { backgroundColor: colors.scannerBg } }} />
+            <Stack.Screen
+              name="entrega/entregado"
+              options={{ contentStyle: { backgroundColor: colors.green }, gestureEnabled: false, animation: 'fade' }}
+            />
+            <Stack.Screen name="entrega/codigo-incorrecto" options={{ contentStyle: { backgroundColor: colors.white } }} />
             <Stack.Screen
               name="nueva-bolsa/publicada"
               options={{ contentStyle: { backgroundColor: colors.white }, gestureEnabled: false }}

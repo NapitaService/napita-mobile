@@ -155,6 +155,28 @@ export const WarningIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const ScanIcon = (p: IconProps) => (
+  <Icon strokeWidth={1.9} {...p}>
+    <Path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3" />
+    <Path d="M7 12h10" />
+  </Icon>
+);
+
+export const FlashlightIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <Path d="M8 2h8l-1 6H9z" />
+    <Path d="M9 8v12a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V8" />
+    <Path d="M12 12v2" />
+  </Icon>
+);
+
+export const AlertCircleIcon = (p: IconProps) => (
+  <Icon strokeWidth={2.4} {...p}>
+    <Path d="M12 7v6M12 17h.01" />
+    <Circle cx="12" cy="12" r="9" />
+  </Icon>
+);
+
 export const FiltersIcon = (p: IconProps) => (
   <Icon {...p}>
     <Path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" />

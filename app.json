@@ -32,6 +32,13 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Ñapita usa la cámara para escanear el código del cliente cuando le entregas su bolsa.",
+          "recordAudioAndroid": false
+        }
       ]
     ],
     "experiments": {

@@ -189,17 +189,68 @@
       "publishToday": "Publicar hoy",
       "oneLess": "Una menos",
       "oneMore": "Una más",
-      "tip": "Consejo: pon el valor real de lo que va en la bolsa y fija el precio en más o menos un tercio. Los clientes descubren qué trae al recogerla."
+      "tip": "Consejo: pon el valor real de lo que va en la bolsa y fija el precio en más o menos un tercio. Los clientes descubren qué trae al recogerla.",
+      "deliveredCount_one": "{{count}} entregada",
+      "deliveredCount_many": "{{count}} entregadas",
+      "deliveredCount_other": "{{count}} entregadas"
     },
     "pickups": {
       "title": "Entregas",
-      "body": "Aquí vas a escanear el código del cliente para entregarle su bolsa."
+      "subtitle": "Hoy · {{window}} · faltan {{waiting}} de {{total}}",
+      "allDone": "Hoy · {{window}} · todo entregado",
+      "scan": "Escanear código del cliente",
+      "scanHint": "Lo más rápido: apuntas y queda entregado",
+      "typeCode": "O escribe el código de 4 números",
+      "typeHint": "Se confirma solo al escribir el último número.",
+      "codeLabel": "Código de 4 números del cliente",
+      "listTitle": "Por recoger hoy",
+      "row": "{{quantity}} × {{kind}}",
+      "handOver": "Entregar",
+      "handOverLabel": "Entregar a {{name}}",
+      "delivered": "Entregado",
+      "empty": "Hoy no hay pedidos por recoger."
     },
     "profile": {
       "title": "Tu negocio",
       "body": "Datos del negocio, horarios y cuenta para recibir pagos."
     },
-    "switchToCustomer": "Cambiar a modo cliente"
+    "switchToCustomer": "Cambiar a modo cliente",
+    "scanner": {
+      "title": "Escanea el código del cliente",
+      "hint": "Apunta al código QR en el celular del cliente. Se confirma solo, sin tocar nada más.",
+      "close": "Cerrar",
+      "torch": "Linterna",
+      "typeInstead": "Escribir el código",
+      "permissionTitle": "Necesitamos la cámara",
+      "permissionBody": "Para escanear el código del cliente cuando le entregas su bolsa.",
+      "allow": "Permitir cámara",
+      "openSettings": "Abrir ajustes",
+      "noCamera": "La cámara no está disponible aquí. Escribe el código del cliente."
+    },
+    "handedOver": {
+      "title": "Entregado",
+      "paid": "Ya pagó en la app. No le cobres nada.",
+      "remaining_one": "Falta {{count}} por recoger hoy",
+      "remaining_many": "Faltan {{count}} por recoger hoy",
+      "remaining_other": "Faltan {{count}} por recoger hoy",
+      "noneLeft": "Ya entregaste todo lo de hoy",
+      "next": "Siguiente entrega",
+      "undo": "Deshacer"
+    },
+    "codeError": {
+      "title": "Este código no coincide",
+      "typed": "Escribiste",
+      "scannedOther": "El código escaneado no es un pedido de Ñapita.",
+      "reasonsTitle": "Puede ser que:",
+      "reasonTypo": "Un número quedó mal escrito",
+      "reasonOtherDay": "El pedido es para otro día",
+      "reasonOtherBusiness": "El pedido es de otro negocio",
+      "askCustomer": "Pídele al cliente que abra su pedido en la app y lo vuelves a intentar.",
+      "alreadyTitle": "Este pedido ya se entregó",
+      "alreadyBody": "{{name}} ya recogió su bolsa hoy. No hace falta entregar nada más.",
+      "scanAgain": "Escanear de nuevo",
+      "searchByName": "Buscar por nombre"
+    }
   },
   "newBag": {
     "title": "Nueva bolsa",

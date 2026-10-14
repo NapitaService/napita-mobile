@@ -185,17 +185,66 @@
       "publishToday": "Post today",
       "oneLess": "One less",
       "oneMore": "One more",
-      "tip": "Tip: enter the real value of what goes in the bag and set the price at about a third. Customers find out what's inside when they pick it up."
+      "tip": "Tip: enter the real value of what goes in the bag and set the price at about a third. Customers find out what's inside when they pick it up.",
+      "deliveredCount_one": "{{count}} handed over",
+      "deliveredCount_other": "{{count}} handed over"
     },
     "pickups": {
       "title": "Pickups",
-      "body": "Here you'll scan the customer's code to hand over their bag."
+      "subtitle": "Today · {{window}} · {{waiting}} of {{total}} left",
+      "allDone": "Today · {{window}} · all handed over",
+      "scan": "Scan the customer's code",
+      "scanHint": "Fastest: point the camera and it's done",
+      "typeCode": "Or type the 4-digit code",
+      "typeHint": "Confirms by itself when you type the last digit.",
+      "codeLabel": "Customer's 4-digit code",
+      "listTitle": "To pick up today",
+      "row": "{{quantity}} × {{kind}}",
+      "handOver": "Hand over",
+      "handOverLabel": "Hand over to {{name}}",
+      "delivered": "Handed over",
+      "empty": "No pickups today."
     },
     "profile": {
       "title": "Your business",
       "body": "Business details, hours and the account where you get paid."
     },
-    "switchToCustomer": "Switch to customer mode"
+    "switchToCustomer": "Switch to customer mode",
+    "scanner": {
+      "title": "Scan the customer's code",
+      "hint": "Point at the QR code on the customer's phone. It confirms by itself, nothing else to tap.",
+      "close": "Close",
+      "torch": "Flashlight",
+      "typeInstead": "Type the code",
+      "permissionTitle": "We need the camera",
+      "permissionBody": "To scan the customer's code when you hand over their bag.",
+      "allow": "Allow camera",
+      "openSettings": "Open settings",
+      "noCamera": "The camera isn't available here. Type the customer's code."
+    },
+    "handedOver": {
+      "title": "Handed over",
+      "paid": "Already paid in the app. Don't charge anything.",
+      "remaining_one": "{{count}} left to pick up today",
+      "remaining_other": "{{count}} left to pick up today",
+      "noneLeft": "Everything for today is handed over",
+      "next": "Next pickup",
+      "undo": "Undo"
+    },
+    "codeError": {
+      "title": "This code doesn't match",
+      "typed": "You typed",
+      "scannedOther": "The scanned code isn't a Ñapita order.",
+      "reasonsTitle": "It could be that:",
+      "reasonTypo": "A digit was mistyped",
+      "reasonOtherDay": "The order is for another day",
+      "reasonOtherBusiness": "The order is for another business",
+      "askCustomer": "Ask the customer to open their order in the app and try again.",
+      "alreadyTitle": "This order was already handed over",
+      "alreadyBody": "{{name}} already picked up their bag today. Nothing else to hand over.",
+      "scanAgain": "Scan again",
+      "searchByName": "Search by name"
+    }
   },
   "newBag": {
     "title": "New bag",

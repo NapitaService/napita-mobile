@@ -30,6 +30,7 @@ export const colors = {
   pendingText: '#9A3412',
   doneBg: '#DDEFE3',
   pausedBg: '#E9ECE9',
+  scannerBg: '#0E1A14', // camera screen background
   black: '#000000', // "Continuar con Apple" (Apple's button rules)
 } as const;
 
