@@ -41,7 +41,16 @@
     "codeLabel": "Código de 6 dígitos",
     "resend": "Reenviar código",
     "resent": "Te enviamos un código nuevo.",
-    "changeNumber": "Cambiar número"
+    "changeNumber": "Cambiar número",
+    "phoneLandline": "Ese parece un número fijo. Usa tu celular para recibir el código.",
+    "phoneNotMobile": "Los celulares en Colombia empiezan por 3. Revisa el número.",
+    "phoneUnknownPrefix": "Este número no parece un celular colombiano. Revisa los primeros dígitos.",
+    "phoneTooShort_one": "Le falta {{count}} dígito al número.",
+    "phoneTooShort_many": "Le faltan {{count}} dígitos al número.",
+    "phoneTooShort_other": "Le faltan {{count}} dígitos al número.",
+    "phoneEmpty": "Escribe tu número de celular.",
+    "nameMissing": "Escribe tu nombre.",
+    "warning": "Atención"
   },
   "tabs": {
     "discover": "Descubrir",

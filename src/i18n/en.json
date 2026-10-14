@@ -41,7 +41,15 @@
     "codeLabel": "6-digit code",
     "resend": "Resend code",
     "resent": "We sent you a new code.",
-    "changeNumber": "Change number"
+    "changeNumber": "Change number",
+    "phoneLandline": "That looks like a landline. Use your mobile number to get the code.",
+    "phoneNotMobile": "Colombian mobile numbers start with 3. Please check the number.",
+    "phoneUnknownPrefix": "This doesn't look like a Colombian mobile number. Please check the first digits.",
+    "phoneTooShort_one": "The number is missing {{count}} digit.",
+    "phoneTooShort_other": "The number is missing {{count}} digits.",
+    "phoneEmpty": "Enter your mobile number.",
+    "nameMissing": "Enter your name.",
+    "warning": "Warning"
   },
   "tabs": {
     "discover": "Discover",

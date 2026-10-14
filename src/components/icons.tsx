@@ -148,6 +148,13 @@ export const ChatIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const WarningIcon = (p: IconProps) => (
+  <Icon strokeWidth={2} {...p}>
+    <Path d="M12 3 2 20h20z" />
+    <Path d="M12 10v4M12 17h.01" />
+  </Icon>
+);
+
 export const FiltersIcon = (p: IconProps) => (
   <Icon {...p}>
     <Path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" />

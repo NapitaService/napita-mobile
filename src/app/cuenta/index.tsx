@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BackButton, Field, Input, PhoneInput, PrimaryButton } from '@/components/form';
 import { Text } from '@/components/text';
+import { cleanPhone, isEarlyProblem, PHONE_LENGTH, phoneProblem } from '@/lib/phone';
 import { formatPhone } from '@/settings/account';
 import { colors } from '@/theme';
 
@@ -23,14 +24,35 @@ export default function AccountScreen() {
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const ready = phone.length === 10 && (!creating || name.trim().length > 0);
+  // Show "missing digits" / empty warnings only once the person is done typing.
+  const [phoneDone, setPhoneDone] = useState(false);
+  const [triedSubmit, setTriedSubmit] = useState(false);
+
+  const problem = phoneProblem(phone);
+  const nameMissing = creating && !name.trim();
+  const showPhoneProblem = problem !== null && (isEarlyProblem(problem) || phoneDone || triedSubmit);
+
+  const phoneWarning = !showPhoneProblem
+    ? null
+    : problem === 'landline'
+      ? t('account.phoneLandline')
+      : problem === 'notMobile'
+        ? t('account.phoneNotMobile')
+        : problem === 'unknownPrefix'
+          ? t('account.phoneUnknownPrefix')
+          : problem === 'tooShort'
+            ? t('account.phoneTooShort', { count: PHONE_LENGTH - phone.length })
+            : t('account.phoneEmpty');
 
   // Apple and Google need napita-backend (Supabase auth) before they can work.
   const comingSoon = () =>
     Alert.alert(t('account.comingSoonTitle'), t('account.comingSoonBody'), [{ text: t('account.ok') }]);
 
-  const sendCode = () =>
+  const sendCode = () => {
+    setTriedSubmit(true);
+    if (problem !== null || nameMissing) return;
     router.push({ pathname: '/cuenta/codigo', params: { phone, name: creating ? name.trim() : '' } });
+  };
 
   const switchMode = () => router.setParams({ modo: creating ? 'entrar' : 'crear' });
 
@@ -70,8 +92,9 @@ export default function AccountScreen() {
         </View>
 
         {creating && (
-          <Field label={t('account.name')}>
+          <Field label={t('account.name')} warning={triedSubmit && nameMissing ? t('account.nameMissing') : null}>
             <Input
+              invalid={triedSubmit && nameMissing}
               value={name}
               onChangeText={setName}
               placeholder={t('account.namePlaceholder')}
@@ -83,18 +106,22 @@ export default function AccountScreen() {
           </Field>
         )}
 
-        <Field label={t('account.phone')}>
+        <Field label={t('account.phone')} warning={phoneWarning}>
           <PhoneInput
+            invalid={!!phoneWarning}
             value={formatPhone(phone)}
-            onChangeText={(text) => setPhone(text.replace(/\D/g, '').slice(0, 10))}
+            onChangeText={(text) => {
+              setPhone(cleanPhone(text));
+              setPhoneDone(false);
+            }}
+            onBlur={() => setPhoneDone(phone.length > 0)}
             placeholder={t('account.phonePlaceholder')}
-            maxLength={12}
             returnKeyType="done"
-            onSubmitEditing={() => ready && sendCode()}
+            onSubmitEditing={sendCode}
           />
         </Field>
 
-        <PrimaryButton label={t('account.sendCode')} onPress={sendCode} disabled={!ready} />
+        <PrimaryButton label={t('account.sendCode')} onPress={sendCode} />
 
         <View style={styles.switchRow}>
           <Text style={{ fontSize: 15, color: colors.grey }}>

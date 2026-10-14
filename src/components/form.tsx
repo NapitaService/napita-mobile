@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 
-import { ChevronLeftIcon } from '@/components/icons';
+import { ChevronLeftIcon, WarningIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { colors, fonts, MIN_TOUCH } from '@/theme';
 
@@ -23,23 +23,42 @@ export function BackButton() {
   );
 }
 
-export function Field({ label, children }: { label: string; children: ReactNode }) {
+export function Field({ label, warning, children }: { label: string; warning?: string | null; children: ReactNode }) {
   return (
     <View style={{ gap: 6 }}>
       <Text font="bold" style={{ fontSize: 14 }}>
         {label}
       </Text>
       {children}
+      {warning && <Warning text={warning} />}
     </View>
   );
 }
 
-export function Input(props: TextInputProps) {
-  return <TextInput placeholderTextColor={colors.grey} {...props} style={[styles.input, props.style]} />;
+/** Orange warning line under a field. Read out by screen readers when it appears. */
+export function Warning({ text }: { text: string }) {
+  return (
+    <View style={styles.warning} accessibilityRole="alert" accessibilityLiveRegion="polite">
+      <WarningIcon size={16} color={colors.orange} />
+      <Text font="semibold" style={styles.warningText}>
+        {text}
+      </Text>
+    </View>
+  );
+}
+
+export function Input({ invalid, ...props }: TextInputProps & { invalid?: boolean }) {
+  return (
+    <TextInput
+      placeholderTextColor={colors.grey}
+      {...props}
+      style={[styles.input, invalid && styles.inputInvalid, props.style]}
+    />
+  );
 }
 
 /** Celular with the fixed +57 box in front. */
-export function PhoneInput(props: TextInputProps) {
+export function PhoneInput(props: TextInputProps & { invalid?: boolean }) {
   return (
     <View style={{ flexDirection: 'row', gap: 8 }}>
       <View style={styles.prefix}>
@@ -88,6 +107,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     minWidth: 0,
   },
+  inputInvalid: { borderColor: colors.orange, borderWidth: 2 },
+  warning: { flexDirection: 'row', alignItems: 'flex-start', gap: 6 },
+  warningText: { flex: 1, fontSize: 13, lineHeight: 18, color: colors.orange },
   prefix: {
     height: 52,
     borderRadius: 14,
