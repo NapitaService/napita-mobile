@@ -148,12 +148,36 @@
     "badge": "Business mode",
     "comingSoon": "This screen is on its way.",
     "today": {
-      "title": "Today",
-      "body": "Here you'll see the bags you posted, reservations, today's sales and who's coming to pick up."
+      "receiving": "Taking orders today",
+      "pickupWindow": "Pickups {{from}}–{{to}}",
+      "published": "Bags posted",
+      "reserved": "Reserved",
+      "sales": "Today's sales",
+      "publishMore": "Post more bags",
+      "toCollect": "To pick up",
+      "seeAll": "See all",
+      "bags_one": "{{count}} bag",
+      "bags_other": "{{count}} bags",
+      "pickupRow": "{{bags}} · code {{code}}",
+      "pending": "Waiting",
+      "delivered": "Handed over"
     },
     "bags": {
       "title": "Your bags",
-      "body": "Here you'll see all your bags, change quantities and post with one tap."
+      "newBag": "New bag",
+      "today": "Today, {{window}}",
+      "repeats": "{{days}}, {{window}}",
+      "price": "Price",
+      "contentValue": "contents worth {{value}}",
+      "live": "Live",
+      "paused": "Paused",
+      "reservedOf": "{{reserved}} of {{count}} reserved",
+      "soldOut": "sold out",
+      "notPublished": "Not posted today",
+      "publishToday": "Post today",
+      "oneLess": "One less",
+      "oneMore": "One more",
+      "tip": "Tip: enter the real value of what goes in the bag and set the price at about a third. Customers find out what's inside when they pick it up."
     },
     "pickups": {
       "title": "Pickups",
@@ -164,5 +188,82 @@
       "body": "Business details, hours and the account where you get paid."
     },
     "switchToCustomer": "Switch to customer mode"
+  },
+  "newBag": {
+    "title": "New bag",
+    "close": "Close",
+    "back": "Back",
+    "step": "{{step}} of 3",
+    "next": "Next",
+    "typeTitle": "What goes in the bag?",
+    "typeSubtitle": "Pick the closest match. The exact contents are a surprise.",
+    "nameLabel": "Bag name",
+    "nameHint": "We wrote it for you. You can change it.",
+    "allergensLabel": "May contain",
+    "allergensHint": "(for customers with allergies)",
+    "priceTitle": "What are the bag's contents worth?",
+    "priceSubtitle": "What they'd cost in your shop at the usual price.",
+    "valueLabel": "Value of the contents in pesos",
+    "customerPrice": "Price for customers",
+    "suggested": "Suggested",
+    "priceHint": "About a third of the value, so bags get reserved quickly.",
+    "bagPrice": "Bag price",
+    "commission": "{{app}} commission ([X] %)",
+    "youReceive": "You receive per bag",
+    "scheduleTitle": "How many, and when?",
+    "quantityLabel": "Bags for today",
+    "quantityHint": "Only the ones you're sure you'll have",
+    "oneLess": "One less",
+    "oneMore": "One more",
+    "windowLabel": "Pickup time",
+    "other": "Other",
+    "repeatLabel": "Post it automatically every week",
+    "repeatHint": "So you don't need to open the app every day",
+    "daysLabel": "Days",
+    "summaryLabel": "Summary:",
+    "summaryRepeat_one": "{{count}} bag at {{price}}, today {{from}}–{{to}}, then {{days}}.",
+    "summaryRepeat_other": "{{count}} bags at {{price}}, today {{from}}–{{to}}, then {{days}}.",
+    "summaryToday_one": "{{count}} bag at {{price}}, today only, {{from}}–{{to}}.",
+    "summaryToday_other": "{{count}} bags at {{price}}, today only, {{from}}–{{to}}.",
+    "publish": "Post bag",
+    "publishedTitle": "Done! Your bag is posted",
+    "publishedBody": "Customers near you can reserve it now. We'll let you know about every reservation.",
+    "customerView": "How customers see it",
+    "businessPhoto": "[Photo of your business]",
+    "shareWhatsApp": "Tell your customers on WhatsApp",
+    "shareMessage": "{{name}} today at {{business}}! Reserve yours on {{app}}: {{price}}, pick up {{from}}–{{to}}.",
+    "done": "Done"
+  },
+  "bagTypes": {
+    "labels": {
+      "bakery": "Bakery",
+      "pastry": "Pastry",
+      "prepared": "Prepared meals",
+      "cafeSnacks": "Café and snacks",
+      "produce": "Fruit and veg",
+      "mixed": "Mixed"
+    },
+    "kinds": {
+      "bakery": "Bakery bag",
+      "pastry": "Pastry bag",
+      "prepared": "Prepared meal bag",
+      "cafeSnacks": "Café and snack bag",
+      "produce": "Fruit and veg bag",
+      "mixed": "Mixed bag"
+    },
+    "defaultNames": {
+      "bakery": "Bakery surprise bag",
+      "pastry": "Pastry surprise bag",
+      "prepared": "Meal surprise bag",
+      "cafeSnacks": "Café and snack surprise bag",
+      "produce": "Fruit and veg surprise bag",
+      "mixed": "Mixed surprise bag"
+    }
+  },
+  "allergens": {
+    "gluten": "Gluten",
+    "dairy": "Dairy",
+    "egg": "Egg",
+    "nuts": "Nuts"
   }
 }

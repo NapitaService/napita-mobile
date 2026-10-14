@@ -36,14 +36,15 @@ function clockParts(time: string) {
 }
 
 function period(pm: boolean, language: Language) {
+  // Non-breaking spaces so "p. m." never splits across two lines.
   if (language === 'en') return pm ? 'PM' : 'AM';
-  return pm ? 'p. m.' : 'a. m.';
+  return pm ? 'p.\u00A0m.' : 'a.\u00A0m.';
 }
 
 /** "18:00" → "6:00 p. m." / "6:00 PM" */
 export function formatTime(time: string, language: Language) {
   const { clock, pm } = clockParts(time);
-  return `${clock} ${period(pm, language)}`;
+  return `${clock}\u00A0${period(pm, language)}`;
 }
 
 /** Start and end of a pickup window, with "p. m." only on the end when both share it. */
@@ -100,4 +101,52 @@ export function todayISO() {
   const now = new Date();
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
+
+// Weekday names, 0 = Monday … 6 = Sunday.
+const WEEKDAYS = {
+  'es-CO': ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'],
+  en: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+};
+const WEEKDAYS_PLURAL = {
+  'es-CO': ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábados', 'domingos'],
+  en: ['Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays', 'Sundays'],
+};
+/** One-letter day buttons: "L M M J V S D" / "M T W T F S S". */
+export const WEEKDAY_INITIALS = {
+  'es-CO': ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+  en: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+};
+
+export function weekdayName(day: number, language: Language) {
+  return WEEKDAYS[language][day];
+}
+
+function joinList(items: string[], language: Language) {
+  if (items.length <= 1) return items.join('');
+  const and = language === 'en' ? 'and' : 'y';
+  return `${items.slice(0, -1).join(', ')} ${and} ${items[items.length - 1]}`;
+}
+
+/**
+ * Which days a bag repeats, as words.
+ * `inSentence`: "de lunes a sábado", "los fines de semana", "on Mondays and Fridays".
+ * Otherwise a label: "Lunes a sábado", "Fines de semana", "Mondays and Fridays".
+ */
+export function formatDays(days: number[], language: Language, inSentence: boolean) {
+  const sorted = [...new Set(days)].sort((a, b) => a - b);
+  const es = language === 'es-CO';
+  const consecutive = sorted.every((d, i) => i === 0 || d === sorted[i - 1] + 1);
+  let text: string;
+  if (sorted.length === 7) text = es ? 'todos los días' : 'every day';
+  else if (sorted.length === 2 && sorted[0] === 5 && sorted[1] === 6)
+    text = es ? (inSentence ? 'los fines de semana' : 'fines de semana') : inSentence ? 'on weekends' : 'weekends';
+  else if (consecutive && sorted.length >= 3) {
+    const range = `${WEEKDAYS[language][sorted[0]]} ${es ? 'a' : 'to'} ${WEEKDAYS[language][sorted[sorted.length - 1]]}`;
+    text = es && inSentence ? `de ${range}` : range;
+  } else {
+    const list = joinList(sorted.map((d) => WEEKDAYS_PLURAL[language][d]), language);
+    text = inSentence ? `${es ? 'los' : 'on'} ${list}` : list;
+  }
+  return inSentence ? text : text.charAt(0).toUpperCase() + text.slice(1);
 }

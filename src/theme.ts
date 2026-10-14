@@ -23,6 +23,13 @@ export const colors = {
   mapLand: '#E8EDE4',
   mapPark: '#D3E2CC',
   userDot: '#2F6FDB',
+  selectedTint: '#EEF6F0', // selected option background (bag type, price, time)
+  summary: '#FFF6DE', // "Resumen" box on the bag flow
+  switchOnDark: '#3BA66B', // switch on the dark business header
+  pendingBg: '#FDECD9',
+  pendingText: '#9A3412',
+  doneBg: '#DDEFE3',
+  pausedBg: '#E9ECE9',
   black: '#000000', // "Continuar con Apple" (Apple's button rules)
 } as const;
 

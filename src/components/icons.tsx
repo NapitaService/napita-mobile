@@ -124,6 +124,30 @@ export const ChevronLeftIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const CloseIcon = (p: IconProps) => (
+  <Icon strokeWidth={2.2} {...p}>
+    <Path d="M6 6l12 12M18 6 6 18" />
+  </Icon>
+);
+
+export const CheckIcon = (p: IconProps) => (
+  <Icon strokeWidth={2.6} {...p}>
+    <Path d="m5 12 5 5 9-10" />
+  </Icon>
+);
+
+export const PlusIcon = (p: IconProps) => (
+  <Icon strokeWidth={2.2} {...p}>
+    <Path d="M12 5v14M5 12h14" />
+  </Icon>
+);
+
+export const ChatIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <Path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z" />
+  </Icon>
+);
+
 export const FiltersIcon = (p: IconProps) => (
   <Icon {...p}>
     <Path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" />
