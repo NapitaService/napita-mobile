@@ -5,6 +5,7 @@ import en from './en.json';
 import esCO from './es-CO.json';
 
 // Colombian Spanish is always the default (napita-docs/product/language-and-tone.md).
+// eslint-disable-next-line import/no-named-as-default-member -- i18next's documented setup
 i18n.use(initReactI18next).init({
   resources: {
     'es-CO': { translation: esCO },
