@@ -1,10 +1,11 @@
+import type { ColorValue } from 'react-native';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
 import { colors } from '@/theme';
 
 // Line icons copied from napita-docs/design/canvas/ (24 × 24 viewBox).
 
-type IconProps = { size?: number; color?: string; strokeWidth?: number; fill?: string };
+type IconProps = { size?: number; color?: ColorValue; strokeWidth?: number; fill?: ColorValue };
 
 function Icon({
   size = 24,

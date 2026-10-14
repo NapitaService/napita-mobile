@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 
 import i18n from '@/i18n';
-import { formatPrice, type Currency, type Language } from '@/lib/format';
+import type { Currency, Language } from '@/lib/format';
 
 const LANGUAGE_KEY = 'napita.language';
 const CURRENCY_KEY = 'napita.currency';
@@ -55,10 +55,4 @@ export function useSettings() {
   const settings = useContext(SettingsContext);
   if (!settings) throw new Error('useSettings must be used inside SettingsProvider');
   return settings;
-}
-
-/** Formats whole pesos in the currency the customer chose in Perfil → Moneda. */
-export function usePrice() {
-  const { currency, language } = useSettings();
-  return (pesos: number) => formatPrice(pesos, currency, language);
 }
