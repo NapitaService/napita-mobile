@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BackButton, Field, Input, PhoneInput, PrimaryButton } from '@/components/form';
@@ -12,8 +12,8 @@ import { formatPhone } from '@/settings/account';
 import { colors } from '@/theme';
 
 /**
- * Crea tu cuenta / Inicia sesión. Not in the design canvas yet: sign-in method
- * chosen as phone code + Apple + Google (see napita-docs/decisions/).
+ * Crea tu cuenta / Inicia sesión. Not in the design canvas yet. Everyone signs in
+ * with celular + code only (napita-docs/decisions/0005-phone-only-sign-in.md).
  * Styling follows ShopOnboardDetails.dc.html.
  */
 export default function AccountScreen() {
@@ -44,10 +44,6 @@ export default function AccountScreen() {
             ? t('account.phoneTooShort', { count: PHONE_LENGTH - phone.length })
             : t('account.phoneEmpty');
 
-  // Apple and Google need napita-backend (Supabase auth) before they can work.
-  const comingSoon = () =>
-    Alert.alert(t('account.comingSoonTitle'), t('account.comingSoonBody'), [{ text: t('account.ok') }]);
-
   const sendCode = () => {
     setTriedSubmit(true);
     if (problem !== null || nameMissing) return;
@@ -70,25 +66,6 @@ export default function AccountScreen() {
             {creating ? t('account.createTitle') : t('account.signInTitle')}
           </Text>
           <Text style={styles.subtitle}>{creating ? t('account.createSubtitle') : t('account.signInSubtitle')}</Text>
-        </View>
-
-        <View style={{ gap: 10 }}>
-          <Pressable accessibilityRole="button" onPress={comingSoon} style={[styles.social, styles.apple]}>
-            <Text font="bold" style={{ fontSize: 16, color: colors.white }}>
-              {t('account.continueApple')}
-            </Text>
-          </Pressable>
-          <Pressable accessibilityRole="button" onPress={comingSoon} style={[styles.social, styles.google]}>
-            <Text font="bold" style={{ fontSize: 16 }}>
-              {t('account.continueGoogle')}
-            </Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.dividerRow}>
-          <View style={styles.dividerLine} />
-          <Text style={{ fontSize: 14, color: colors.grey }}>{t('account.orWithPhone')}</Text>
-          <View style={styles.dividerLine} />
         </View>
 
         {creating && (
@@ -143,10 +120,5 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: 20, gap: 18 },
   title: { fontSize: 28, lineHeight: 34, letterSpacing: -0.5 },
   subtitle: { fontSize: 15, lineHeight: 21, color: colors.grey },
-  social: { height: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  apple: { backgroundColor: colors.black },
-  google: { backgroundColor: colors.white, borderWidth: 1.5, borderColor: colors.chipBorder },
-  dividerRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  dividerLine: { flex: 1, height: 1, backgroundColor: colors.border },
   switchRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', minHeight: 44 },
 });

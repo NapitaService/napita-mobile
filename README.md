@@ -18,7 +18,7 @@ The design this app copies lives in the docs repo: [`design/README.md`](https://
 
 - **Welcome screen** with an ES / EN switch, "Ver lugares cerca de mí" and "Tengo un negocio".
 - **Customer mode**, 5 tabs built to match the design: Descubrir, Mapa, Pedidos, Favoritos, Perfil.
-- **Create an account / sign in** (Welcome → "Crea tu cuenta", or Perfil): celular + 6-digit code, or Apple / Google. For now nothing is sent, any 6 digits work, and Apple/Google say "Muy pronto". See decision 0004 in the docs repo.
+- **Create an account / sign in** (Welcome → "Crea tu cuenta", or Perfil): celular + 6-digit code only, with warnings for numbers that can't be a Colombian mobile. For now nothing is sent and any 6 digits work. See decision 0005 in the docs repo.
 - **Business mode**, 4 tabs. **Hoy** (today's numbers, who's coming) and **Bolsas** (your bags, +/− quantity, "Publicar hoy") are built, and **Entregas** (hand over orders) is built; Negocio is a placeholder.
 - **Hand over an order** on Entregas: scan the customer's QR with the camera (asks for camera permission the first time), type their 4-digit code (confirms on the last digit), or tap "Entregar" next to their name. A green "Entregado" screen with "Deshacer" follows; a wrong code shows "Este código no coincide". Counts on Hoy and Bolsas update. To try the scan, open Pedidos in customer mode on a second phone (code 4821).
 - **Create a bolsa** in 3 steps from Hoy → "Publicar más bolsas" or Bolsas → "Nueva bolsa": what goes in it, price (3 suggestions ending in .900), quantity and pickup time with "repeat weekly", then "¡Listo!" with a WhatsApp share. New bags appear in Bolsas until you close the app. Ñapita's commission still shows `[X] %` (open question).
