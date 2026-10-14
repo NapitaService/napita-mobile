@@ -22,7 +22,7 @@ export default function Welcome() {
   return (
     <View style={styles.screen}>
       <StatusBar style="light" />
-      <ScrollView contentContainerStyle={[styles.hero, { paddingTop: insets.top + 72 }]} bounces={false}>
+      <ScrollView contentContainerStyle={[styles.hero, { paddingTop: insets.top + 60 }]} bounces={false}>
         <View style={styles.logo}>
           <LogoBagIcon size={60} strokeWidth={1.6} />
         </View>
@@ -88,7 +88,7 @@ export default function Welcome() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.green },
-  hero: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 28, paddingBottom: 24, gap: 26 },
+  hero: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 28, paddingBottom: 24, gap: 22 },
   logo: {
     width: 112,
     height: 112,
@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  name: { fontSize: 64, lineHeight: 64, letterSpacing: -1.5, color: colors.white },
+  // Extra line height so iOS doesn't clip the tilde on the Ñ.
+  name: { fontSize: 64, lineHeight: 84, letterSpacing: -1.5, color: colors.white, marginVertical: -8 },
   tagline: { fontSize: 21, lineHeight: 28, color: colors.white, maxWidth: 330 },
   steps: { gap: 12 },
   step: { flexDirection: 'row', alignItems: 'center', gap: 12 },
