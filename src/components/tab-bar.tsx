@@ -12,7 +12,6 @@ export const tabScreenOptions: ComponentProps<typeof Tabs>['screenOptions'] = {
     backgroundColor: colors.white,
     borderTopColor: colors.border,
     borderTopWidth: 1,
-    paddingTop: 8,
   },
-  tabBarLabelStyle: { fontFamily: fonts.semibold, fontSize: 11, marginTop: 3 },
+  tabBarLabelStyle: { fontFamily: fonts.semibold, fontSize: 11 },
 };
