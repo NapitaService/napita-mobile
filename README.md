@@ -59,6 +59,8 @@ npx expo start --tunnel
 
 **If Expo Go says the project is incompatible:** update Expo Go from the store. This app uses Expo SDK 57.
 
+**If your iPhone says "There was a problem running the requested project" or mentions signing in:** on an iPhone, Expo Go and your computer must be signed in to the **same Expo account**. In Expo Go, tap the account icon (top right) and sign in with the account shown by `npx expo whoami` on your computer, then tap **Try Again**. No account yet? Create a free one at [expo.dev/signup](https://expo.dev/signup) and run `npx expo login` on your computer. Android phones don't need this.
+
 ## Where things are
 
 ```
