@@ -94,3 +94,10 @@ export function formatDuration(minutes: number) {
   if (h === 0) return `${m} min`;
   return m === 0 ? `${h} h` : `${h} h ${m} min`;
 }
+
+/** Today's date as "YYYY-MM-DD" in the phone's time zone. */
+export function todayISO() {
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
