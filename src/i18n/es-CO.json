@@ -1,0 +1,138 @@
+{
+  "app": {
+    "name": "Ñapita"
+  },
+  "welcome": {
+    "languageLabel": "Idioma / Language",
+    "tagline": "Bolsas sorpresa de las panaderías, cafés y restaurantes de tu barrio, al final del día.",
+    "step1": "Los lugares de tu barrio publican bolsas sorpresa",
+    "step2": "Reservas y pagas en la app",
+    "step3": "Pasas a recogerla a la hora indicada",
+    "seePlaces": "Ver lugares cerca de mí",
+    "haveBusiness": "Tengo un negocio",
+    "haveAccount": "¿Ya tienes cuenta?",
+    "signIn": "Inicia sesión"
+  },
+  "tabs": {
+    "discover": "Descubrir",
+    "map": "Mapa",
+    "orders": "Pedidos",
+    "favorites": "Favoritos",
+    "profile": "Perfil",
+    "today": "Hoy",
+    "bags": "Bolsas",
+    "pickups": "Entregas",
+    "business": "Negocio"
+  },
+  "common": {
+    "distanceAway": "a {{distance}}",
+    "left_one": "Queda {{count}}",
+    "left_many": "Quedan {{count}}",
+    "left_other": "Quedan {{count}}",
+    "soldOut": "Agotado",
+    "placePhoto": "[Foto del lugar]",
+    "photo": "[Foto]"
+  },
+  "categories": {
+    "all": "Todo",
+    "bakery": "Panadería",
+    "food": "Comida",
+    "cafe": "Café",
+    "market": "Mercado",
+    "vegan": "Vegano"
+  },
+  "bagKinds": {
+    "bakery": "Bolsa de panadería",
+    "food": "Bolsa de comida",
+    "cafe": "Bolsa de café",
+    "market": "Bolsa de mercado",
+    "vegan": "Bolsa vegana"
+  },
+  "discover": {
+    "location": "{{area}} · a {{radius}} km",
+    "notifications": "Notificaciones",
+    "title": "¿Qué se te antoja hoy?",
+    "searchPlaceholder": "Busca lugares o comida",
+    "pickUpToday": "Para recoger hoy",
+    "seeAll": "Ver todo",
+    "lastOfTheDay": "Las últimas del día",
+    "pickUpBefore": "Recoge antes de las {{time}}",
+    "noResults": "No encontramos lugares con esa búsqueda."
+  },
+  "map": {
+    "searchPlaceholder": "Busca en esta zona",
+    "filters": "Filtros",
+    "mapView": "Mapa",
+    "listView": "Lista",
+    "pickUpToday": "Recoge hoy de {{from}} a {{to}}",
+    "reserve": "Reservar bolsa",
+    "checkoutTitle": "Muy pronto",
+    "checkoutBody": "El pago todavía no está listo. Aquí vas a pagar en pesos con un medio de pago colombiano.",
+    "ok": "Entendido"
+  },
+  "orders": {
+    "title": "Tus pedidos",
+    "upcoming": "Próximos ({{count}})",
+    "past": "Anteriores",
+    "pickUpToday": "Recoge hoy",
+    "startsIn": "Empieza en {{time}}",
+    "summary": "{{quantity}} × {{kind}} · pagaste {{price}}",
+    "showCode": "Muestra este código al recoger",
+    "directions": "Cómo llegar",
+    "contact": "Contactar",
+    "cancelUntil": "Puedes cancelar con reembolso total hasta las {{time}}",
+    "recent": "Recogidos hace poco",
+    "pastRow": "{{date}} · {{price}}",
+    "rate": "Calificar",
+    "noUpcoming": "No tienes pedidos próximos."
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "intro": "Activa la campana y te avisamos apenas tu lugar favorito publique bolsas.",
+    "notifyMe": "Avisarme",
+    "bagsToday_one": "{{count}} bolsa hoy · {{window}}",
+    "bagsToday_many": "{{count}} bolsas hoy · {{window}}",
+    "bagsToday_other": "{{count}} bolsas hoy · {{window}}",
+    "notPostedYet": "Todavía no ha publicado hoy",
+    "usuallyPosts": "Suele publicar cerca de las {{time}}"
+  },
+  "profile": {
+    "namePlaceholder": "[Tu nombre]",
+    "emailPlaceholder": "[tu@correo.com]",
+    "bagsCollected": "Bolsas recogidas",
+    "placesDiscovered": "Lugares descubiertos",
+    "language": "Idioma",
+    "spanish": "Español",
+    "english": "English",
+    "currency": "Moneda",
+    "usdNote": "Mostramos los precios en dólares como referencia. El cobro siempre es en pesos colombianos.",
+    "paymentMethods": "Métodos de pago",
+    "notifications": "Notificaciones",
+    "location": "Ubicación",
+    "helpPrivacy": "Ayuda y privacidad",
+    "haveBusiness": "¿Tienes un negocio?",
+    "switchToBusiness": "Cambiar a modo negocio",
+    "signOut": "Cerrar sesión"
+  },
+  "business": {
+    "badge": "Modo negocio",
+    "comingSoon": "Esta pantalla está en camino.",
+    "today": {
+      "title": "Hoy",
+      "body": "Aquí vas a ver las bolsas publicadas, las reservas, las ventas del día y quién viene a recoger."
+    },
+    "bags": {
+      "title": "Tus bolsas",
+      "body": "Aquí vas a ver todas tus bolsas, cambiar cantidades y publicar con un toque."
+    },
+    "pickups": {
+      "title": "Entregas",
+      "body": "Aquí vas a escanear el código del cliente para entregarle su bolsa."
+    },
+    "profile": {
+      "title": "Tu negocio",
+      "body": "Datos del negocio, horarios y cuenta para recibir pagos."
+    },
+    "switchToCustomer": "Cambiar a modo cliente"
+  }
+}

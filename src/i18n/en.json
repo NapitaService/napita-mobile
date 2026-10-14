@@ -1,0 +1,136 @@
+{
+  "app": {
+    "name": "Ñapita"
+  },
+  "welcome": {
+    "languageLabel": "Idioma / Language",
+    "tagline": "Surprise bags from the bakeries, cafés and restaurants in your neighborhood, at the end of the day.",
+    "step1": "Places in your neighborhood post surprise bags",
+    "step2": "You reserve and pay in the app",
+    "step3": "You pick it up at the set time",
+    "seePlaces": "See places near me",
+    "haveBusiness": "I have a business",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "tabs": {
+    "discover": "Discover",
+    "map": "Map",
+    "orders": "Orders",
+    "favorites": "Favorites",
+    "profile": "Profile",
+    "today": "Today",
+    "bags": "Bags",
+    "pickups": "Pickups",
+    "business": "Business"
+  },
+  "common": {
+    "distanceAway": "{{distance}} away",
+    "left_one": "{{count}} left",
+    "left_other": "{{count}} left",
+    "soldOut": "Sold out",
+    "placePhoto": "[Photo of the place]",
+    "photo": "[Photo]"
+  },
+  "categories": {
+    "all": "All",
+    "bakery": "Bakery",
+    "food": "Meals",
+    "cafe": "Café",
+    "market": "Market",
+    "vegan": "Vegan"
+  },
+  "bagKinds": {
+    "bakery": "Bakery bag",
+    "food": "Meal bag",
+    "cafe": "Café bag",
+    "market": "Market bag",
+    "vegan": "Vegan bag"
+  },
+  "discover": {
+    "location": "{{area}} · within {{radius}} km",
+    "notifications": "Notifications",
+    "title": "What are you craving today?",
+    "searchPlaceholder": "Search places or food",
+    "pickUpToday": "To pick up today",
+    "seeAll": "See all",
+    "lastOfTheDay": "Last ones of the day",
+    "pickUpBefore": "Pick up before {{time}}",
+    "noResults": "We didn't find places for that search."
+  },
+  "map": {
+    "searchPlaceholder": "Search this area",
+    "filters": "Filters",
+    "mapView": "Map",
+    "listView": "List",
+    "pickUpToday": "Pick up today {{from}}–{{to}}",
+    "reserve": "Reserve bag",
+    "checkoutTitle": "Coming soon",
+    "checkoutBody": "Payment isn't ready yet. This is where you'll pay in pesos with a Colombian payment method.",
+    "ok": "Got it"
+  },
+  "orders": {
+    "title": "Your orders",
+    "upcoming": "Upcoming ({{count}})",
+    "past": "Past",
+    "pickUpToday": "Pick up today",
+    "startsIn": "Starts in {{time}}",
+    "summary": "{{quantity}} × {{kind}} · you paid {{price}}",
+    "showCode": "Show this code at pickup",
+    "directions": "Directions",
+    "contact": "Contact",
+    "cancelUntil": "You can cancel for a full refund until {{time}}",
+    "recent": "Recently picked up",
+    "pastRow": "{{date}} · {{price}}",
+    "rate": "Rate",
+    "noUpcoming": "You have no upcoming orders."
+  },
+  "favorites": {
+    "title": "Favorites",
+    "intro": "Turn on the bell and we'll let you know as soon as your favorite place posts bags.",
+    "notifyMe": "Notify me",
+    "bagsToday_one": "{{count}} bag today · {{window}}",
+    "bagsToday_other": "{{count}} bags today · {{window}}",
+    "notPostedYet": "Hasn't posted yet today",
+    "usuallyPosts": "Usually posts around {{time}}"
+  },
+  "profile": {
+    "namePlaceholder": "[Your name]",
+    "emailPlaceholder": "[you@email.com]",
+    "bagsCollected": "Bags picked up",
+    "placesDiscovered": "Places discovered",
+    "language": "Language",
+    "spanish": "Español",
+    "english": "English",
+    "currency": "Currency",
+    "usdNote": "Prices are shown in dollars for reference. You're always charged in Colombian pesos.",
+    "paymentMethods": "Payment methods",
+    "notifications": "Notifications",
+    "location": "Location",
+    "helpPrivacy": "Help and privacy",
+    "haveBusiness": "Have a business?",
+    "switchToBusiness": "Switch to business mode",
+    "signOut": "Sign out"
+  },
+  "business": {
+    "badge": "Business mode",
+    "comingSoon": "This screen is on its way.",
+    "today": {
+      "title": "Today",
+      "body": "Here you'll see the bags you posted, reservations, today's sales and who's coming to pick up."
+    },
+    "bags": {
+      "title": "Your bags",
+      "body": "Here you'll see all your bags, change quantities and post with one tap."
+    },
+    "pickups": {
+      "title": "Pickups",
+      "body": "Here you'll scan the customer's code to hand over their bag."
+    },
+    "profile": {
+      "title": "Your business",
+      "body": "Business details, hours and the account where you get paid."
+    },
+    "switchToCustomer": "Switch to customer mode"
+  }
+}
