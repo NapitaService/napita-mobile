@@ -8,11 +8,11 @@ Built with [Expo](https://expo.dev) (React Native), TypeScript and Expo Router: 
 
 | Repo | What's in it |
 |---|---|
-| [`-apitaService`](https://github.com/NapitaService/-apitaService) (docs) | Product rules, design, flows and decisions. **Read this first.** No code. |
+| [`Napita-docs`](https://github.com/NapitaService/Napita-docs) (docs) | Product rules, design, flows and decisions. **Read this first.** No code. |
 | `napita-mobile` (this repo) | The app |
 | `napita-backend` (not created yet) | Supabase: database, sign-in, payments logic |
 
-The design this app copies lives in the docs repo: [`design/README.md`](https://github.com/NapitaService/-apitaService/blob/main/design/README.md) and the [live design canvas](https://claude.ai/artifact/B2sY1G2J96dGMaJ7rf6u9G).
+The design this app copies lives in the docs repo: [`design/README.md`](https://github.com/NapitaService/Napita-docs/blob/main/design/README.md) and the [live design canvas](https://claude.ai/artifact/B2sY1G2J96dGMaJ7rf6u9G).
 
 ## What works today
 
@@ -79,7 +79,7 @@ src/
 
 ## Rules for changing the app
 
-These come from [`CLAUDE.md`](https://github.com/NapitaService/-apitaService/blob/main/CLAUDE.md) in the docs repo:
+These come from [`CLAUDE.md`](https://github.com/NapitaService/Napita-docs/blob/main/CLAUDE.md) in the docs repo:
 
 - **No text written directly in screens.** Add every word to both `src/i18n/es-CO.json` and `src/i18n/en.json`.
 - Informal "tú". Business side says **negocio**, never "tienda".
@@ -97,4 +97,4 @@ npm run check:i18n   # es-CO.json and en.json match, no banned words
 
 ## Not built yet
 
-Bag detail, checkout and payment (Wompi / Mercado Pago / PayU, see the docs repo), sign-in, the business screens, and the business sign-up and "create a bolsa" flows. See [`open-questions.md`](https://github.com/NapitaService/-apitaService/blob/main/open-questions.md) in the docs repo.
+Bag detail, checkout and payment (Wompi / Mercado Pago / PayU, see the docs repo), sign-in, the business screens, and the business sign-up and "create a bolsa" flows. See [`open-questions.md`](https://github.com/NapitaService/Napita-docs/blob/main/open-questions.md) in the docs repo.

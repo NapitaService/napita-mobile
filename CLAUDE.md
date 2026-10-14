@@ -1,7 +1,7 @@
 # napita-mobile — instructions for Claude
 
 This is the Ñapita Expo app. The product rules, design and decisions live in the docs repo
-https://github.com/NapitaService/-apitaService. Read its `CLAUDE.md`, `README.md`,
+https://github.com/NapitaService/Napita-docs. Read its `CLAUDE.md`, `README.md`,
 `design/README.md` and `product/` before changing anything, and follow them.
 
 The team are not developers: explain in plain English, keep steps small, and say what you're
