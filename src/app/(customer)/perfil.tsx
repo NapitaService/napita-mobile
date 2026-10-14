@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { PrimaryButton } from '@/components/form';
 import { ChevronRightIcon, CoinsIcon, GlobeIcon, StorefrontIcon } from '@/components/icons';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
 import { profileStats } from '@/data/sample';
+import { formatPhone, useAccount } from '@/settings/account';
 import { useSettings } from '@/settings/settings';
 import { colors } from '@/theme';
 
@@ -24,24 +26,46 @@ export default function Profile() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { language, setLanguage, currency, setCurrency } = useSettings();
-  const name = t('profile.namePlaceholder');
+  const { account, signOut } = useAccount();
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
       <StatusBar style="dark" />
-      <View style={styles.header}>
-        <View style={styles.avatar}>
-          <Text font="display" style={{ fontSize: 24 }}>
-            {name.replace(/[^\p{L}]/gu, '').charAt(0).toUpperCase()}
-          </Text>
+      {account ? (
+        <View style={styles.header}>
+          <View style={styles.avatar}>
+            <Text font="display" style={{ fontSize: 24 }}>
+              {(account.name || '+').charAt(0).toUpperCase()}
+            </Text>
+          </View>
+          <View style={{ gap: 2, flex: 1 }}>
+            {!!account.name && (
+              <Text font="display" style={{ fontSize: 24 }}>
+                {account.name}
+              </Text>
+            )}
+            <Text style={{ fontSize: 14, color: colors.grey }}>+57 {formatPhone(account.phone)}</Text>
+          </View>
         </View>
-        <View style={{ gap: 2 }}>
-          <Text font="display" style={{ fontSize: 24 }}>
-            {name}
-          </Text>
-          <Text style={{ fontSize: 14, color: colors.grey }}>{t('profile.emailPlaceholder')}</Text>
+      ) : (
+        <View style={styles.guest}>
+          <View style={{ gap: 4 }}>
+            <Text font="display" style={{ fontSize: 24 }}>
+              {t('profile.guestTitle')}
+            </Text>
+            <Text style={{ fontSize: 14, lineHeight: 20, color: colors.grey }}>{t('profile.guestBody')}</Text>
+          </View>
+          <PrimaryButton label={t('profile.createAccount')} onPress={() => router.push('/cuenta')} />
+          <Pressable
+            accessibilityRole="link"
+            onPress={() => router.push({ pathname: '/cuenta', params: { modo: 'entrar' } })}
+            style={styles.guestSignIn}>
+            <Text font="bold" style={{ fontSize: 15, color: colors.green }}>
+              {t('profile.signIn')}
+            </Text>
+          </Pressable>
         </View>
-      </View>
+      )}
 
       <View style={styles.stats}>
         <Stat value={profileStats.bagsCollected} label={t('profile.bagsCollected')} />
@@ -96,11 +120,19 @@ export default function Profile() {
         <ChevronRightIcon size={16} color={colors.grey} />
       </Pressable>
 
-      <Pressable accessibilityRole="button" onPress={() => router.replace('/')} style={styles.signOut}>
-        <Text font="bold" style={{ fontSize: 15, color: colors.danger }}>
-          {t('profile.signOut')}
-        </Text>
-      </Pressable>
+      {account && (
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => {
+            signOut();
+            router.replace('/');
+          }}
+          style={styles.signOut}>
+          <Text font="bold" style={{ fontSize: 15, color: colors.danger }}>
+            {t('profile.signOut')}
+          </Text>
+        </Pressable>
+      )}
     </ScrollView>
   );
 }
@@ -142,6 +174,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  guest: { backgroundColor: colors.white, borderRadius: 20, padding: 18, gap: 14 },
+  guestSignIn: { minHeight: 44, alignItems: 'center', justifyContent: 'center', marginTop: -6 },
   stats: {
     backgroundColor: colors.green,
     borderRadius: 20,

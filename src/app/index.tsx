@@ -73,13 +73,26 @@ export default function Welcome() {
             {t('welcome.haveBusiness')}
           </Text>
         </Pressable>
-        <View style={styles.signInRow}>
-          <Text style={styles.signInText}>{t('welcome.haveAccount')} </Text>
-          <Pressable accessibilityRole="link" onPress={goCustomer} hitSlop={12}>
-            <Text font="bold" style={[styles.signInText, { color: colors.green }]}>
-              {t('welcome.signIn')}
-            </Text>
-          </Pressable>
+        <View style={styles.accountLinks}>
+          <View style={styles.signInRow}>
+            <Text style={styles.signInText}>{t('welcome.newHere')} </Text>
+            <Pressable accessibilityRole="link" onPress={() => router.push('/cuenta')} hitSlop={12}>
+              <Text font="bold" style={[styles.signInText, { color: colors.green }]}>
+                {t('welcome.createAccount')}
+              </Text>
+            </Pressable>
+          </View>
+          <View style={styles.signInRow}>
+            <Text style={styles.signInText}>{t('welcome.haveAccount')} </Text>
+            <Pressable
+              accessibilityRole="link"
+              onPress={() => router.push({ pathname: '/cuenta', params: { modo: 'entrar' } })}
+              hitSlop={12}>
+              <Text font="bold" style={[styles.signInText, { color: colors.green }]}>
+                {t('welcome.signIn')}
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -138,6 +151,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   secondaryText: { fontSize: 17, color: colors.ink },
-  signInRow: { flexDirection: 'row', justifyContent: 'center', marginTop: 6, minHeight: 44, alignItems: 'center' },
+  accountLinks: { marginTop: 2 },
+  signInRow: { flexDirection: 'row', justifyContent: 'center', minHeight: 40, alignItems: 'center' },
   signInText: { fontSize: 15, color: colors.grey },
 });
