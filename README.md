@@ -18,6 +18,7 @@ The design this app copies lives in the docs repo: [`design/README.md`](https://
 
 - **Welcome screen** with an ES / EN switch, "Ver lugares cerca de mí" and "Tengo un negocio".
 - **Customer mode**, 5 tabs built to match the design: Descubrir, Mapa, Pedidos, Favoritos, Perfil.
+- **Create an account / sign in** (Welcome → "Crea tu cuenta", or Perfil): celular + 6-digit code, or Apple / Google. For now nothing is sent, any 6 digits work, and Apple/Google say "Muy pronto". See decision 0004 in the docs repo.
 - **Business mode**, 4 tabs: Hoy, Bolsas, Entregas, Negocio. These are placeholders for now.
 - **Colombian Spanish by default, English as an option.** Switch in Perfil (or Negocio). The choice is remembered.
 - **Prices in COP** (`$12.900`), with a **USD** display option in Perfil → Moneda (`US$3,20`). Charges always stay in COP.
@@ -97,4 +98,4 @@ npm run check:i18n   # es-CO.json and en.json match, no banned words
 
 ## Not built yet
 
-Bag detail, checkout and payment (Wompi / Mercado Pago / PayU, see the docs repo), sign-in, the business screens, and the business sign-up and "create a bolsa" flows. See [`open-questions.md`](https://github.com/NapitaService/Napita-docs/blob/main/open-questions.md) in the docs repo.
+Bag detail, checkout and payment (Wompi / Mercado Pago / PayU, see the docs repo), real sign-in (the screens exist but need `napita-backend`), the business screens, and the business sign-up and "create a bolsa" flows. See [`open-questions.md`](https://github.com/NapitaService/Napita-docs/blob/main/open-questions.md) in the docs repo.
