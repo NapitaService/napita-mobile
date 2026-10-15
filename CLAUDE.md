@@ -4,6 +4,10 @@ This is the Ñapita Expo app. The product rules, design and decisions live in th
 https://github.com/NapitaService/Napita-docs. Read its `CLAUDE.md`, `README.md`,
 `design/README.md` and `product/` before changing anything, and follow them.
 
+On a laptop, the docs repo is usually cloned next to this one (`../Napita-docs`). Read it
+there, and run `git pull` in it first so it's current. If it isn't there, offer to clone it
+next to this folder.
+
 The team are not developers: explain in plain English, keep steps small, and say what you're
 about to do before doing it.
 

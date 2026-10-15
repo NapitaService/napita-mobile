@@ -66,6 +66,24 @@ npx expo start --tunnel
 
 **If your iPhone says "There was a problem running the requested project" or mentions signing in:** on an iPhone, Expo Go and your computer must be signed in to the **same Expo account**. In Expo Go, tap the account icon (top right) and sign in with the account shown by `npx expo whoami` on your computer, then tap **Try Again**. No account yet? Create a free one at [expo.dev/signup](https://expo.dev/signup) and run `npx expo login` on your computer. Android phones don't need this.
 
+## Working on this repo with Claude Code
+
+Claude Code can read the code, follow the team's rules and run the app for you.
+
+1. **Get access.** Ask an owner of the NapitaService GitHub organization to invite you (GitHub → NapitaService → People → Invite), with access to `Napita-docs` and `napita-mobile`.
+2. **Install, once:** [Git](https://git-scm.com/downloads), [Node.js LTS](https://nodejs.org), [Claude Code](https://claude.com/claude-code) (the desktop app, or the terminal version), and **Expo Go** on your phone.
+3. **Download both repos side by side**, in a terminal:
+   ```bash
+   mkdir napita && cd napita
+   git clone https://github.com/NapitaService/Napita-docs.git
+   git clone https://github.com/NapitaService/napita-mobile.git
+   ```
+4. **Open Claude in the app folder:** in the desktop app, open the `napita/napita-mobile` folder; in a terminal, `cd napita-mobile` then `claude`. Claude reads `CLAUDE.md` automatically, which points it to the docs folder next door.
+5. **First message to Claude:**
+   > Read CLAUDE.md and the docs it points to. Then install everything and start the app so I can open it on my phone with Expo Go.
+6. **iPhone:** create a free Expo account at [expo.dev/signup](https://expo.dev/signup), run `npx expo login` on the laptop and sign in to Expo Go with the same account.
+7. **Making changes:** ask Claude to work on a new branch and open a pull request, so the team can review before it reaches `main`.
+
 ## Where things are
 
 ```
