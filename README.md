@@ -45,11 +45,13 @@ You need a computer (Mac, Windows or Linux) and your phone **on the same Wi-Fi**
 
 **Every time you want to run it**
 
-1. In the `napita-mobile` folder, run:
+1. In the `napita-mobile` folder, get the latest changes and any new libraries, then start:
    ```bash
+   git pull
+   npm install
    npx expo start
    ```
-   A big QR code appears in the terminal.
+   `npm install` is quick when nothing is new. Skipping it after a pull can cause errors like *"Failed to resolve plugin for module …"*. A big QR code appears in the terminal.
 2. Scan it:
    - **iPhone:** open the normal **Camera** app, point it at the QR code and tap the banner.
    - **Android:** open **Expo Go** and tap **Scan QR code**.
