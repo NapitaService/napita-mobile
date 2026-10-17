@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 
+import { isCancelled } from '@/data/sample';
 import { useBusiness } from '@/settings/business';
 
 /**
@@ -13,9 +14,10 @@ export function useHandOver() {
   return (code: string | null, { fromScanner = false } = {}) => {
     // From the scanner, replace it so closing the result goes back to Entregas.
     const go = fromScanner ? router.replace : router.push;
-    const pickup = code ? pickups.find((p) => p.code === code) : undefined;
+    // A cancelled order's code no longer works.
+    const pickup = code ? pickups.find((p) => p.code === code && !isCancelled(p.status)) : undefined;
 
-    if (pickup && !pickup.delivered) {
+    if (pickup && pickup.status === 'reserved') {
       handOver(pickup.id);
       go({ pathname: '/entrega/entregado', params: { id: pickup.id } });
     } else if (pickup) {

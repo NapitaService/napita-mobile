@@ -148,6 +148,16 @@ export function canStillCancel(startsInMinutes: number) {
   return startsInMinutes > CANCEL_HOURS_BEFORE * 60;
 }
 
+/**
+ * Order statuses, the same names napita-backend uses (see the docs repo's
+ * "Backend and app stay in step" rule and decisions 0008–0013).
+ */
+export type OrderStatus = 'reserved' | 'handed_over' | 'cancelled_by_customer' | 'cancelled_by_business' | 'no_show';
+
+export function isCancelled(status: OrderStatus) {
+  return status === 'cancelled_by_customer' || status === 'cancelled_by_business';
+}
+
 export type UpcomingOrder = {
   id: string;
   placeId: string;
@@ -164,7 +174,7 @@ export type PastOrder = {
   /** "YYYY-MM-DD" */
   date: string;
   paid: number;
-  status: 'pickedUp' | 'cancelled';
+  status: Exclude<OrderStatus, 'reserved'>;
   rated: boolean;
 };
 
@@ -173,8 +183,8 @@ export const upcomingOrders: UpcomingOrder[] = [
 ];
 
 export const pastOrders: PastOrder[] = [
-  { id: 'order-0', placeId: 'cocina-verde', date: '2026-10-03', paid: 15900, status: 'pickedUp', rated: false },
-  { id: 'order-00', placeId: 'cafe-origen', date: '2026-09-26', paid: 8900, status: 'pickedUp', rated: true },
+  { id: 'order-0', placeId: 'cocina-verde', date: '2026-10-03', paid: 15900, status: 'handed_over', rated: false },
+  { id: 'order-00', placeId: 'cafe-origen', date: '2026-09-26', paid: 8900, status: 'handed_over', rated: true },
 ];
 
 export type FavoriteStatus =

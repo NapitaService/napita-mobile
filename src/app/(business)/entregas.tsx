@@ -9,6 +9,8 @@ import { CodeBoxes } from '@/components/code-boxes';
 import { CheckIcon, ChevronRightIcon, ScanIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { useFormat } from '@/lib/use-format';
+import { isCancelled } from '@/data/sample';
+import type { Pickup } from '@/data/business';
 import { useHandOver } from '@/lib/use-hand-over';
 import { useBusiness } from '@/settings/business';
 import { colors } from '@/theme';
@@ -20,7 +22,7 @@ export default function BusinessPickups() {
   const { t } = useTranslation();
   const format = useFormat();
   const insets = useSafeAreaInsets();
-  const { business, bags, pickups } = useBusiness();
+  const { business, bags, pickups, cancelByBusiness } = useBusiness();
   const checkCode = useHandOver();
   const [code, setCode] = useState('');
 
@@ -33,7 +35,9 @@ export default function BusinessPickups() {
     if (digits.length === CODE_LENGTH) checkCode(digits);
   };
 
-  const waiting = pickups.filter((p) => !p.delivered).length;
+  const waiting = pickups.filter((p) => p.status === 'reserved').length;
+  // Cancelled orders stay in the list for reference but don't count.
+  const total = pickups.filter((p) => !isCancelled(p.status)).length;
   const window = format.window(business.pickupFrom, business.pickupTo);
   const bagName = (bagId: string) => {
     const bag = bags.find((b) => b.id === bagId);
@@ -52,7 +56,7 @@ export default function BusinessPickups() {
         </Text>
         <Text style={{ fontSize: 15, color: colors.grey }}>
           {waiting > 0
-            ? t('business.pickups.subtitle', { window, waiting, total: pickups.length })
+            ? t('business.pickups.subtitle', { window, waiting, total })
             : t('business.pickups.allDone', { window })}
         </Text>
       </View>
@@ -90,45 +94,119 @@ export default function BusinessPickups() {
         <View style={styles.list}>
           {pickups.length === 0 && <Text style={styles.empty}>{t('business.pickups.empty')}</Text>}
           {pickups.map((p, i) => (
-            <View key={p.id} style={[styles.row, i === pickups.length - 1 && { borderBottomWidth: 0 }]}>
-              <View style={styles.initial}>
-                <Text font="bold" style={{ fontSize: 15 }}>
-                  {p.name.charAt(0)}
-                </Text>
-              </View>
-              <View style={{ flex: 1, gap: 2 }}>
-                <Text font="bold" style={{ fontSize: 15 }}>
-                  {p.name}
-                </Text>
-                <Text style={{ fontSize: 13, color: colors.grey }}>
-                  {t('business.pickups.row', { quantity: p.quantity, kind: bagName(p.bagId) })}
-                </Text>
-              </View>
-              {p.delivered ? (
-                <View style={styles.done}>
-                  <CheckIcon size={16} color={colors.green} strokeWidth={2.4} />
-                  <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
-                    {t('business.pickups.delivered')}
-                  </Text>
-                </View>
-              ) : (
-                // Fallback "by name": hand over without a code.
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={t('business.pickups.handOverLabel', { name: p.name })}
-                  onPress={() => checkCode(p.code)}
-                  hitSlop={4}
-                  style={styles.handOver}>
-                  <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
-                    {t('business.pickups.handOver')}
-                  </Text>
-                </Pressable>
-              )}
-            </View>
+            <PickupRow
+              key={p.id}
+              pickup={p}
+              bagName={bagName(p.bagId)}
+              last={i === pickups.length - 1}
+              onHandOver={() => checkCode(p.code)}
+              onCancel={() => cancelByBusiness(p.id)}
+            />
           ))}
         </View>
       </View>
     </ScrollView>
+  );
+}
+
+/** One order in "Por recoger hoy": hand over, or cancel with a confirmation (decision 0013). */
+function PickupRow({
+  pickup: p,
+  bagName,
+  last,
+  onHandOver,
+  onCancel,
+}: {
+  pickup: Pickup;
+  bagName: string;
+  last: boolean;
+  onHandOver: () => void;
+  onCancel: () => void;
+}) {
+  const { t } = useTranslation();
+  const [confirming, setConfirming] = useState(false);
+  const cancelled = isCancelled(p.status);
+
+  return (
+    <View style={[styles.rowWrap, last && { borderBottomWidth: 0 }]}>
+      <View style={styles.row}>
+        <View style={styles.initial}>
+          <Text font="bold" style={{ fontSize: 15, color: cancelled ? colors.grey : colors.ink }}>
+            {p.name.charAt(0)}
+          </Text>
+        </View>
+        <View style={{ flex: 1, gap: 2 }}>
+          <Text font="bold" style={{ fontSize: 15, color: cancelled ? colors.grey : colors.ink }}>
+            {p.name}
+          </Text>
+          <Text style={{ fontSize: 13, color: colors.grey }}>
+            {t('business.pickups.row', { quantity: p.quantity, kind: bagName })}
+          </Text>
+        </View>
+        {p.status === 'handed_over' ? (
+          <View style={styles.done}>
+            <CheckIcon size={16} color={colors.green} strokeWidth={2.4} />
+            <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
+              {t('business.pickups.delivered')}
+            </Text>
+          </View>
+        ) : cancelled ? (
+          <Text font="bold" style={{ fontSize: 13, color: colors.grey }}>
+            {t('business.pickups.cancelled')}
+          </Text>
+        ) : (
+          !confirming && (
+            <View style={styles.actions}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t('business.pickups.cancelLabel', { name: p.name })}
+                onPress={() => setConfirming(true)}
+                hitSlop={4}
+                style={styles.cancel}>
+                <Text font="bold" style={{ fontSize: 13, color: colors.grey }}>
+                  {t('business.pickups.cancel')}
+                </Text>
+              </Pressable>
+              {/* Fallback "by name": hand over without a code. */}
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t('business.pickups.handOverLabel', { name: p.name })}
+                onPress={onHandOver}
+                hitSlop={4}
+                style={styles.handOver}>
+                <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
+                  {t('business.pickups.handOver')}
+                </Text>
+              </Pressable>
+            </View>
+          )
+        )}
+      </View>
+
+      {confirming && (
+        <View style={styles.confirm} accessibilityLiveRegion="polite">
+          <Text style={{ fontSize: 14, lineHeight: 20 }}>{t('business.pickups.confirmCancel', { name: p.name })}</Text>
+          <View style={{ flexDirection: 'row', gap: 10 }}>
+            <Pressable accessibilityRole="button" onPress={() => setConfirming(false)} style={styles.confirmButton}>
+              <Text font="bold" style={{ fontSize: 14 }}>
+                {t('business.pickups.keep')}
+              </Text>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => {
+                setConfirming(false);
+                onCancel();
+              }}
+              style={[styles.confirmButton, styles.confirmDanger]}>
+              <Text font="bold" style={{ fontSize: 14, color: colors.white }}>
+                {t('business.pickups.yesCancel')}
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -155,14 +233,21 @@ const styles = StyleSheet.create({
   card: { backgroundColor: colors.white, borderRadius: 20, paddingVertical: 14, paddingHorizontal: 16, gap: 10 },
   list: { backgroundColor: colors.white, borderRadius: 18, paddingVertical: 2, paddingHorizontal: 14 },
   empty: { fontSize: 14, color: colors.grey, paddingVertical: 14 },
-  row: {
-    flexDirection: 'row',
+  rowWrap: { borderBottomWidth: 1, borderBottomColor: colors.divider },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10 },
+  actions: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  cancel: { minHeight: 40, paddingHorizontal: 8, justifyContent: 'center' },
+  confirm: { backgroundColor: colors.mist, borderRadius: 14, padding: 12, gap: 10, marginBottom: 10 },
+  confirmButton: {
+    flex: 1,
+    minHeight: 44,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: colors.ink,
     alignItems: 'center',
-    gap: 12,
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.divider,
+    justifyContent: 'center',
   },
+  confirmDanger: { backgroundColor: colors.danger, borderColor: colors.danger },
   initial: {
     width: 40,
     height: 40,

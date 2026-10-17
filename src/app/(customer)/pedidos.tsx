@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
-import { canStillCancel, cancelDeadline, getPlace, type PastOrder as PastOrderType, type UpcomingOrder as UpcomingOrderType } from '@/data/sample';
+import { canStillCancel, cancelDeadline, getPlace, isCancelled, type PastOrder as PastOrderType, type UpcomingOrder as UpcomingOrderType } from '@/data/sample';
 import { formatDuration } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
 import { useOrders } from '@/settings/orders';
@@ -201,13 +201,13 @@ function PastOrder({ order }: { order: PastOrderType }) {
           {place.name}
         </Text>
         <Text style={styles.secondary}>
-          {t(order.status === 'cancelled' ? 'orders.pastRowCancelled' : 'orders.pastRow', {
+          {t(isCancelled(order.status) ? 'orders.pastRowCancelled' : 'orders.pastRow', {
             date: format.date(order.date),
             price: format.price(order.paid),
           })}
         </Text>
       </View>
-      {order.status === 'pickedUp' && !order.rated && (
+      {order.status === 'handed_over' && !order.rated && (
         <Pressable accessibilityRole="button" style={styles.rate} hitSlop={4}>
           <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
             {t('orders.rate')}

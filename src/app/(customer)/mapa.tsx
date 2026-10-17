@@ -8,8 +8,9 @@ import { FiltersIcon, SearchIcon } from '@/components/icons';
 import { PlacesMap } from '@/components/map/places-map';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
-import { places, type Place } from '@/data/sample';
+import type { Place } from '@/data/sample';
 import { useFormat } from '@/lib/use-format';
+import { usePlaces } from '@/settings/orders';
 import { colors, fonts } from '@/theme';
 
 const shadow = {
@@ -28,6 +29,7 @@ export default function MapScreen() {
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>('la-espiga');
 
+  const places = usePlaces();
   const visible = places.filter((p) => p.name.toLowerCase().includes(query.trim().toLowerCase()));
   const selected = visible.find((p) => p.id === selectedId) ?? null;
 

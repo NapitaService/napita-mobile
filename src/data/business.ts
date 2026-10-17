@@ -1,3 +1,5 @@
+import type { OrderStatus } from '@/data/sample';
+
 /**
  * Sample business data for business mode until napita-backend exists.
  * Amounts are whole pesos (COP). Times are "HH:MM" (24 h).
@@ -72,7 +74,7 @@ export type Pickup = {
   quantity: number;
   /** The 4-digit code the customer shows (also inside their QR code). */
   code: string;
-  delivered: boolean;
+  status: OrderStatus;
 };
 
 /** The signed-in business, as set during sign-up (napita-docs/design/flows/business-signup.md). */
@@ -132,10 +134,10 @@ export const sampleBags: BusinessBag[] = [
 ];
 
 export const samplePickups: Pickup[] = [
-  { id: 'order-1', name: 'Valentina R.', bagId: 'bag-1', quantity: 1, code: '4821', delivered: false },
-  { id: 'order-2', name: 'Santiago M.', bagId: 'bag-1', quantity: 2, code: '7310', delivered: false },
-  { id: 'order-3', name: 'Andrés P.', bagId: 'bag-2', quantity: 1, code: '5094', delivered: false },
-  { id: 'order-4', name: 'Camila G.', bagId: 'bag-2', quantity: 1, code: '1956', delivered: true },
+  { id: 'order-1', name: 'Valentina R.', bagId: 'bag-1', quantity: 1, code: '4821', status: 'reserved' },
+  { id: 'order-2', name: 'Santiago M.', bagId: 'bag-1', quantity: 2, code: '7310', status: 'reserved' },
+  { id: 'order-3', name: 'Andrés P.', bagId: 'bag-2', quantity: 1, code: '5094', status: 'reserved' },
+  { id: 'order-4', name: 'Camila G.', bagId: 'bag-2', quantity: 1, code: '1956', status: 'handed_over' },
 ];
 
 /**

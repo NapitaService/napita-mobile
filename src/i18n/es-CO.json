@@ -173,7 +173,8 @@
       "bags_other": "{{count}} bolsas",
       "pickupRow": "{{bags}} · código {{code}}",
       "pending": "Pendiente",
-      "delivered": "Entregado"
+      "delivered": "Entregado",
+      "cancelled": "Cancelado"
     },
     "bags": {
       "title": "Tus bolsas",
@@ -209,7 +210,13 @@
       "handOver": "Entregar",
       "handOverLabel": "Entregar a {{name}}",
       "delivered": "Entregado",
-      "empty": "Hoy no hay pedidos por recoger."
+      "empty": "Hoy no hay pedidos por recoger.",
+      "cancel": "Cancelar",
+      "cancelLabel": "Cancelar el pedido de {{name}}",
+      "confirmCancel": "¿Cancelar el pedido de {{name}}? La bolsa vuelve a la venta.",
+      "keep": "No",
+      "yesCancel": "Sí, cancelar",
+      "cancelled": "Cancelado"
     },
     "profile": {
       "title": "Tu negocio",

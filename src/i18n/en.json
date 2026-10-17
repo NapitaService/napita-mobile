@@ -169,7 +169,8 @@
       "bags_other": "{{count}} bags",
       "pickupRow": "{{bags}} · code {{code}}",
       "pending": "Waiting",
-      "delivered": "Handed over"
+      "delivered": "Handed over",
+      "cancelled": "Cancelled"
     },
     "bags": {
       "title": "Your bags",
@@ -204,7 +205,13 @@
       "handOver": "Hand over",
       "handOverLabel": "Hand over to {{name}}",
       "delivered": "Handed over",
-      "empty": "No pickups today."
+      "empty": "No pickups today.",
+      "cancel": "Cancel",
+      "cancelLabel": "Cancel {{name}}'s order",
+      "confirmCancel": "Cancel {{name}}'s order? The bag goes back on sale.",
+      "keep": "No",
+      "yesCancel": "Yes, cancel",
+      "cancelled": "Cancelled"
     },
     "profile": {
       "title": "Your business",

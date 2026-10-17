@@ -6,6 +6,7 @@ import { BusinessHeader } from '@/components/business-screen';
 import { PlusIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { Toggle } from '@/components/toggle';
+import { isCancelled, type OrderStatus } from '@/data/sample';
 import { formatCOP } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
 import { useBusiness } from '@/settings/business';
@@ -89,11 +90,13 @@ export default function BusinessToday() {
                     })}
                   </Text>
                 </View>
-                <View style={[styles.chip, { backgroundColor: p.delivered ? colors.doneBg : colors.pendingBg }]}>
-                  <Text
-                    font="bold"
-                    style={{ fontSize: 12, color: p.delivered ? colors.green : colors.pendingText }}>
-                    {p.delivered ? t('business.today.delivered') : t('business.today.pending')}
+                <View style={[styles.chip, { backgroundColor: chipColors(p.status).bg }]}>
+                  <Text font="bold" style={{ fontSize: 12, color: chipColors(p.status).text }}>
+                    {p.status === 'handed_over'
+                      ? t('business.today.delivered')
+                      : isCancelled(p.status)
+                        ? t('business.today.cancelled')
+                        : t('business.today.pending')}
                   </Text>
                 </View>
               </View>
@@ -103,6 +106,12 @@ export default function BusinessToday() {
       </View>
     </ScrollView>
   );
+}
+
+function chipColors(status: OrderStatus) {
+  if (status === 'handed_over') return { bg: colors.doneBg, text: colors.green };
+  if (isCancelled(status)) return { bg: colors.pausedBg, text: colors.segmentText };
+  return { bg: colors.pendingBg, text: colors.pendingText };
 }
 
 function Stat({ value, label, color, small }: { value: string; label: string; color?: string; small?: boolean }) {

@@ -1,13 +1,22 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from 'react';
 
-import { pastOrders as samplePast, upcomingOrders as sampleUpcoming, type PastOrder, type UpcomingOrder } from '@/data/sample';
+import {
+  pastOrders as samplePast,
+  places as samplePlaces,
+  upcomingOrders as sampleUpcoming,
+  type PastOrder,
+  type Place,
+  type UpcomingOrder,
+} from '@/data/sample';
 import { todayISO } from '@/lib/format';
 
 type OrdersState = {
   upcoming: UpcomingOrder[];
   past: PastOrder[];
-  /** Cancels an upcoming order; it moves to past orders as "cancelled". */
+  /** Cancels an upcoming order; it moves to past orders as "cancelled_by_customer". */
   cancelOrder: (id: string) => void;
+  /** Places with today's bags, counting bags that went back on sale after a cancellation. */
+  places: Place[];
 };
 
 const OrdersContext = createContext<OrdersState | null>(null);
@@ -16,21 +25,31 @@ const OrdersContext = createContext<OrdersState | null>(null);
 export function OrdersProvider({ children }: { children: ReactNode }) {
   const [upcoming, setUpcoming] = useState(sampleUpcoming);
   const [past, setPast] = useState(samplePast);
+  // Bags back on sale per place after cancellations (decision 0013).
+  const [returned, setReturned] = useState<Record<string, number>>({});
 
   const cancelOrder = useCallback(
     (id: string) => {
       const order = upcoming.find((o) => o.id === id);
       if (!order) return;
       setUpcoming((all) => all.filter((o) => o.id !== id));
+      setReturned((r) => ({ ...r, [order.placeId]: (r[order.placeId] ?? 0) + order.quantity }));
       setPast((all) => [
-        { id, placeId: order.placeId, date: todayISO(), paid: order.paid, status: 'cancelled', rated: false },
+        { id, placeId: order.placeId, date: todayISO(), paid: order.paid, status: 'cancelled_by_customer', rated: false },
         ...all,
       ]);
     },
     [upcoming]
   );
 
-  return <OrdersContext.Provider value={{ upcoming, past, cancelOrder }}>{children}</OrdersContext.Provider>;
+  const places = samplePlaces.map((p) => (returned[p.id] ? { ...p, left: p.left + returned[p.id] } : p));
+
+  return <OrdersContext.Provider value={{ upcoming, past, cancelOrder, places }}>{children}</OrdersContext.Provider>;
+}
+
+/** Places as customers see them right now (Descubrir, Mapa). */
+export function usePlaces() {
+  return useOrders().places;
 }
 
 export function useOrders() {

@@ -7,8 +7,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BellIcon, ChevronDownIcon, PinIcon, SearchIcon } from '@/components/icons';
 import { Text } from '@/components/text';
-import { AREA, places, type Category, type Place } from '@/data/sample';
+import { AREA, type Category, type Place } from '@/data/sample';
 import { useFormat } from '@/lib/use-format';
+import { usePlaces } from '@/settings/orders';
 import { colors, fonts, MIN_TOUCH } from '@/theme';
 
 const FILTERS: ('all' | Category)[] = ['all', 'bakery', 'food', 'cafe', 'market', 'vegan'];
@@ -26,6 +27,7 @@ export default function Discover() {
   const [filter, setFilter] = useState<'all' | Category>('all');
   const [query, setQuery] = useState('');
 
+  const places = usePlaces();
   const visible = places.filter((p) => {
     if (p.left === 0) return false;
     if (filter !== 'all' && p.category !== filter) return false;

@@ -11,6 +11,7 @@ import {
   type BusinessBag,
   type Pickup,
 } from '@/data/business';
+import { isCancelled, type OrderStatus } from '@/data/sample';
 
 /** The bag being created in the "Nueva bolsa" flow. */
 export type BagDraft = {
@@ -53,6 +54,8 @@ type BusinessState = {
   /** Marks an order as handed over. */
   handOver: (pickupId: string) => void;
   undoHandOver: (pickupId: string) => void;
+  /** The business cancels an order; its bags go back on sale (decision 0013). */
+  cancelByBusiness: (pickupId: string) => void;
   receivingOrders: boolean;
   setReceivingOrders: (on: boolean) => void;
   setQuantity: (id: string, quantity: number) => void;
@@ -75,10 +78,11 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
 
   const countsFor = useCallback(
     (bagId: string) => {
-      const forBag = pickups.filter((p) => p.bagId === bagId);
+      // Cancelled orders don't count: their bags are back on sale.
+      const forBag = pickups.filter((p) => p.bagId === bagId && !isCancelled(p.status));
       return {
         reserved: forBag.reduce((sum, p) => sum + p.quantity, 0),
-        delivered: forBag.filter((p) => p.delivered).reduce((sum, p) => sum + p.quantity, 0),
+        delivered: forBag.filter((p) => p.status === 'handed_over').reduce((sum, p) => sum + p.quantity, 0),
       };
     },
     [pickups]
@@ -93,10 +97,11 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
     [countsFor]
   );
 
-  const setDelivered = (pickupId: string, delivered: boolean) =>
-    setPickups((all) => all.map((p) => (p.id === pickupId ? { ...p, delivered } : p)));
-  const handOver = useCallback((pickupId: string) => setDelivered(pickupId, true), []);
-  const undoHandOver = useCallback((pickupId: string) => setDelivered(pickupId, false), []);
+  const setStatus = (pickupId: string, status: OrderStatus) =>
+    setPickups((all) => all.map((p) => (p.id === pickupId ? { ...p, status } : p)));
+  const handOver = useCallback((pickupId: string) => setStatus(pickupId, 'handed_over'), []);
+  const undoHandOver = useCallback((pickupId: string) => setStatus(pickupId, 'reserved'), []);
+  const cancelByBusiness = useCallback((pickupId: string) => setStatus(pickupId, 'cancelled_by_business'), []);
 
   const publishToday = useCallback((id: string) => {
     setBags((all) => all.map((b) => (b.id === id ? { ...b, live: true, quantity: b.usualQuantity } : b)));
@@ -125,6 +130,7 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
         countsFor,
         handOver,
         undoHandOver,
+        cancelByBusiness,
         receivingOrders,
         setReceivingOrders,
         setQuantity,

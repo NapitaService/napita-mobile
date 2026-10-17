@@ -21,7 +21,7 @@ export default function PickupSuccess() {
 
   const pickup = pickups.find((p) => p.id === id);
   const bag = bags.find((b) => b.id === pickup?.bagId);
-  const remaining = pickups.filter((p) => !p.delivered).length;
+  const remaining = pickups.filter((p) => p.status === 'reserved').length;
 
   const backToPickups = () => router.dismissTo('/entregas');
   const undo = () => {
