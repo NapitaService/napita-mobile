@@ -1,6 +1,6 @@
 import { router, useFocusEffect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,7 +10,7 @@ import { CheckIcon, ChevronRightIcon, ScanIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { useFormat } from '@/lib/use-format';
 import { isCancelled } from '@/data/sample';
-import type { Pickup } from '@/data/business';
+import { businessCancelMinutesLeft, type Pickup } from '@/data/business';
 import { useHandOver } from '@/lib/use-hand-over';
 import { useBusiness } from '@/settings/business';
 import { colors } from '@/theme';
@@ -25,6 +25,12 @@ export default function BusinessPickups() {
   const { business, bags, pickups, cancelByBusiness } = useBusiness();
   const checkCode = useHandOver();
   const [code, setCode] = useState('');
+  // Ticks so "Cancelar" disappears once the 15 minutes are over.
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 30_000);
+    return () => clearInterval(timer);
+  }, []);
 
   // Start with empty boxes every time staff come back to this tab.
   useFocusEffect(useCallback(() => setCode(''), []));
@@ -99,6 +105,7 @@ export default function BusinessPickups() {
               pickup={p}
               bagName={bagName(p.bagId)}
               last={i === pickups.length - 1}
+              now={now}
               onHandOver={() => checkCode(p.code)}
               onCancel={() => cancelByBusiness(p.id)}
             />
@@ -114,18 +121,22 @@ function PickupRow({
   pickup: p,
   bagName,
   last,
+  now,
   onHandOver,
   onCancel,
 }: {
   pickup: Pickup;
   bagName: string;
   last: boolean;
+  now: number;
   onHandOver: () => void;
   onCancel: () => void;
 }) {
   const { t } = useTranslation();
   const [confirming, setConfirming] = useState(false);
   const cancelled = isCancelled(p.status);
+  // Businesses can cancel only within 15 minutes of the order (decision 0010).
+  const cancelMinutesLeft = businessCancelMinutesLeft(p.placedAt, now);
 
   return (
     <View style={[styles.rowWrap, last && { borderBottomWidth: 0 }]}>
@@ -142,6 +153,18 @@ function PickupRow({
           <Text style={{ fontSize: 13, color: colors.grey }}>
             {t('business.pickups.row', { quantity: p.quantity, kind: bagName })}
           </Text>
+          {p.status === 'reserved' && cancelMinutesLeft > 0 && !confirming && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t('business.pickups.cancelLabel', { name: p.name })}
+              onPress={() => setConfirming(true)}
+              hitSlop={8}
+              style={styles.cancel}>
+              <Text font="bold" style={{ fontSize: 13, color: colors.danger }}>
+                {t('business.pickups.cancelFor', { minutes: cancelMinutesLeft })}
+              </Text>
+            </Pressable>
+          )}
         </View>
         {p.status === 'handed_over' ? (
           <View style={styles.done}>
@@ -150,40 +173,26 @@ function PickupRow({
               {t('business.pickups.delivered')}
             </Text>
           </View>
-        ) : cancelled ? (
+        ) : cancelled || p.status === 'no_show' ? (
           <Text font="bold" style={{ fontSize: 13, color: colors.grey }}>
-            {t('business.pickups.cancelled')}
+            {cancelled ? t('business.pickups.cancelled') : t('business.pickups.noShow')}
           </Text>
         ) : (
-          !confirming && (
-            <View style={styles.actions}>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t('business.pickups.cancelLabel', { name: p.name })}
-                onPress={() => setConfirming(true)}
-                hitSlop={4}
-                style={styles.cancel}>
-                <Text font="bold" style={{ fontSize: 13, color: colors.grey }}>
-                  {t('business.pickups.cancel')}
-                </Text>
-              </Pressable>
-              {/* Fallback "by name": hand over without a code. */}
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t('business.pickups.handOverLabel', { name: p.name })}
-                onPress={onHandOver}
-                hitSlop={4}
-                style={styles.handOver}>
-                <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
-                  {t('business.pickups.handOver')}
-                </Text>
-              </Pressable>
-            </View>
-          )
+          // Fallback "by name": hand over without a code.
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('business.pickups.handOverLabel', { name: p.name })}
+            onPress={onHandOver}
+            hitSlop={4}
+            style={styles.handOver}>
+            <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
+              {t('business.pickups.handOver')}
+            </Text>
+          </Pressable>
         )}
       </View>
 
-      {confirming && (
+      {confirming && cancelMinutesLeft > 0 && (
         <View style={styles.confirm} accessibilityLiveRegion="polite">
           <Text style={{ fontSize: 14, lineHeight: 20 }}>{t('business.pickups.confirmCancel', { name: p.name })}</Text>
           <View style={{ flexDirection: 'row', gap: 10 }}>
@@ -235,8 +244,7 @@ const styles = StyleSheet.create({
   empty: { fontSize: 14, color: colors.grey, paddingVertical: 14 },
   rowWrap: { borderBottomWidth: 1, borderBottomColor: colors.divider },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10 },
-  actions: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  cancel: { minHeight: 40, paddingHorizontal: 8, justifyContent: 'center' },
+  cancel: { alignSelf: 'flex-start', paddingVertical: 6 },
   confirm: { backgroundColor: colors.mist, borderRadius: 14, padding: 12, gap: 10, marginBottom: 10 },
   confirmButton: {
     flex: 1,

@@ -75,6 +75,8 @@ export type Pickup = {
   /** The 4-digit code the customer shows (also inside their QR code). */
   code: string;
   status: OrderStatus;
+  /** When the customer placed the order (ms since 1970). */
+  placedAt: number;
 };
 
 /** The signed-in business, as set during sign-up (napita-docs/design/flows/business-signup.md). */
@@ -133,12 +135,26 @@ export const sampleBags: BusinessBag[] = [
   },
 ];
 
+const minutesAgo = (minutes: number) => Date.now() - minutes * 60_000;
+
 export const samplePickups: Pickup[] = [
-  { id: 'order-1', name: 'Valentina R.', bagId: 'bag-1', quantity: 1, code: '4821', status: 'reserved' },
-  { id: 'order-2', name: 'Santiago M.', bagId: 'bag-1', quantity: 2, code: '7310', status: 'reserved' },
-  { id: 'order-3', name: 'Andrés P.', bagId: 'bag-2', quantity: 1, code: '5094', status: 'reserved' },
-  { id: 'order-4', name: 'Camila G.', bagId: 'bag-2', quantity: 1, code: '1956', status: 'handed_over' },
+  { id: 'order-1', name: 'Valentina R.', bagId: 'bag-1', quantity: 1, code: '4821', status: 'reserved', placedAt: minutesAgo(5) },
+  { id: 'order-2', name: 'Santiago M.', bagId: 'bag-1', quantity: 2, code: '7310', status: 'reserved', placedAt: minutesAgo(11) },
+  { id: 'order-3', name: 'Andrés P.', bagId: 'bag-2', quantity: 1, code: '5094', status: 'reserved', placedAt: minutesAgo(40) },
+  { id: 'order-4', name: 'Camila G.', bagId: 'bag-2', quantity: 1, code: '1956', status: 'handed_over', placedAt: minutesAgo(95) },
+  { id: 'order-5', name: 'Laura C.', bagId: 'bag-1', quantity: 1, code: '6638', status: 'no_show', placedAt: minutesAgo(300) },
 ];
+
+/**
+ * Businesses can cancel an order within this many minutes of it being placed
+ * (decision 0010). PLACEHOLDER for the napita-backend setting.
+ */
+export const BUSINESS_CANCEL_MINUTES = 15;
+
+/** Whole minutes left for the business to cancel (0 = too late). */
+export function businessCancelMinutesLeft(placedAt: number, now: number) {
+  return Math.max(0, Math.ceil((placedAt + BUSINESS_CANCEL_MINUTES * 60_000 - now) / 60_000));
+}
 
 /**
  * Ñapita's commission (napita-docs/decisions/0007). Not shown in the app, but

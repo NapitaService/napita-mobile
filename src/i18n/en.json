@@ -115,12 +115,14 @@
     "rate": "Rate",
     "noUpcoming": "You have no upcoming orders.",
     "cancel": "Cancel order",
-    "cancelClosed": "You can no longer cancel this order. Cancelling was open until {{time}}, 1 hour before pickup.",
+    "cancelClosed": "You can no longer cancel this order: the pickup window ended at {{time}}.",
     "confirmTitle": "Cancel your order?",
     "confirmBody": "{{quantity}} × {{kind}} at {{place}}. We refund {{refund}}.",
     "keep": "No, keep it",
     "confirmCancel": "Yes, cancel",
-    "pastRowCancelled": "{{date}} · {{price}} · Cancelled"
+    "pastRowCancelled": "{{date}} · {{price}} · Cancelled",
+    "noShowRule": "If you don't pick it up before they close ({{time}}), there's no refund.",
+    "pastRowNoShow": "{{date}} · {{price}} · Not picked up"
   },
   "favorites": {
     "title": "Favorites",
@@ -168,7 +170,8 @@
       "pickupRow": "{{bags}} · code {{code}}",
       "pending": "Waiting",
       "delivered": "Handed over",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "noShow": "No-show"
     },
     "bags": {
       "title": "Your bags",
@@ -209,7 +212,9 @@
       "confirmCancel": "Cancel {{name}}'s order? The bag goes back on sale.",
       "keep": "No",
       "yesCancel": "Yes, cancel",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "cancelFor": "Cancel · {{minutes}} min",
+      "noShow": "No-show"
     },
     "profile": {
       "title": "Your business",
@@ -249,7 +254,9 @@
       "alreadyTitle": "This order was already handed over",
       "alreadyBody": "{{name}} already picked up their bag today. Nothing else to hand over.",
       "scanAgain": "Scan again",
-      "searchByName": "Search by name"
+      "searchByName": "Search by name",
+      "noShowTitle": "This order is closed",
+      "noShowBody": "{{name}} didn't come during their pickup window, so it can't be handed over any more."
     }
   },
   "newBag": {

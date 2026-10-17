@@ -19,6 +19,8 @@ export type Place = {
   left: number;
   pickupFrom: string;
   pickupTo: string;
+  /** Closing time today ("HH:MM"); orders not picked up by then are no-shows (decision 0008). */
+  closes: string;
   /** Shown in "Para recoger hoy" on Descubrir. */
   featured: boolean;
   /** Placeholder photo color from the canvas. */
@@ -42,6 +44,7 @@ export const places: Place[] = [
     left: 3,
     pickupFrom: '18:00',
     pickupTo: '19:00',
+    closes: '21:00',
     featured: true,
     tint: '#F6E3C4',
     latitude: 4.6697,
@@ -57,6 +60,7 @@ export const places: Place[] = [
     left: 1,
     pickupFrom: '20:30',
     pickupTo: '21:00',
+    closes: '22:00',
     featured: true,
     tint: '#D7EADB',
     latitude: 4.6612,
@@ -72,6 +76,7 @@ export const places: Place[] = [
     left: 2,
     pickupFrom: '17:00',
     pickupTo: '17:30',
+    closes: '19:00',
     featured: false,
     tint: '#E3E8F4',
     latitude: 4.6728,
@@ -87,6 +92,7 @@ export const places: Place[] = [
     left: 2,
     pickupFrom: '17:30',
     pickupTo: '18:00',
+    closes: '19:00',
     featured: false,
     tint: '#F2DCD3',
     latitude: 4.6602,
@@ -102,6 +108,7 @@ export const places: Place[] = [
     left: 4,
     pickupFrom: '18:45',
     pickupTo: '19:15',
+    closes: '21:00',
     featured: false,
     tint: '#EFE6C9',
     latitude: 4.6706,
@@ -117,6 +124,7 @@ export const places: Place[] = [
     left: 0,
     pickupFrom: '19:00',
     pickupTo: '20:00',
+    closes: '21:00',
     featured: false,
     tint: '#DDE8D0',
     latitude: 4.6638,
@@ -130,11 +138,6 @@ export function getPlace(id: string) {
   return place;
 }
 
-/**
- * Customers can cancel until this many hours before the pickup window starts
- * (napita-docs/decisions/0010). Will come from a napita-backend setting.
- */
-export const CANCEL_HOURS_BEFORE = 1;
 
 /**
  * Card payment fee deducted from refunds (napita-docs/decisions/0010).
@@ -149,16 +152,22 @@ export function refundAmount(paid: number) {
   return Math.max(0, paid - fee);
 }
 
-/** Last moment to cancel, as "HH:MM": the pickup start minus CANCEL_HOURS_BEFORE ("18:00" → "17:00"). */
-export function cancelDeadline(pickupFrom: string) {
-  const [h, m] = pickupFrom.split(':').map(Number);
-  const minutes = Math.max(0, h * 60 + m - CANCEL_HOURS_BEFORE * 60);
-  return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+function toMinutes(time: string) {
+  const [h, m] = time.split(':').map(Number);
+  return h * 60 + m;
 }
 
-/** Whether an order that starts in `startsInMinutes` can still be cancelled. */
-export function canStillCancel(startsInMinutes: number) {
-  return startsInMinutes > CANCEL_HOURS_BEFORE * 60;
+/**
+ * Customers can cancel until the pickup window ends (decision 0010). The
+ * deadline will come from a napita-backend setting.
+ */
+export function cancelDeadline(pickupTo: string) {
+  return pickupTo;
+}
+
+/** Whether an order whose window starts in `startsInMinutes` can still be cancelled. */
+export function canStillCancel(startsInMinutes: number, pickupFrom: string, pickupTo: string) {
+  return startsInMinutes + (toMinutes(pickupTo) - toMinutes(pickupFrom)) > 0;
 }
 
 /**
@@ -198,6 +207,7 @@ export const upcomingOrders: UpcomingOrder[] = [
 export const pastOrders: PastOrder[] = [
   { id: 'order-0', placeId: 'cocina-verde', date: '2026-10-03', paid: 15900, status: 'handed_over', rated: false },
   { id: 'order-00', placeId: 'cafe-origen', date: '2026-09-26', paid: 8900, status: 'handed_over', rated: true },
+  { id: 'order-000', placeId: 'fideos-85', date: '2026-09-19', paid: 14900, status: 'no_show', rated: false },
 ];
 
 export type FavoriteStatus =

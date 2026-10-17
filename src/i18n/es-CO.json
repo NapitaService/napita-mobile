@@ -117,12 +117,14 @@
     "rate": "Calificar",
     "noUpcoming": "No tienes pedidos próximos.",
     "cancel": "Cancelar pedido",
-    "cancelClosed": "Ya no puedes cancelar este pedido. Se podía hasta las {{time}}, 1 hora antes de recoger.",
+    "cancelClosed": "Ya no puedes cancelar este pedido: el horario de recogida terminó a las {{time}}.",
     "confirmTitle": "¿Cancelar tu pedido?",
     "confirmBody": "{{quantity}} × {{kind}} en {{place}}. Te devolvemos {{refund}}.",
     "keep": "No, mantenerlo",
     "confirmCancel": "Sí, cancelar",
-    "pastRowCancelled": "{{date}} · {{price}} · Cancelado"
+    "pastRowCancelled": "{{date}} · {{price}} · Cancelado",
+    "noShowRule": "Si no la recoges antes de que cierren ({{time}}), no hay reembolso.",
+    "pastRowNoShow": "{{date}} · {{price}} · No recogido"
   },
   "favorites": {
     "title": "Favoritos",
@@ -172,7 +174,8 @@
       "pickupRow": "{{bags}} · código {{code}}",
       "pending": "Pendiente",
       "delivered": "Entregado",
-      "cancelled": "Cancelado"
+      "cancelled": "Cancelado",
+      "noShow": "No vino"
     },
     "bags": {
       "title": "Tus bolsas",
@@ -214,7 +217,9 @@
       "confirmCancel": "¿Cancelar el pedido de {{name}}? La bolsa vuelve a la venta.",
       "keep": "No",
       "yesCancel": "Sí, cancelar",
-      "cancelled": "Cancelado"
+      "cancelled": "Cancelado",
+      "cancelFor": "Cancelar · {{minutes}} min",
+      "noShow": "No vino"
     },
     "profile": {
       "title": "Tu negocio",
@@ -255,7 +260,9 @@
       "alreadyTitle": "Este pedido ya se entregó",
       "alreadyBody": "{{name}} ya recogió su bolsa hoy. No hace falta entregar nada más.",
       "scanAgain": "Escanear de nuevo",
-      "searchByName": "Buscar por nombre"
+      "searchByName": "Buscar por nombre",
+      "noShowTitle": "Este pedido ya cerró",
+      "noShowBody": "{{name}} no vino en su horario de recogida, así que ya no se puede entregar."
     }
   },
   "newBag": {

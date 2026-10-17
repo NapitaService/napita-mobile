@@ -97,7 +97,9 @@ export default function BusinessToday() {
                       ? t('business.today.delivered')
                       : isCancelled(p.status)
                         ? t('business.today.cancelled')
-                        : t('business.today.pending')}
+                        : p.status === 'no_show'
+                          ? t('business.today.noShow')
+                          : t('business.today.pending')}
                   </Text>
                 </View>
               </View>
@@ -111,7 +113,7 @@ export default function BusinessToday() {
 
 function chipColors(status: OrderStatus) {
   if (status === 'handed_over') return { bg: colors.doneBg, text: colors.green };
-  if (isCancelled(status)) return { bg: colors.pausedBg, text: colors.segmentText };
+  if (isCancelled(status) || status === 'no_show') return { bg: colors.pausedBg, text: colors.segmentText };
   return { bg: colors.pendingBg, text: colors.pendingText };
 }
 

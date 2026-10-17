@@ -20,6 +20,8 @@ export function useHandOver() {
     if (pickup && pickup.status === 'reserved') {
       handOver(pickup.id);
       go({ pathname: '/entrega/entregado', params: { id: pickup.id } });
+    } else if (pickup?.status === 'no_show') {
+      go({ pathname: '/entrega/codigo-incorrecto', params: { noShow: pickup.id } });
     } else if (pickup) {
       go({ pathname: '/entrega/codigo-incorrecto', params: { already: pickup.id } });
     } else {

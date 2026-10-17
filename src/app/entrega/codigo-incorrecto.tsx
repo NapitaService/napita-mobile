@@ -18,9 +18,15 @@ import { colors } from '@/theme';
 export default function PickupError() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { code, notOurs, already } = useLocalSearchParams<{ code?: string; notOurs?: string; already?: string }>();
+  const { code, notOurs, already, noShow } = useLocalSearchParams<{
+    code?: string;
+    notOurs?: string;
+    already?: string;
+    noShow?: string;
+  }>();
   const { pickups } = useBusiness();
   const alreadyPickup = already ? pickups.find((p) => p.id === already) : undefined;
+  const noShowPickup = noShow ? pickups.find((p) => p.id === noShow) : undefined;
 
   return (
     <View style={styles.screen}>
@@ -30,7 +36,14 @@ export default function PickupError() {
           <AlertCircleIcon size={48} color={colors.pendingText} />
         </View>
 
-        {alreadyPickup ? (
+        {noShowPickup ? (
+          <>
+            <Text font="display" style={styles.title} accessibilityRole="header">
+              {t('business.codeError.noShowTitle')}
+            </Text>
+            <Text style={styles.text}>{t('business.codeError.noShowBody', { name: noShowPickup.name })}</Text>
+          </>
+        ) : alreadyPickup ? (
           <>
             <Text font="display" style={styles.title} accessibilityRole="header">
               {t('business.codeError.alreadyTitle')}
