@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { BusinessHeader } from '@/components/business-screen';
-import { PlusIcon } from '@/components/icons';
+import { PlusIcon, WarningIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { Toggle } from '@/components/toggle';
 import { netPrice } from '@/data/business';
@@ -28,6 +28,7 @@ export default function BusinessToday() {
   // Net of Ñapita's commission (decision 0007), always in pesos (product/currency-and-payments.md).
   const sales = live.reduce((sum, b) => sum + countsFor(b.id).reserved * netPrice(b.price), 0);
   const window = format.windowParts(business.pickupFrom, business.pickupTo);
+  const pendingCount = pickups.filter((p) => p.status === 'reserved').length;
 
   const newBag = () => {
     startDraft();
@@ -54,6 +55,21 @@ export default function BusinessToday() {
           />
         </View>
       </BusinessHeader>
+
+      {/* Switched off with orders still waiting: they still have to be handed over (decision 0014). */}
+      {!receivingOrders && pendingCount > 0 && (
+        <View style={styles.pendingWarning} accessibilityRole="alert" accessibilityLiveRegion="polite">
+          <WarningIcon size={20} color={colors.pendingText} />
+          <View style={{ flex: 1, gap: 2 }}>
+            <Text font="bold" style={{ fontSize: 15, color: colors.pendingText }}>
+              {t('business.today.pendingWarningTitle', { count: pendingCount })}
+            </Text>
+            <Text style={{ fontSize: 13, lineHeight: 18, color: colors.pendingText }}>
+              {t('business.today.pendingWarningBody', window)}
+            </Text>
+          </View>
+        </View>
+      )}
 
       {bags.length === 0 ? (
         <View style={styles.body}>
@@ -178,6 +194,16 @@ const styles = StyleSheet.create({
   },
   body: { paddingTop: 18, paddingHorizontal: 20, gap: 16 },
   welcome: { backgroundColor: colors.white, borderRadius: 20, padding: 18, gap: 12 },
+  pendingWarning: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'flex-start',
+    backgroundColor: colors.pendingBg,
+    borderRadius: 16,
+    padding: 14,
+    marginTop: 18,
+    marginHorizontal: 20,
+  },
   stats: { flexDirection: 'row', gap: 10 },
   stat: {
     flex: 1,

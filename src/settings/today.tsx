@@ -12,6 +12,7 @@ const TodayContext = createContext<TodayState | null>(null);
  * Which businesses aren't offering bags today, shared by the business side
  * (the switch on Hoy) and the customer side (the place's card), so both can be
  * tried on one phone. Stands in for the napita-backend field; in memory only.
+ * The switch never turns itself back on; only the business does (decision 0014).
  */
 export function TodayProvider({ children }: { children: ReactNode }) {
   const [offToday, setOff] = useState<string[]>([]);

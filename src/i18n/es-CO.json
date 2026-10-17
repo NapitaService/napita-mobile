@@ -181,7 +181,11 @@
       "firstBag": "Crear mi primera bolsa",
       "firstBagHint": "Toma un minuto",
       "noPickups": "Todavía no hay pedidos hoy.",
-      "notReceiving": "Apagado: los clientes ven que hoy no ofreces bolsas"
+      "notReceiving": "Apagado: los clientes ven que hoy no ofreces bolsas",
+      "pendingWarningTitle_one": "Todavía tienes {{count}} pedido por entregar hoy",
+      "pendingWarningTitle_many": "Todavía tienes {{count}} pedidos por entregar hoy",
+      "pendingWarningTitle_other": "Todavía tienes {{count}} pedidos por entregar hoy",
+      "pendingWarningBody": "Ya están pagados y se entregan de {{from}} a {{to}}; no entran pedidos nuevos hasta que vuelvas a activar el interruptor."
     },
     "bags": {
       "title": "Tus bolsas",

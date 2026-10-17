@@ -177,7 +177,10 @@
       "firstBag": "Create my first bag",
       "firstBagHint": "Takes a minute",
       "noPickups": "No orders yet today.",
-      "notReceiving": "Off: customers see you're not offering bags today"
+      "notReceiving": "Off: customers see you're not offering bags today",
+      "pendingWarningTitle_one": "You still have {{count}} order to hand over today",
+      "pendingWarningTitle_other": "You still have {{count}} orders to hand over today",
+      "pendingWarningBody": "They're already paid and get handed over from {{from}} to {{to}}; no new orders come in until you turn the switch back on."
     },
     "bags": {
       "title": "Your bags",
