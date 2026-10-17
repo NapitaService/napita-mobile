@@ -137,7 +137,7 @@ export function getPlace(id: string) {
 export const CANCEL_HOURS_BEFORE = 1;
 
 /**
- * Card payment fee deducted from refunds (napita-docs/decisions/0014).
+ * Card payment fee deducted from refunds (napita-docs/decisions/0010).
  * PLACEHOLDER until the payment provider is chosen; the real fee will come
  * from napita-backend.
  */
@@ -163,7 +163,7 @@ export function canStillCancel(startsInMinutes: number) {
 
 /**
  * Order statuses, the same names napita-backend uses (see the docs repo's
- * "Backend and app stay in step" rule and decisions 0008–0013).
+ * "Backend and app stay in step" rule and decisions 0008 and 0010).
  */
 export type OrderStatus = 'reserved' | 'handed_over' | 'cancelled_by_customer' | 'cancelled_by_business' | 'no_show';
 

@@ -25,7 +25,7 @@ const OrdersContext = createContext<OrdersState | null>(null);
 export function OrdersProvider({ children }: { children: ReactNode }) {
   const [upcoming, setUpcoming] = useState(sampleUpcoming);
   const [past, setPast] = useState(samplePast);
-  // Bags back on sale per place after cancellations (decision 0013).
+  // Bags back on sale per place after cancellations (decision 0010).
   const [returned, setReturned] = useState<Record<string, number>>({});
 
   const cancelOrder = useCallback(

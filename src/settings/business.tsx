@@ -54,7 +54,7 @@ type BusinessState = {
   /** Marks an order as handed over. */
   handOver: (pickupId: string) => void;
   undoHandOver: (pickupId: string) => void;
-  /** The business cancels an order; its bags go back on sale (decision 0013). */
+  /** The business cancels an order; its bags go back on sale (decision 0010). */
   cancelByBusiness: (pickupId: string) => void;
   receivingOrders: boolean;
   setReceivingOrders: (on: boolean) => void;

@@ -11,7 +11,7 @@ import { colors, fonts } from '@/theme';
 
 /**
  * Nueva bolsa, step 2: value and price. Design: napita-docs/design/canvas/BagStep2Price.dc.html
- * The design's commission breakdown is left out on purpose (napita-docs/decisions/0009).
+ * The design's commission breakdown is left out on purpose (napita-docs/decisions/0007).
  */
 export default function BagStepPrice() {
   const { t } = useTranslation();

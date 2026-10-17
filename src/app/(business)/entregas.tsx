@@ -109,7 +109,7 @@ export default function BusinessPickups() {
   );
 }
 
-/** One order in "Por recoger hoy": hand over, or cancel with a confirmation (decision 0013). */
+/** One order in "Por recoger hoy": hand over, or cancel with a confirmation (decision 0010). */
 function PickupRow({
   pickup: p,
   bagName,
