@@ -111,7 +111,7 @@
     "showCode": "Show this code at pickup",
     "directions": "Directions",
     "contact": "Contact",
-    "cancelUntil": "You can cancel for a full refund until {{time}}",
+    "cancelUntil": "You can cancel until {{time}}. We refund what you paid, minus the card payment fee.",
     "recent": "Recently picked up",
     "pastRow": "{{date}} · {{price}}",
     "rate": "Rate",
@@ -119,7 +119,7 @@
     "cancel": "Cancel order",
     "cancelClosed": "You can no longer cancel this order. Cancelling was open until {{time}}, 1 hour before pickup.",
     "confirmTitle": "Cancel your order?",
-    "confirmBody": "{{quantity}} × {{kind}} at {{place}}. You get a full refund of {{price}}.",
+    "confirmBody": "{{quantity}} × {{kind}} at {{place}}. We refund what you paid ({{price}}), minus the card payment fee.",
     "keep": "No, keep it",
     "confirmCancel": "Yes, cancel",
     "pastRowCancelled": "{{date}} · {{price}} · Cancelled"
