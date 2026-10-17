@@ -63,9 +63,7 @@
     "distanceAway": "{{distance}} away",
     "left_one": "{{count}} left",
     "left_other": "{{count}} left",
-    "soldOut": "Sold out",
-    "placePhoto": "[Photo of the place]",
-    "photo": "[Photo]"
+    "soldOut": "Sold out"
   },
   "categories": {
     "all": "All",
@@ -308,34 +306,45 @@
     "publishedTitle": "Done! Your bag is posted",
     "publishedBody": "Customers near you can reserve it now. We'll let you know about every reservation.",
     "customerView": "How customers see it",
-    "businessPhoto": "[Photo of your business]",
     "shareWhatsApp": "Tell your customers on WhatsApp",
     "shareMessage": "{{name}} today at {{business}}! Reserve yours on {{app}}: {{price}}, pick up {{from}}–{{to}}.",
-    "done": "Done"
+    "done": "Done",
+    "photosLabel": "Bag photos",
+    "photosOptional": "(optional)",
+    "addPhoto": "Add photo",
+    "removePhoto": "Remove photo {{number}}",
+    "photosHint": "Show an example of what usually goes in. If you don't add photos, we show your business's logo.",
+    "photosHintNoLogo": "Show an example of what usually goes in. If you don't add photos, we show your business's name; you can also add your logo in Negocio."
   },
   "bagTypes": {
     "labels": {
       "bakery": "Bakery",
       "pastry": "Pastry",
       "prepared": "Prepared meals",
+      "desserts": "Desserts",
       "cafeSnacks": "Café and snacks",
       "produce": "Fruit and veg",
+      "groceries": "Pantry",
       "mixed": "Mixed"
     },
     "kinds": {
       "bakery": "Bakery bag",
       "pastry": "Pastry bag",
       "prepared": "Prepared meal bag",
+      "desserts": "Dessert bag",
       "cafeSnacks": "Café and snack bag",
       "produce": "Fruit and veg bag",
+      "groceries": "Pantry bag",
       "mixed": "Mixed bag"
     },
     "defaultNames": {
       "bakery": "Bakery surprise bag",
       "pastry": "Pastry surprise bag",
       "prepared": "Meal surprise bag",
+      "desserts": "Surprise dessert bag",
       "cafeSnacks": "Café and snack surprise bag",
       "produce": "Fruit and veg surprise bag",
+      "groceries": "Surprise pantry bag",
       "mixed": "Mixed surprise bag"
     }
   },
@@ -384,6 +393,11 @@
     "pickupWindow": "Pickup time",
     "otherWindow": "Choose another time",
     "pickupHint": "Always within your opening hours.",
-    "paymentsLater": "You add payment details later, before your first sale. You don't need them now."
+    "paymentsLater": "You add payment details later, before your first sale. You don't need them now.",
+    "logo": "Business logo",
+    "addLogo": "Add logo",
+    "changeLogo": "Change logo",
+    "removeLogo": "Remove",
+    "logoHint": "Customers see it on your bags when they have no photo."
   }
 }

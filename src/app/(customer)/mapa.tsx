@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Alert, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BagImage } from '@/components/bag-image';
 import { FiltersIcon, SearchIcon } from '@/components/icons';
 import { PlacesMap } from '@/components/map/places-map';
 import { Segmented } from '@/components/segmented';
@@ -101,9 +102,13 @@ function PlaceCard({ place, onReserve, floating }: { place: Place; onReserve: ()
   return (
     <View style={[styles.card, floating && styles.cardFloating]}>
       <View style={{ flexDirection: 'row', gap: 12 }}>
-        <View style={[styles.photo, { backgroundColor: place.tint }]}>
-          <Text style={{ fontSize: 11, color: colors.grey }}>{t('common.photo')}</Text>
-        </View>
+        <BagImage
+          photo={place.photo}
+          logo={place.logo}
+          businessName={place.name}
+          tint={place.tint}
+          style={styles.photo}
+        />
         <View style={{ flex: 1, gap: 3 }}>
           <View style={styles.titleRow}>
             <Text font="bold" style={{ fontSize: 17, flexShrink: 1 }} numberOfLines={1}>

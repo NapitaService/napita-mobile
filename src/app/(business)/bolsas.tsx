@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BagImage } from '@/components/bag-image';
 import { PlusIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { BAG_TINTS, type BusinessBag } from '@/data/business';
@@ -55,7 +56,7 @@ function BagCard({ bag }: { bag: BusinessBag }) {
   const { t } = useTranslation();
   const format = useFormat();
   const { language } = useSettings();
-  const { setQuantity, publishToday, countsFor } = useBusiness();
+  const { business, setQuantity, publishToday, countsFor } = useBusiness();
   const { reserved, delivered } = countsFor(bag.id);
 
   const window = format.window(bag.from, bag.to);
@@ -77,7 +78,13 @@ function BagCard({ bag }: { bag: BusinessBag }) {
   return (
     <View style={styles.card}>
       <View style={styles.cardTop}>
-        <View style={[styles.photo, { backgroundColor: BAG_TINTS[bag.type] }]} />
+        <BagImage
+          photo={bag.photos[0]}
+          logo={business.logo}
+          businessName={business.name}
+          tint={BAG_TINTS[bag.type]}
+          style={styles.photo}
+        />
         <View style={{ flex: 1, gap: 3 }}>
           <Text font="bold" style={{ fontSize: 16 }}>
             {bag.name}

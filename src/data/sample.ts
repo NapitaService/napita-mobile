@@ -23,7 +23,11 @@ export type Place = {
   closes: string;
   /** Shown in "Para recoger hoy" on Descubrir. */
   featured: boolean;
-  /** Placeholder photo color from the canvas. */
+  /** First photo of today's bag, if the business added one. */
+  photo?: string;
+  /** The business's logo, shown when the bag has no photo (decision 0013). */
+  logo?: string;
+  /** Background behind the logo, or behind the initial when there's no logo either. */
   tint: string;
   latitude: number;
   longitude: number;

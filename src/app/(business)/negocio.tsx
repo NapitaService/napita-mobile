@@ -5,6 +5,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { BusinessHeader } from '@/components/business-screen';
 import { ChevronRightIcon, GlobeIcon } from '@/components/icons';
+import { LogoPicker } from '@/components/logo-picker';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
 import { formatDays } from '@/lib/format';
@@ -15,7 +16,7 @@ import { useSettings } from '@/settings/settings';
 import { colors } from '@/theme';
 
 /**
- * Negocio: the business's details and opening hours, language, and Cerrar sesión
+ * Negocio: the business's details, logo and opening hours, language, and Cerrar sesión
  * (the only way to switch to a customer account, decision 0005).
  * Design: napita-docs/design/canvas/ShopProfile.dc.html
  */
@@ -23,7 +24,7 @@ export default function BusinessProfile() {
   const { t } = useTranslation();
   const format = useFormat();
   const { language, setLanguage } = useSettings();
-  const { account, signOut } = useAccount();
+  const { account, signOut, saveBusiness } = useAccount();
   const { business } = useBusiness();
 
   const logOut = () => {
@@ -43,6 +44,13 @@ export default function BusinessProfile() {
           <Text style={styles.line}>{t(`signup.types.${business.type}`)}</Text>
           <Text style={styles.line}>{business.address}</Text>
           <Text style={styles.line}>+57 {formatPhone(account?.phone ?? '')}</Text>
+          <View style={{ marginTop: 10 }}>
+            <LogoPicker
+              logo={business.logo}
+              businessName={business.name}
+              onChange={(logo) => saveBusiness({ ...business, logo })}
+            />
+          </View>
         </Section>
 
         <Section title={t('business.profile.hours')}>

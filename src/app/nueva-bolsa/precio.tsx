@@ -59,11 +59,7 @@ export default function BagStepPrice() {
             {prices.map((price, i) => {
               const selected = price === draft.price;
               return (
-                <Option
-                  key={i}
-                  selected={selected}
-                  onPress={() => updateDraft({ price })}
-                  style={styles.price}>
+                <Option key={i} selected={selected} onPress={() => updateDraft({ price })} style={styles.price}>
                   <Text
                     font={selected ? 'extrabold' : 'bold'}
                     style={{ fontSize: 16, color: selected ? colors.green : colors.ink, textAlign: 'center' }}>
@@ -81,7 +77,6 @@ export default function BagStepPrice() {
           <Text style={{ fontSize: 13, lineHeight: 18, color: colors.grey }}>{t('newBag.priceHint')}</Text>
         </View>
       )}
-
     </BagStep>
   );
 }

@@ -10,7 +10,8 @@ import { Text } from '@/components/text';
 import { HALF_HOURS, nearbyWindows, pickupWindowsFor, windowFits } from '@/data/business';
 import { WEEKDAY_INITIALS, weekdayName } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
-import { DEFAULT_HOURS, useAccount, type BusinessType } from '@/settings/account';
+import type { BusinessType } from '@/data/business';
+import { DEFAULT_HOURS, useAccount } from '@/settings/account';
 import { useSettings } from '@/settings/settings';
 import { colors, MIN_TOUCH } from '@/theme';
 
@@ -26,7 +27,13 @@ export default function BusinessHours() {
   const format = useFormat();
   const { language } = useSettings();
   const { account, saveBusiness } = useAccount();
-  const params = useLocalSearchParams<{ name?: string; type?: BusinessType; address?: string; editar?: string }>();
+  const params = useLocalSearchParams<{
+    name?: string;
+    type?: BusinessType;
+    address?: string;
+    logo?: string;
+    editar?: string;
+  }>();
   const editing = params.editar === '1';
   const saved = account?.business;
   const start = (editing && saved) || DEFAULT_HOURS;
@@ -60,6 +67,7 @@ export default function BusinessHours() {
       name: params.name ?? '',
       type: params.type ?? 'other',
       address: params.address ?? '',
+      logo: params.logo,
       ...hours,
     });
     router.dismissAll();

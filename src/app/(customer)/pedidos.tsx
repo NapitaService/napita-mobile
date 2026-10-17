@@ -5,9 +5,18 @@ import { Linking, Platform, Pressable, ScrollView, StyleSheet, View } from 'reac
 import QRCode from 'react-native-qrcode-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BagImage } from '@/components/bag-image';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
-import { canStillCancel, cancelDeadline, getPlace, isCancelled, refundAmount, type PastOrder as PastOrderType, type UpcomingOrder as UpcomingOrderType } from '@/data/sample';
+import {
+  canStillCancel,
+  cancelDeadline,
+  getPlace,
+  isCancelled,
+  refundAmount,
+  type PastOrder as PastOrderType,
+  type UpcomingOrder as UpcomingOrderType,
+} from '@/data/sample';
 import { formatDuration } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
 import { useOrders } from '@/settings/orders';
@@ -106,7 +115,13 @@ function UpcomingOrder({ order }: { order: UpcomingOrderType }) {
 
       <View style={styles.orderBody}>
         <View style={styles.placeRow}>
-          <View style={[styles.placePhoto, { backgroundColor: place.tint }]} />
+          <BagImage
+            photo={place.photo}
+            logo={place.logo}
+            businessName={place.name}
+            tint={place.tint}
+            style={styles.placePhoto}
+          />
           <View style={{ flex: 1, gap: 2 }}>
             <Text font="bold" style={{ fontSize: 17 }}>
               {place.name}
@@ -146,7 +161,8 @@ function UpcomingOrder({ order }: { order: UpcomingOrderType }) {
 
         <Text style={[styles.secondary, { lineHeight: 18 }]}>
           {place.address}
-          {canCancel && ` · ${t('orders.cancelUntil', { time: deadline, refund: format.price(refundAmount(order.paid)) })}`}
+          {canCancel &&
+            ` · ${t('orders.cancelUntil', { time: deadline, refund: format.price(refundAmount(order.paid)) })}`}
         </Text>
 
         {/* The no-show rule, told next to the order (decision 0008). */}
@@ -216,9 +232,10 @@ function PastOrder({ order }: { order: PastOrderType }) {
                 ? 'orders.pastRowNoShow'
                 : 'orders.pastRow',
             {
-            date: format.date(order.date),
-            price: format.price(order.paid),
-          })}
+              date: format.date(order.date),
+              price: format.price(order.paid),
+            },
+          )}
         </Text>
       </View>
       {order.status === 'handed_over' && !order.rated && (

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BagImage } from '@/components/bag-image';
 import { BellIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { favorites, getPlace, type FavoriteStatus } from '@/data/sample';
@@ -50,7 +51,13 @@ export default function Favorites() {
           const available = status.type === 'bagsToday';
           return (
             <View key={placeId} style={styles.row}>
-              <View style={[styles.photo, { backgroundColor: place.tint }]} />
+              <BagImage
+                photo={place.photo}
+                logo={place.logo}
+                businessName={place.name}
+                tint={place.tint}
+                style={styles.photo}
+              />
               <View style={{ flex: 1, gap: 3, minWidth: 0 }}>
                 <Text font="bold" style={{ fontSize: 16 }}>
                   {place.name}

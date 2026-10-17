@@ -34,6 +34,14 @@
         }
       ],
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "Ñapita usa tus fotos para el logo de tu negocio y las fotos de tus bolsas.",
+          "cameraPermission": false,
+          "microphonePermission": false
+        }
+      ],
+      [
         "expo-camera",
         {
           "cameraPermission": "Ñapita usa la cámara para escanear el código del cliente cuando le entregas su bolsa.",

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BagImage } from '@/components/bag-image';
 import { PrimaryButton } from '@/components/form';
 import { ChatIcon, CheckIcon } from '@/components/icons';
 import { Text } from '@/components/text';
@@ -51,8 +52,15 @@ export default function BagPublished() {
             {t('newBag.customerView').toUpperCase()}
           </Text>
           <View style={styles.card}>
-            <View style={[styles.photo, { backgroundColor: BAG_TINTS[bag.type] }]}>
-              <Text style={{ fontSize: 13, color: colors.grey }}>{t('newBag.businessPhoto')}</Text>
+            <View style={styles.photo}>
+              {/* The bag's photo, else the business's logo (decision 0013). */}
+              <BagImage
+                photo={bag.photos[0]}
+                logo={business.logo}
+                businessName={business.name}
+                tint={BAG_TINTS[bag.type]}
+                style={StyleSheet.absoluteFill}
+              />
               <View style={styles.left}>
                 <Text font="bold" style={{ fontSize: 12, color: colors.orange }}>
                   {t('common.left', { count: bag.quantity })}

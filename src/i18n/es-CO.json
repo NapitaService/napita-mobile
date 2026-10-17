@@ -65,9 +65,7 @@
     "left_one": "Queda {{count}}",
     "left_many": "Quedan {{count}}",
     "left_other": "Quedan {{count}}",
-    "soldOut": "Agotado",
-    "placePhoto": "[Foto del lugar]",
-    "photo": "[Foto]"
+    "soldOut": "Agotado"
   },
   "categories": {
     "all": "Todo",
@@ -316,34 +314,45 @@
     "publishedTitle": "¡Listo! Tu bolsa ya está publicada",
     "publishedBody": "Los clientes cerca de ti ya la pueden reservar. Te avisamos con cada reserva.",
     "customerView": "Así la ven tus clientes",
-    "businessPhoto": "[Foto de tu negocio]",
     "shareWhatsApp": "Contarle a tus clientes por WhatsApp",
     "shareMessage": "¡Hoy hay {{name}} en {{business}}! Resérvala en {{app}}: {{price}}, recoges de {{from}} a {{to}}.",
-    "done": "Listo"
+    "done": "Listo",
+    "photosLabel": "Fotos de la bolsa",
+    "photosOptional": "(opcional)",
+    "addPhoto": "Agregar foto",
+    "removePhoto": "Quitar foto {{number}}",
+    "photosHint": "Muestra un ejemplo de lo que suele ir. Si no agregas fotos, mostramos el logo de tu negocio.",
+    "photosHintNoLogo": "Muestra un ejemplo de lo que suele ir. Si no agregas fotos, mostramos el nombre de tu negocio; también puedes agregar tu logo en Negocio."
   },
   "bagTypes": {
     "labels": {
       "bakery": "Panadería",
       "pastry": "Pastelería",
       "prepared": "Comida preparada",
+      "desserts": "Postres",
       "cafeSnacks": "Café y snacks",
       "produce": "Frutas y verduras",
+      "groceries": "Despensa",
       "mixed": "Mixta"
     },
     "kinds": {
       "bakery": "Bolsa de panadería",
       "pastry": "Bolsa de pastelería",
       "prepared": "Bolsa de comida preparada",
+      "desserts": "Bolsa de postres",
       "cafeSnacks": "Bolsa de café y snacks",
       "produce": "Bolsa de frutas y verduras",
+      "groceries": "Bolsa de despensa",
       "mixed": "Bolsa mixta"
     },
     "defaultNames": {
       "bakery": "Bolsa sorpresa de panadería",
       "pastry": "Bolsa sorpresa de pastelería",
       "prepared": "Bolsa sorpresa de comida",
+      "desserts": "Bolsa sorpresa de postres",
       "cafeSnacks": "Bolsa sorpresa de café y snacks",
       "produce": "Bolsa sorpresa de frutas y verduras",
+      "groceries": "Bolsa sorpresa de despensa",
       "mixed": "Bolsa sorpresa mixta"
     }
   },
@@ -392,6 +401,11 @@
     "pickupWindow": "Horario de entregas",
     "otherWindow": "Elegir otro horario",
     "pickupHint": "Siempre dentro de tu horario de atención.",
-    "paymentsLater": "Los datos de pago los agregas después, antes de tu primera venta. No necesitas tenerlos ahora."
+    "paymentsLater": "Los datos de pago los agregas después, antes de tu primera venta. No necesitas tenerlos ahora.",
+    "logo": "Logo del negocio",
+    "addLogo": "Agregar logo",
+    "changeLogo": "Cambiar logo",
+    "removeLogo": "Quitar",
+    "logoHint": "Los clientes lo ven en tus bolsas cuando no tienen foto."
   }
 }

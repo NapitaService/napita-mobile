@@ -1,27 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 
-import type { BagType } from '@/data/business';
+import type { BusinessType } from '@/data/business';
 
 const ACCOUNTS_KEY = 'napita.accounts';
 const SESSION_KEY = 'napita.session';
 
 /** Chosen when the account is created; switching means logging out (decision 0005). */
 export type AccountType = 'customer' | 'business';
-
-/** The business types offered at sign-up (design/canvas/ShopOnboardDetails). */
-export type BusinessType = 'bakery' | 'restaurant' | 'cafe' | 'pastry' | 'market' | 'other';
-export const BUSINESS_TYPES: BusinessType[] = ['bakery', 'restaurant', 'cafe', 'pastry', 'market', 'other'];
-
-/** The bag category each business type pre-fills in "Nueva bolsa". */
-export const BAG_TYPE_FOR: Record<BusinessType, BagType> = {
-  bakery: 'bakery',
-  restaurant: 'prepared',
-  cafe: 'cafeSnacks',
-  pastry: 'pastry',
-  market: 'produce',
-  other: 'mixed',
-};
 
 /**
  * What a business gives at sign-up (decision 0011). Times are "HH:MM" (24 h),
@@ -31,6 +17,8 @@ export type BusinessProfile = {
   name: string;
   type: BusinessType;
   address: string;
+  /** Logo picked at sign-up (local URI until napita-backend storage exists). Shown when a bag has no photo. */
+  logo?: string;
   openDays: number[];
   opens: string;
   closes: string;

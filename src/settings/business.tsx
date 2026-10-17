@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from 'react';
 
 import {
+  BAG_TYPES_FOR,
   DEFAULT_ALLERGENS,
   sampleBags,
   samplePickups,
@@ -11,7 +12,7 @@ import {
   type Pickup,
 } from '@/data/business';
 import { isCancelled, type OrderStatus } from '@/data/sample';
-import { BAG_TYPE_FOR, DEFAULT_HOURS, useAccount, type BusinessProfile } from '@/settings/account';
+import { DEFAULT_HOURS, useAccount, type BusinessProfile } from '@/settings/account';
 
 /** The bag being created in the "Nueva bolsa" flow. */
 export type BagDraft = {
@@ -26,12 +27,13 @@ export type BagDraft = {
   to: string;
   repeatWeekly: boolean;
   days: number[];
+  photos: string[];
 };
 
 /** Defaults so the common case is "Siguiente, Siguiente, Publicar" (design/README.md). */
 function newDraft(business: BusinessProfile): BagDraft {
   const value = 39000;
-  const type = BAG_TYPE_FOR[business.type];
+  const type = BAG_TYPES_FOR[business.type][0];
   return {
     type,
     customName: null,
@@ -43,6 +45,7 @@ function newDraft(business: BusinessProfile): BagDraft {
     to: business.pickupTo,
     repeatWeekly: true,
     days: business.openDays,
+    photos: [],
   };
 }
 

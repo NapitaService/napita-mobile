@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { BagImage } from '@/components/bag-image';
 import { BellIcon, ChevronDownIcon, PinIcon, SearchIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { AREA, type Category, type Place } from '@/data/sample';
@@ -37,9 +38,7 @@ export default function Discover() {
     return haystack.includes(normalize(query.trim()));
   });
   const featured = visible.filter((p) => p.featured);
-  const lastOfTheDay = visible
-    .filter((p) => !p.featured)
-    .sort((a, b) => a.pickupTo.localeCompare(b.pickupTo));
+  const lastOfTheDay = visible.filter((p) => !p.featured).sort((a, b) => a.pickupTo.localeCompare(b.pickupTo));
 
   return (
     <ScrollView
@@ -130,7 +129,13 @@ export default function Discover() {
           </Text>
           {lastOfTheDay.map((place) => (
             <View key={place.id} style={styles.row}>
-              <View style={[styles.rowPhoto, { backgroundColor: place.tint }]} />
+              <BagImage
+                photo={place.photo}
+                logo={place.logo}
+                businessName={place.name}
+                tint={place.tint}
+                style={styles.rowPhoto}
+              />
               <View style={{ flex: 1, gap: 2 }}>
                 <Text font="bold" style={{ fontSize: 15 }}>
                   {place.name}
@@ -155,8 +160,14 @@ function FeaturedCard({ place }: { place: Place }) {
   const format = useFormat();
   return (
     <View style={styles.card}>
-      <View style={[styles.cardPhoto, { backgroundColor: place.tint }]}>
-        <Text style={{ fontSize: 13, color: colors.grey }}>{t('common.placePhoto')}</Text>
+      <View style={styles.cardPhoto}>
+        <BagImage
+          photo={place.photo}
+          logo={place.logo}
+          businessName={place.name}
+          tint={place.tint}
+          style={StyleSheet.absoluteFill}
+        />
         <View style={styles.leftBadge}>
           <Text font="bold" style={{ fontSize: 12, color: colors.orange }}>
             {t('common.left', { count: place.left })}

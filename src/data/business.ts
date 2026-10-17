@@ -6,10 +6,36 @@ import type { OrderStatus } from '@/data/sample';
  * Days are 0 = Monday … 6 = Sunday.
  */
 
-export type BagType = 'bakery' | 'pastry' | 'prepared' | 'cafeSnacks' | 'produce' | 'mixed';
+export type BagType =
+  | 'bakery'
+  | 'pastry'
+  | 'prepared'
+  | 'desserts'
+  | 'cafeSnacks'
+  | 'produce'
+  | 'groceries'
+  | 'mixed';
 export type Allergen = 'gluten' | 'dairy' | 'egg' | 'nuts';
 
-export const BAG_TYPES: BagType[] = ['bakery', 'pastry', 'prepared', 'cafeSnacks', 'produce', 'mixed'];
+/** The business types offered at sign-up (design/canvas/ShopOnboardDetails). */
+export type BusinessType = 'bakery' | 'restaurant' | 'cafe' | 'pastry' | 'market' | 'other';
+export const BUSINESS_TYPES: BusinessType[] = ['bakery', 'restaurant', 'cafe', 'pastry', 'market', 'other'];
+
+/**
+ * What can go in a bag for each type of business, in the order shown on
+ * "Nueva bolsa" step 1; the first is pre-selected (napita-docs/decisions/0013).
+ */
+export const BAG_TYPES_FOR: Record<BusinessType, BagType[]> = {
+  bakery: ['bakery', 'pastry', 'mixed'],
+  pastry: ['pastry', 'desserts', 'bakery', 'mixed'],
+  restaurant: ['prepared', 'desserts', 'mixed'],
+  cafe: ['cafeSnacks', 'pastry', 'bakery', 'mixed'],
+  market: ['produce', 'groceries', 'bakery', 'mixed'],
+  other: ['mixed', 'bakery', 'pastry', 'prepared', 'desserts', 'cafeSnacks', 'produce', 'groceries'],
+};
+
+/** Up to this many photos per bag; the first is the one customers see first. */
+export const MAX_BAG_PHOTOS = 3;
 export const ALLERGENS: Allergen[] = ['gluten', 'dairy', 'egg', 'nuts'];
 
 /** Allergens pre-selected for each category (napita-docs/design/flows/create-bolsa.md). */
@@ -17,8 +43,10 @@ export const DEFAULT_ALLERGENS: Record<BagType, Allergen[]> = {
   bakery: ['gluten', 'dairy', 'egg'],
   pastry: ['gluten', 'dairy', 'egg', 'nuts'],
   prepared: ['gluten', 'dairy', 'egg'],
+  desserts: ['gluten', 'dairy', 'egg'],
   cafeSnacks: ['gluten', 'dairy'],
   produce: [],
+  groceries: ['gluten'],
   mixed: ['gluten', 'dairy', 'egg'],
 };
 
@@ -27,8 +55,10 @@ export const BAG_TINTS: Record<BagType, string> = {
   bakery: '#F6E3C4',
   pastry: '#F2DCD3',
   prepared: '#D7EADB',
+  desserts: '#F4DDE3',
   cafeSnacks: '#EFE6C9',
   produce: '#DDE8D0',
+  groceries: '#E8E2D4',
   mixed: '#E3E8F4',
 };
 
@@ -82,6 +112,8 @@ export type BusinessBag = {
   repeatWeekly: boolean;
   days: number[];
   live: boolean;
+  /** Photos the business added (local URIs until napita-backend storage exists). Empty = show the logo. */
+  photos: string[];
 };
 
 /**
@@ -116,6 +148,7 @@ export const sampleBags: BusinessBag[] = [
     repeatWeekly: true,
     days: [0, 1, 2, 3, 4, 5],
     live: true,
+    photos: [],
   },
   {
     id: 'bag-2',
@@ -131,6 +164,7 @@ export const sampleBags: BusinessBag[] = [
     repeatWeekly: true,
     days: [0, 1, 2, 3, 4, 5],
     live: true,
+    photos: [],
   },
   {
     id: 'bag-3',
@@ -146,6 +180,7 @@ export const sampleBags: BusinessBag[] = [
     repeatWeekly: true,
     days: [5, 6],
     live: false,
+    photos: [],
   },
 ];
 
