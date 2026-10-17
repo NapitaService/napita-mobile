@@ -261,6 +261,8 @@ export type PayoutAccount = {
   holderName: string;
   documentType: DocumentType;
   documentNumber: string;
+  /** "verifying" until the $300 test transfer arrives (decision 0015). */
+  status: 'verifying' | 'verified';
 } & (
   | { method: 'bank'; bank: string; accountType: 'savings' | 'checking'; accountNumber: string }
   | { method: 'nequi'; phone: string }
@@ -270,3 +272,24 @@ export type PayoutAccount = {
 export function lastDigits(number: string) {
   return number.slice(-4);
 }
+
+/** Test transfer that checks a new or changed payout account, in pesos (decision 0015). */
+export const TEST_TRANSFER_COP = 300;
+
+/**
+ * One payout to the business: every 2 weeks, no minimum, transfer costs paid
+ * by Ñapita (decision 0015). `amount` is net of the commission; 0 = nothing
+ * to pay that period.
+ */
+export type Payout = { date: string; amount: number };
+
+/**
+ * Sample payouts for the demo business until napita-backend works them out.
+ * PLACEHOLDER schedule: every other Friday.
+ */
+export const SAMPLE_NEXT_PAYOUT: Payout = { date: '2026-10-30', amount: 186240 };
+export const samplePayoutHistory: Payout[] = [
+  { date: '2026-10-16', amount: 412800 },
+  { date: '2026-10-02', amount: 0 },
+  { date: '2026-09-18', amount: 286400 },
+];

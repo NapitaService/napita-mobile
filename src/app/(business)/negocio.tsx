@@ -8,8 +8,8 @@ import { CardIcon, ChevronRightIcon, GlobeIcon } from '@/components/icons';
 import { LogoPicker } from '@/components/logo-picker';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
-import { lastDigits } from '@/data/business';
-import { formatDays } from '@/lib/format';
+import { lastDigits, TEST_TRANSFER_COP } from '@/data/business';
+import { formatCOP, formatDays } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
 import { formatPhone, useAccount } from '@/settings/account';
 import { useBusiness } from '@/settings/business';
@@ -26,7 +26,7 @@ export default function BusinessProfile() {
   const format = useFormat();
   const { language, setLanguage } = useSettings();
   const { account, signOut, saveBusiness } = useAccount();
-  const { business } = useBusiness();
+  const { business, payouts } = useBusiness();
 
   const logOut = () => {
     signOut();
@@ -94,6 +94,15 @@ export default function BusinessProfile() {
                   <Text style={styles.line}>{business.payout.holderName}</Text>
                 </View>
               </View>
+              {business.payout.status === 'verifying' ? (
+                <Text font="semibold" style={[styles.line, { color: colors.pendingText }]}>
+                  {t('payout.verifying', { amount: formatCOP(TEST_TRANSFER_COP) })}
+                </Text>
+              ) : (
+                <Text font="semibold" style={[styles.line, { color: colors.green }]}>
+                  {t('payout.verified')}
+                </Text>
+              )}
               <Pressable accessibilityRole="button" onPress={() => router.push('/negocio-pagos')} style={styles.link}>
                 <Text font="bold" style={{ fontSize: 15, color: colors.green }}>
                   {t('payout.change')}
@@ -119,6 +128,42 @@ export default function BusinessProfile() {
                   {t('payout.add')}
                 </Text>
               </Pressable>
+            </View>
+          )}
+        </Section>
+
+        {/* Every 2 weeks, no minimum; a period with nothing to pay says so in words (decision 0015). */}
+        <Section title={t('payouts.title')}>
+          <Text style={styles.line}>{t('payouts.next', { date: format.date(payouts.next.date) })}</Text>
+          {payouts.next.amount > 0 ? (
+            <Text font="display" style={{ fontSize: 28, color: colors.green }}>
+              {formatCOP(payouts.next.amount)}
+            </Text>
+          ) : (
+            <Text font="bold" style={{ fontSize: 17 }}>
+              {t('payouts.nothingYet')}
+            </Text>
+          )}
+          <Text style={styles.line}>{t('payouts.rules')}</Text>
+          {payouts.history.length > 0 && (
+            <View style={{ marginTop: 8 }}>
+              <Text font="bold" style={{ fontSize: 14, marginBottom: 2 }}>
+                {t('payouts.history')}
+              </Text>
+              {payouts.history.map((p, i) => (
+                <View
+                  key={p.date}
+                  style={[styles.payoutRow, i === payouts.history.length - 1 && { borderBottomWidth: 0 }]}>
+                  <Text style={{ fontSize: 15 }}>{format.date(p.date)}</Text>
+                  {p.amount > 0 ? (
+                    <Text font="bold" style={{ fontSize: 15 }}>
+                      {formatCOP(p.amount)}
+                    </Text>
+                  ) : (
+                    <Text style={{ fontSize: 15, color: colors.grey }}>{t('payouts.none')}</Text>
+                  )}
+                </View>
+              ))}
             </View>
           )}
         </Section>
@@ -179,6 +224,13 @@ const styles = StyleSheet.create({
   row: { minHeight: 56, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   label: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   note: { fontSize: 13, lineHeight: 18, color: colors.grey },
+  payoutRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.divider,
+  },
   payoutMissing: { backgroundColor: colors.pendingBg, borderRadius: 14, padding: 14, gap: 12, marginVertical: -2 },
   payoutButton: {
     height: 44,

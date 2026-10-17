@@ -53,7 +53,8 @@ export default function PayoutAccountScreen() {
   const save = () => {
     setTried(true);
     if (!business || Object.values(problems).some(Boolean)) return;
-    const owner = { holderName: holderName.trim(), documentType, documentNumber };
+    // A new or changed account is checked with a $300 test transfer (decision 0015).
+    const owner = { holderName: holderName.trim(), documentType, documentNumber, status: 'verifying' as const };
     const payout: PayoutAccount =
       method === 'bank'
         ? { method, bank, accountType, accountNumber, ...owner }

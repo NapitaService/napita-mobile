@@ -3,12 +3,15 @@ import { createContext, useCallback, useContext, useState, type ReactNode } from
 import {
   BAG_TYPES_FOR,
   DEFAULT_ALLERGENS,
+  SAMPLE_NEXT_PAYOUT,
+  samplePayoutHistory,
   sampleBags,
   samplePickups,
   suggestPrices,
   type Allergen,
   type BagType,
   type BusinessBag,
+  type Payout,
   type Pickup,
 } from '@/data/business';
 import { isCancelled, type OrderStatus } from '@/data/sample';
@@ -64,6 +67,8 @@ type BusinessState = {
   undoHandOver: (pickupId: string) => void;
   /** The business cancels an order; its bags go back on sale (decision 0010). */
   cancelByBusiness: (pickupId: string) => void;
+  /** The next payout (amount so far this period) and past ones, newest first. */
+  payouts: { next: Payout; history: Payout[] };
   receivingOrders: boolean;
   setReceivingOrders: (on: boolean) => void;
   setQuantity: (id: string, quantity: number) => void;
@@ -155,6 +160,9 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
         handOver,
         undoHandOver,
         cancelByBusiness,
+        payouts: demo
+          ? { next: SAMPLE_NEXT_PAYOUT, history: samplePayoutHistory }
+          : { next: { date: SAMPLE_NEXT_PAYOUT.date, amount: 0 }, history: [] },
         receivingOrders,
         setReceivingOrders,
         setQuantity,

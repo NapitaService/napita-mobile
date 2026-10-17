@@ -445,6 +445,16 @@
     "change": "Cambiar cuenta",
     "missingTitle": "Agrega tu cuenta para recibir pagos",
     "missingBody": "Antes de tu primera venta. Puede ser una cuenta bancaria o Nequi.",
-    "add": "Agregar cuenta"
+    "add": "Agregar cuenta",
+    "verifying": "Verificando tu cuenta: te enviamos una transferencia de prueba de {{amount}}. Te avisamos cuando llegue.",
+    "verified": "Cuenta verificada"
+  },
+  "payouts": {
+    "title": "Pagos",
+    "next": "Próximo pago: {{date}}",
+    "nothingYet": "Sin pago por ahora",
+    "rules": "Te pagamos cada 2 semanas lo que vendes, sin monto mínimo. Ñapita paga los costos de la transferencia.",
+    "history": "Pagos anteriores",
+    "none": "Sin pago"
   }
 }

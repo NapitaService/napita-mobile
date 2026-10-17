@@ -436,6 +436,16 @@
     "change": "Change account",
     "missingTitle": "Add your payout account",
     "missingBody": "Before your first sale. It can be a bank account or Nequi.",
-    "add": "Add account"
+    "add": "Add account",
+    "verifying": "Checking your account: we're sending a test transfer of {{amount}}. We'll let you know when it arrives.",
+    "verified": "Account verified"
+  },
+  "payouts": {
+    "title": "Payouts",
+    "next": "Next payout: {{date}}",
+    "nothingYet": "No payout so far",
+    "rules": "We pay you what you sell every 2 weeks, with no minimum. Ñapita covers the transfer costs.",
+    "history": "Past payouts",
+    "none": "No payout"
   }
 }
