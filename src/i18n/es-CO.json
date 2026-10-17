@@ -115,7 +115,7 @@
     "directions": "Cómo llegar",
     "contact": "Contactar",
     "cancelUntil": "Puedes cancelar hasta las {{time}}; te devolvemos {{refund}}.",
-    "recent": "Recogidos hace poco",
+    "recent": "Recientes",
     "pastRow": "{{date}} · {{price}}",
     "rate": "Calificar",
     "noUpcoming": "No tienes pedidos próximos.",
@@ -153,7 +153,8 @@
     "notifications": "Notificaciones",
     "location": "Ubicación",
     "helpPrivacy": "Ayuda y privacidad",
-    "signOut": "Cerrar sesión"
+    "signOut": "Cerrar sesión",
+    "signOutHint": "¿Tienes un negocio? Cierra sesión y entra con la cuenta de tu negocio."
   },
   "business": {
     "badge": "Modo negocio",

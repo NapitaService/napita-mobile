@@ -113,7 +113,7 @@
     "directions": "Directions",
     "contact": "Contact",
     "cancelUntil": "You can cancel until {{time}}; we refund {{refund}}.",
-    "recent": "Recently picked up",
+    "recent": "Recent",
     "pastRow": "{{date}} · {{price}}",
     "rate": "Rate",
     "noUpcoming": "You have no upcoming orders.",
@@ -150,7 +150,8 @@
     "notifications": "Notifications",
     "location": "Location",
     "helpPrivacy": "Help and privacy",
-    "signOut": "Log out"
+    "signOut": "Log out",
+    "signOutHint": "Have a business? Log out and sign in with your business account."
   },
   "business": {
     "badge": "Business mode",

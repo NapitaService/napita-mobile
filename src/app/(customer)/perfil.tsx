@@ -102,6 +102,9 @@ export default function Profile() {
           {t('profile.signOut')}
         </Text>
       </Pressable>
+      <Text style={[styles.note, { textAlign: 'center', borderBottomWidth: 0, paddingVertical: 0 }]}>
+        {t('profile.signOutHint')}
+      </Text>
     </ScrollView>
   );
 }

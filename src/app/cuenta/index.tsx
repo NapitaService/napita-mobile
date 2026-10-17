@@ -14,7 +14,8 @@ import { colors } from '@/theme';
 /**
  * Crea tu cuenta (customer or business) / Inicia sesión. Everyone signs in with
  * celular + code only, and the account type is chosen here, once (decision 0005).
- * Design: napita-docs/design/canvas/AccountCreate.dc.html
+ * Design: napita-docs/design/canvas/AccountCreate.dc.html (customer), AccountBusiness.dc.html
+ * (business), AccountSignIn.dc.html (sign in)
  */
 export default function AccountScreen() {
   const { t } = useTranslation();

@@ -11,7 +11,8 @@ import { useBusiness } from '@/settings/business';
 import { colors } from '@/theme';
 
 /**
- * The code didn't match a waiting order. Design: napita-docs/design/canvas/PickupError.dc.html
+ * The code didn't match a waiting order. Design: napita-docs/design/canvas/PickupError.dc.html,
+ * and PickupClosed.dc.html for a no-show ("Este pedido ya cerró").
  * Params: `code` (typed code that matched nothing), `notOurs` (scanned a QR that isn't
  * a Ñapita order), or `already` (order id that was already handed over).
  */
