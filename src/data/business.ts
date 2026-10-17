@@ -149,6 +149,19 @@ export function readPickupCode(data: string) {
 }
 
 /**
+ * Ñapita's commission (napita-docs/decisions/0007-commission-20-percent.md).
+ * In the real app this comes from a setting in napita-backend so the team can
+ * change it at any time; each order keeps the rate it was charged.
+ */
+export const COMMISSION_PERCENT = 20;
+
+/** Splits a bag price into Ñapita's commission and what the business receives (whole pesos). */
+export function splitPrice(price: number, percent = COMMISSION_PERCENT) {
+  const commission = Math.round((price * percent) / 100);
+  return { commission, payout: price - commission };
+}
+
+/**
  * Three price choices for a bag worth `value` pesos. The middle one is about a
  * third of the value, all ending in .900 (e.g. 39.000 → 10.900 / 12.900 / 15.900).
  */

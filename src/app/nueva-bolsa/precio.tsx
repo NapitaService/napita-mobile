@@ -4,7 +4,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 
 import { BagStep, Option, StepTitle } from '@/components/bag-step';
 import { Text } from '@/components/text';
-import { suggestPrices } from '@/data/business';
+import { COMMISSION_PERCENT, splitPrice, suggestPrices } from '@/data/business';
 import { formatCOP } from '@/lib/format';
 import { useBusiness } from '@/settings/business';
 import { colors, fonts } from '@/theme';
@@ -14,6 +14,7 @@ export default function BagStepPrice() {
   const { t } = useTranslation();
   const { draft, updateDraft } = useBusiness();
   const prices = draft.value > 0 ? suggestPrices(draft.value) : null;
+  const { commission, payout } = splitPrice(draft.price);
 
   const onValueChange = (text: string) => {
     const value = Number(text.replace(/\D/g, '').slice(0, 7)) || 0;
@@ -79,7 +80,7 @@ export default function BagStepPrice() {
         </View>
       )}
 
-      {/* Ñapita's commission is still an open question (napita-docs/open-questions.md). */}
+      {/* Commission: napita-docs/decisions/0007-commission-20-percent.md */}
       <View style={styles.breakdown}>
         <View style={[styles.line, styles.lineBorder]}>
           <Text style={{ fontSize: 15 }}>{t('newBag.bagPrice')}</Text>
@@ -88,15 +89,15 @@ export default function BagStepPrice() {
           </Text>
         </View>
         <View style={[styles.line, styles.lineBorder]}>
-          <Text style={{ fontSize: 15, color: colors.grey }}>{t('newBag.commission', { app: t('app.name') })}</Text>
-          <Text style={{ fontSize: 15, color: colors.grey }}>−$[X]</Text>
+          <Text style={{ fontSize: 15, color: colors.grey }}>{t('newBag.commission', { app: t('app.name'), percent: COMMISSION_PERCENT })}</Text>
+          <Text style={{ fontSize: 15, color: colors.grey }}>−{formatCOP(commission)}</Text>
         </View>
         <View style={[styles.line, { paddingVertical: 12 }]}>
           <Text font="extrabold" style={{ fontSize: 17 }}>
             {t('newBag.youReceive')}
           </Text>
           <Text font="extrabold" style={{ fontSize: 17, color: colors.green }}>
-            $[X]
+            {formatCOP(payout)}
           </Text>
         </View>
       </View>

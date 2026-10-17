@@ -265,7 +265,7 @@
     "suggested": "Sugerido",
     "priceHint": "Calculado en un tercio del valor. Así las bolsas se reservan rápido.",
     "bagPrice": "Precio de la bolsa",
-    "commission": "Comisión de {{app}} ([X] %)",
+    "commission": "Comisión de {{app}} ({{percent}} %)",
     "youReceive": "Recibes por bolsa",
     "scheduleTitle": "¿Cuántas y a qué hora?",
     "quantityLabel": "Bolsas para hoy",
