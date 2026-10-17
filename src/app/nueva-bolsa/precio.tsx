@@ -4,17 +4,19 @@ import { StyleSheet, TextInput, View } from 'react-native';
 
 import { BagStep, Option, StepTitle } from '@/components/bag-step';
 import { Text } from '@/components/text';
-import { COMMISSION_PERCENT, splitPrice, suggestPrices } from '@/data/business';
+import { suggestPrices } from '@/data/business';
 import { formatCOP } from '@/lib/format';
 import { useBusiness } from '@/settings/business';
 import { colors, fonts } from '@/theme';
 
-/** Nueva bolsa, step 2: value and price. Design: napita-docs/design/canvas/BagStep2Price.dc.html */
+/**
+ * Nueva bolsa, step 2: value and price. Design: napita-docs/design/canvas/BagStep2Price.dc.html
+ * The design's commission breakdown is left out on purpose (napita-docs/decisions/0009).
+ */
 export default function BagStepPrice() {
   const { t } = useTranslation();
   const { draft, updateDraft } = useBusiness();
   const prices = draft.value > 0 ? suggestPrices(draft.value) : null;
-  const { commission, payout } = splitPrice(draft.price);
 
   const onValueChange = (text: string) => {
     const value = Number(text.replace(/\D/g, '').slice(0, 7)) || 0;
@@ -80,27 +82,6 @@ export default function BagStepPrice() {
         </View>
       )}
 
-      {/* Commission: napita-docs/decisions/0007-commission-20-percent.md */}
-      <View style={styles.breakdown}>
-        <View style={[styles.line, styles.lineBorder]}>
-          <Text style={{ fontSize: 15 }}>{t('newBag.bagPrice')}</Text>
-          <Text font="semibold" style={{ fontSize: 15 }}>
-            {formatCOP(draft.price)}
-          </Text>
-        </View>
-        <View style={[styles.line, styles.lineBorder]}>
-          <Text style={{ fontSize: 15, color: colors.grey }}>{t('newBag.commission', { app: t('app.name'), percent: COMMISSION_PERCENT })}</Text>
-          <Text style={{ fontSize: 15, color: colors.grey }}>−{formatCOP(commission)}</Text>
-        </View>
-        <View style={[styles.line, { paddingVertical: 12 }]}>
-          <Text font="extrabold" style={{ fontSize: 17 }}>
-            {t('newBag.youReceive')}
-          </Text>
-          <Text font="extrabold" style={{ fontSize: 17, color: colors.green }}>
-            {formatCOP(payout)}
-          </Text>
-        </View>
-      </View>
     </BagStep>
   );
 }
@@ -119,7 +100,4 @@ const styles = StyleSheet.create({
   prices: { flexDirection: 'row', gap: 10 },
   price: { flex: 1, height: 64, borderRadius: 16, alignItems: 'center', paddingHorizontal: 4 },
   suggested: { fontSize: 11, letterSpacing: 0.5, textAlign: 'center', marginTop: 2 },
-  breakdown: { backgroundColor: colors.mist, borderRadius: 18, paddingVertical: 6, paddingHorizontal: 16 },
-  line: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 10, gap: 8 },
-  lineBorder: { borderBottomWidth: 1, borderBottomColor: colors.segment },
 });
