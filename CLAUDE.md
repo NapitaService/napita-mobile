@@ -21,3 +21,7 @@ Also follow `AGENTS.md` (Expo-specific guidance).
 - Each screen's file comment names the design file it copies from `design/canvas/`.
 - Before committing: `npm run typecheck`, `npm run lint`, `npm run check:i18n`.
 - Small commits with clear English messages. No secrets in git; use `.env.example`.
+- Keep the app and `napita-backend` describing the same product (docs repo `CLAUDE.md`, "Backend
+  and app stay in step"). The shapes in `src/data/*.ts` are what the database will mirror; order
+  statuses are `reserved`, `handed_over`, `cancelled_by_customer`, `cancelled_by_business`,
+  `no_show`.
