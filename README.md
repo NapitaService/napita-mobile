@@ -10,7 +10,7 @@ Built with [Expo](https://expo.dev) (React Native), TypeScript and Expo Router: 
 |---|---|
 | [`Napita-docs`](https://github.com/NapitaService/Napita-docs) (docs) | Product rules, design, flows and decisions. **Read this first.** No code. |
 | `napita-mobile` (this repo) | The app |
-| `napita-backend` (not created yet) | Supabase: database, sign-in, payments logic |
+| [`napita-backend`](https://github.com/NapitaService/napita-backend) | Supabase: database, sign-in, payments logic. The app isn't connected to it yet. |
 
 The design this app copies lives in the docs repo: [`design/README.md`](https://github.com/NapitaService/Napita-docs/blob/main/design/README.md) and the [live design canvas](https://claude.ai/artifact/B2sY1G2J96dGMaJ7rf6u9G).
 
