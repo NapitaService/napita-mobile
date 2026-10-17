@@ -115,7 +115,14 @@
     "recent": "Recently picked up",
     "pastRow": "{{date}} · {{price}}",
     "rate": "Rate",
-    "noUpcoming": "You have no upcoming orders."
+    "noUpcoming": "You have no upcoming orders.",
+    "cancel": "Cancel order",
+    "cancelClosed": "You can no longer cancel this order. Cancelling was open until {{time}}, 1 hour before pickup.",
+    "confirmTitle": "Cancel your order?",
+    "confirmBody": "{{quantity}} × {{kind}} at {{place}}. You get a full refund of {{price}}.",
+    "keep": "No, keep it",
+    "confirmCancel": "Yes, cancel",
+    "pastRowCancelled": "{{date}} · {{price}} · Cancelled"
   },
   "favorites": {
     "title": "Favorites",

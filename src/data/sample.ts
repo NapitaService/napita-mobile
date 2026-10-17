@@ -130,22 +130,51 @@ export function getPlace(id: string) {
   return place;
 }
 
-export const upcomingOrders = [
-  {
-    id: 'order-1',
-    placeId: 'la-espiga',
-    quantity: 1,
-    paid: 12900,
-    code: '4821',
-    /** Minutes until the pickup window opens. */
-    startsInMinutes: 80,
-    cancelUntil: '16:00',
-  },
+/**
+ * Customers can cancel until this many hours before the pickup window starts
+ * (napita-docs/decisions/0010). Will come from a napita-backend setting.
+ */
+export const CANCEL_HOURS_BEFORE = 1;
+
+/** Last moment to cancel, as "HH:MM": the pickup start minus CANCEL_HOURS_BEFORE ("18:00" → "17:00"). */
+export function cancelDeadline(pickupFrom: string) {
+  const [h, m] = pickupFrom.split(':').map(Number);
+  const minutes = Math.max(0, h * 60 + m - CANCEL_HOURS_BEFORE * 60);
+  return `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+}
+
+/** Whether an order that starts in `startsInMinutes` can still be cancelled. */
+export function canStillCancel(startsInMinutes: number) {
+  return startsInMinutes > CANCEL_HOURS_BEFORE * 60;
+}
+
+export type UpcomingOrder = {
+  id: string;
+  placeId: string;
+  quantity: number;
+  paid: number;
+  code: string;
+  /** Minutes until the pickup window opens. */
+  startsInMinutes: number;
+};
+
+export type PastOrder = {
+  id: string;
+  placeId: string;
+  /** "YYYY-MM-DD" */
+  date: string;
+  paid: number;
+  status: 'pickedUp' | 'cancelled';
+  rated: boolean;
+};
+
+export const upcomingOrders: UpcomingOrder[] = [
+  { id: 'order-1', placeId: 'la-espiga', quantity: 1, paid: 12900, code: '4821', startsInMinutes: 80 },
 ];
 
-export const pastOrders = [
-  { id: 'order-0', placeId: 'cocina-verde', date: '2026-10-03', paid: 15900, rated: false },
-  { id: 'order-00', placeId: 'cafe-origen', date: '2026-09-26', paid: 8900, rated: true },
+export const pastOrders: PastOrder[] = [
+  { id: 'order-0', placeId: 'cocina-verde', date: '2026-10-03', paid: 15900, status: 'pickedUp', rated: false },
+  { id: 'order-00', placeId: 'cafe-origen', date: '2026-09-26', paid: 8900, status: 'pickedUp', rated: true },
 ];
 
 export type FavoriteStatus =

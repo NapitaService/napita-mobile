@@ -117,7 +117,14 @@
     "recent": "Recogidos hace poco",
     "pastRow": "{{date}} · {{price}}",
     "rate": "Calificar",
-    "noUpcoming": "No tienes pedidos próximos."
+    "noUpcoming": "No tienes pedidos próximos.",
+    "cancel": "Cancelar pedido",
+    "cancelClosed": "Ya no puedes cancelar este pedido. Se podía hasta las {{time}}, 1 hora antes de recoger.",
+    "confirmTitle": "¿Cancelar tu pedido?",
+    "confirmBody": "{{quantity}} × {{kind}} en {{place}}. Recibes el reembolso total de {{price}}.",
+    "keep": "No, mantenerlo",
+    "confirmCancel": "Sí, cancelar",
+    "pastRowCancelled": "{{date}} · {{price}} · Cancelado"
   },
   "favorites": {
     "title": "Favoritos",

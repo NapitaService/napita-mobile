@@ -18,6 +18,7 @@ The design this app copies lives in the docs repo: [`design/README.md`](https://
 
 - **Welcome screen** with an ES / EN switch, "Ver lugares cerca de mí" and "Tengo un negocio".
 - **Customer mode**, 5 tabs built to match the design: Descubrir, Mapa, Pedidos, Favoritos, Perfil.
+- **Cancel an order** in Pedidos until 1 hour before the pickup window (decision 0010): "Cancelar pedido" asks to confirm, then the order moves to Anteriores as "Cancelado". After the deadline the button is replaced by a note.
 - **Create an account / sign in** (Welcome → "Crea tu cuenta", or Perfil): celular + 6-digit code only, with warnings for numbers that can't be a Colombian mobile. For now nothing is sent and any 6 digits work. See decision 0005 in the docs repo.
 - **Business mode**, 4 tabs. **Hoy** (today's numbers, who's coming) and **Bolsas** (your bags, +/− quantity, "Publicar hoy") are built, and **Entregas** (hand over orders) is built; Negocio is a placeholder.
 - **Hand over an order** on Entregas: scan the customer's QR with the camera (asks for camera permission the first time), type their 4-digit code (confirms on the last digit), or tap "Entregar" next to their name. A green "Entregado" screen with "Deshacer" follows; a wrong code shows "Este código no coincide". Counts on Hoy and Bolsas update. To try the scan, open Pedidos in customer mode on a second phone (code 4821).

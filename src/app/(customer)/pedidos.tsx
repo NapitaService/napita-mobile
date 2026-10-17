@@ -7,9 +7,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
-import { getPlace, pastOrders, upcomingOrders } from '@/data/sample';
+import { canStillCancel, cancelDeadline, getPlace, type PastOrder as PastOrderType, type UpcomingOrder as UpcomingOrderType } from '@/data/sample';
 import { formatDuration } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
+import { useOrders } from '@/settings/orders';
 import { colors } from '@/theme';
 
 /** Pedidos. Design: napita-docs/design/canvas/CustomerOrders.dc.html */
@@ -17,6 +18,7 @@ export default function Orders() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
+  const { upcoming: upcomingOrders, past: pastOrders } = useOrders();
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + 20 }]}>
@@ -51,7 +53,7 @@ export default function Orders() {
             <Text font="bold" style={styles.sectionTitle}>
               {t('orders.recent')}
             </Text>
-            <PastOrder order={pastOrders[0]} />
+            {pastOrders[0] && <PastOrder order={pastOrders[0]} />}
           </View>
         </>
       ) : (
@@ -65,10 +67,14 @@ export default function Orders() {
   );
 }
 
-function UpcomingOrder({ order }: { order: (typeof upcomingOrders)[number] }) {
+function UpcomingOrder({ order }: { order: UpcomingOrderType }) {
   const { t } = useTranslation();
   const format = useFormat();
+  const { cancelOrder } = useOrders();
+  const [confirming, setConfirming] = useState(false);
   const place = getPlace(order.placeId);
+  const deadline = format.time(cancelDeadline(place.pickupFrom));
+  const canCancel = canStillCancel(order.startsInMinutes);
 
   const openDirections = () => {
     const { latitude: lat, longitude: lng } = place;
@@ -136,14 +142,55 @@ function UpcomingOrder({ order }: { order: (typeof upcomingOrders)[number] }) {
         </View>
 
         <Text style={[styles.secondary, { lineHeight: 18 }]}>
-          {place.address} · {t('orders.cancelUntil', { time: format.time(order.cancelUntil) })}
+          {place.address}
+          {canCancel && ` · ${t('orders.cancelUntil', { time: deadline })}`}
         </Text>
+
+        {/* Cancel until 1 hour before pickup (napita-docs/decisions/0010). */}
+        {!canCancel ? (
+          <Text style={[styles.secondary, { lineHeight: 18 }]}>{t('orders.cancelClosed', { time: deadline })}</Text>
+        ) : confirming ? (
+          <View style={styles.confirm} accessibilityLiveRegion="polite">
+            <Text font="bold" style={{ fontSize: 16 }}>
+              {t('orders.confirmTitle')}
+            </Text>
+            <Text style={[styles.secondary, { fontSize: 14, lineHeight: 20 }]}>
+              {t('orders.confirmBody', {
+                quantity: order.quantity,
+                kind: t(`bagKinds.${place.category}`),
+                place: place.name,
+                price: format.price(order.paid),
+              })}
+            </Text>
+            <View style={{ flexDirection: 'row', gap: 10 }}>
+              <Pressable accessibilityRole="button" onPress={() => setConfirming(false)} style={styles.outlineButton}>
+                <Text font="bold" style={{ fontSize: 15 }}>
+                  {t('orders.keep')}
+                </Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => cancelOrder(order.id)}
+                style={[styles.outlineButton, styles.dangerButton]}>
+                <Text font="bold" style={{ fontSize: 15, color: colors.white }}>
+                  {t('orders.confirmCancel')}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        ) : (
+          <Pressable accessibilityRole="button" onPress={() => setConfirming(true)} style={styles.cancel}>
+            <Text font="bold" style={{ fontSize: 15, color: colors.danger }}>
+              {t('orders.cancel')}
+            </Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
 }
 
-function PastOrder({ order }: { order: (typeof pastOrders)[number] }) {
+function PastOrder({ order }: { order: PastOrderType }) {
   const { t } = useTranslation();
   const format = useFormat();
   const place = getPlace(order.placeId);
@@ -154,10 +201,13 @@ function PastOrder({ order }: { order: (typeof pastOrders)[number] }) {
           {place.name}
         </Text>
         <Text style={styles.secondary}>
-          {t('orders.pastRow', { date: format.date(order.date), price: format.price(order.paid) })}
+          {t(order.status === 'cancelled' ? 'orders.pastRowCancelled' : 'orders.pastRow', {
+            date: format.date(order.date),
+            price: format.price(order.paid),
+          })}
         </Text>
       </View>
-      {!order.rated && (
+      {order.status === 'pickedUp' && !order.rated && (
         <Pressable accessibilityRole="button" style={styles.rate} hitSlop={4}>
           <Text font="bold" style={{ fontSize: 13, color: colors.green }}>
             {t('orders.rate')}
@@ -201,6 +251,9 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   code: { fontSize: 36, letterSpacing: 4 },
+  confirm: { backgroundColor: colors.mist, borderRadius: 16, padding: 14, gap: 10 },
+  dangerButton: { backgroundColor: colors.danger, borderColor: colors.danger },
+  cancel: { minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   outlineButton: {
     flex: 1,
     height: 48,

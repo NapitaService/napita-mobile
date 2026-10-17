@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 
 import { AccountProvider } from '@/settings/account';
 import { BusinessProvider } from '@/settings/business';
+import { OrdersProvider } from '@/settings/orders';
 import { SettingsProvider } from '@/settings/settings';
 import { colors } from '@/theme';
 
@@ -39,26 +40,28 @@ export default function RootLayout() {
     <SettingsProvider>
       <AccountProvider>
         <BusinessProvider>
-          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.mist } }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="(customer)" options={{ animation: 'fade' }} />
-            <Stack.Screen name="(business)" options={{ animation: 'fade' }} />
-            <Stack.Screen name="cuenta/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
-            <Stack.Screen name="cuenta/codigo" options={{ contentStyle: { backgroundColor: colors.white } }} />
-            <Stack.Screen name="nueva-bolsa/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
-            <Stack.Screen name="nueva-bolsa/precio" options={{ contentStyle: { backgroundColor: colors.white } }} />
-            <Stack.Screen name="nueva-bolsa/horario" options={{ contentStyle: { backgroundColor: colors.white } }} />
-            <Stack.Screen name="entrega/escanear" options={{ contentStyle: { backgroundColor: colors.scannerBg } }} />
-            <Stack.Screen
-              name="entrega/entregado"
-              options={{ contentStyle: { backgroundColor: colors.green }, gestureEnabled: false, animation: 'fade' }}
-            />
-            <Stack.Screen name="entrega/codigo-incorrecto" options={{ contentStyle: { backgroundColor: colors.white } }} />
-            <Stack.Screen
-              name="nueva-bolsa/publicada"
-              options={{ contentStyle: { backgroundColor: colors.white }, gestureEnabled: false }}
-            />
-          </Stack>
+          <OrdersProvider>
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.mist } }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="(customer)" options={{ animation: 'fade' }} />
+              <Stack.Screen name="(business)" options={{ animation: 'fade' }} />
+              <Stack.Screen name="cuenta/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen name="cuenta/codigo" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen name="nueva-bolsa/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen name="nueva-bolsa/precio" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen name="nueva-bolsa/horario" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen name="entrega/escanear" options={{ contentStyle: { backgroundColor: colors.scannerBg } }} />
+              <Stack.Screen
+                name="entrega/entregado"
+                options={{ contentStyle: { backgroundColor: colors.green }, gestureEnabled: false, animation: 'fade' }}
+              />
+              <Stack.Screen name="entrega/codigo-incorrecto" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen
+                name="nueva-bolsa/publicada"
+                options={{ contentStyle: { backgroundColor: colors.white }, gestureEnabled: false }}
+              />
+            </Stack>
+          </OrdersProvider>
         </BusinessProvider>
       </AccountProvider>
     </SettingsProvider>
