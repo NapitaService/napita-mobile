@@ -8,19 +8,21 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BackButton, Field, Input, PhoneInput, PrimaryButton } from '@/components/form';
 import { Text } from '@/components/text';
 import { cleanPhone, isEarlyProblem, PHONE_LENGTH, phoneProblem } from '@/lib/phone';
-import { formatPhone } from '@/settings/account';
+import { formatPhone, useAccount } from '@/settings/account';
 import { colors } from '@/theme';
 
 /**
- * Crea tu cuenta / Inicia sesión. Not in the design canvas yet. Everyone signs in
- * with celular + code only (napita-docs/decisions/0005-phone-only-sign-in.md).
- * Styling follows ShopOnboardDetails.dc.html.
+ * Crea tu cuenta (customer or business) / Inicia sesión. Everyone signs in with
+ * celular + code only, and the account type is chosen here, once (decision 0005).
+ * Design: napita-docs/design/canvas/AccountCreate.dc.html
  */
 export default function AccountScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { modo } = useLocalSearchParams<{ modo?: 'crear' | 'entrar' }>();
+  const { findAccount } = useAccount();
+  const { modo, tipo } = useLocalSearchParams<{ modo?: 'crear' | 'entrar'; tipo?: 'cliente' | 'negocio' }>();
   const creating = modo !== 'entrar';
+  const forBusiness = tipo === 'negocio';
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -29,11 +31,19 @@ export default function AccountScreen() {
   const [triedSubmit, setTriedSubmit] = useState(false);
 
   const problem = phoneProblem(phone);
-  const nameMissing = creating && !name.trim();
+  const nameMissing = creating && !forBusiness && !name.trim();
   const showPhoneProblem = problem !== null && (isEarlyProblem(problem) || phoneDone || triedSubmit);
+  // One account per number: creating needs a new one, signing in a known one.
+  const existing = problem === null ? findAccount(phone) : undefined;
+  const accountProblem =
+    problem !== null ? null : creating ? (existing ? 'taken' : null) : existing ? null : 'unknown';
 
   const phoneWarning = !showPhoneProblem
-    ? null
+    ? accountProblem === 'taken'
+      ? t('account.phoneTaken')
+      : accountProblem === 'unknown' && (phoneDone || triedSubmit)
+        ? t('account.phoneUnknown')
+        : null
     : problem === 'landline'
       ? t('account.phoneLandline')
       : problem === 'notMobile'
@@ -46,11 +56,16 @@ export default function AccountScreen() {
 
   const sendCode = () => {
     setTriedSubmit(true);
-    if (problem !== null || nameMissing) return;
-    router.push({ pathname: '/cuenta/codigo', params: { phone, name: creating ? name.trim() : '' } });
+    if (problem !== null || nameMissing || accountProblem !== null) return;
+    router.push({
+      pathname: '/cuenta/codigo',
+      params: creating ? { phone, name: name.trim(), tipo: forBusiness ? 'negocio' : 'cliente' } : { phone },
+    });
   };
 
-  const switchMode = () => router.setParams({ modo: creating ? 'entrar' : 'crear' });
+  // From sign-in, "Crea una" goes back to Welcome to choose customer or business.
+  const switchMode = () =>
+    creating ? router.setParams({ modo: 'entrar' }) : router.canGoBack() ? router.back() : router.replace('/');
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -63,12 +78,18 @@ export default function AccountScreen() {
 
         <View style={{ gap: 6 }}>
           <Text font="display" style={styles.title} accessibilityRole="header">
-            {creating ? t('account.createTitle') : t('account.signInTitle')}
+            {!creating ? t('account.signInTitle') : forBusiness ? t('account.businessTitle') : t('account.createTitle')}
           </Text>
-          <Text style={styles.subtitle}>{creating ? t('account.createSubtitle') : t('account.signInSubtitle')}</Text>
+          <Text style={styles.subtitle}>
+            {!creating
+              ? t('account.signInSubtitle')
+              : forBusiness
+                ? t('account.businessSubtitle')
+                : t('account.createSubtitle')}
+          </Text>
         </View>
 
-        {creating && (
+        {creating && !forBusiness && (
           <Field label={t('account.name')} warning={triedSubmit && nameMissing ? t('account.nameMissing') : null}>
             <Input
               invalid={triedSubmit && nameMissing}
@@ -83,7 +104,7 @@ export default function AccountScreen() {
           </Field>
         )}
 
-        <Field label={t('account.phone')} warning={phoneWarning}>
+        <Field label={forBusiness ? t('account.businessPhone') : t('account.phone')} warning={phoneWarning}>
           <PhoneInput
             invalid={!!phoneWarning}
             value={formatPhone(phone)}

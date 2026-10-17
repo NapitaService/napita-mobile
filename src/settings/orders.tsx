@@ -9,6 +9,7 @@ import {
   type UpcomingOrder,
 } from '@/data/sample';
 import { todayISO } from '@/lib/format';
+import { useAccount } from '@/settings/account';
 
 type OrdersState = {
   upcoming: UpcomingOrder[];
@@ -21,12 +22,26 @@ type OrdersState = {
 
 const OrdersContext = createContext<OrdersState | null>(null);
 
-/** The customer's orders. Sample data in memory until napita-backend exists. */
+/**
+ * The signed-in customer's orders. In memory until napita-backend exists: the
+ * demo customer gets sample orders, new customers start with none.
+ */
 export function OrdersProvider({ children }: { children: ReactNode }) {
-  const [upcoming, setUpcoming] = useState(sampleUpcoming);
-  const [past, setPast] = useState(samplePast);
+  const { account } = useAccount();
+  const demo = !!account?.demo;
+  const [upcoming, setUpcoming] = useState(() => (demo ? sampleUpcoming : []));
+  const [past, setPast] = useState(() => (demo ? samplePast : []));
   // Bags back on sale per place after cancellations (decision 0010).
   const [returned, setReturned] = useState<Record<string, number>>({});
+
+  // Start over when someone else signs in.
+  const [owner, setOwner] = useState(account?.phone);
+  if (owner !== account?.phone) {
+    setOwner(account?.phone);
+    setUpcoming(demo ? sampleUpcoming : []);
+    setPast(demo ? samplePast : []);
+    setReturned({});
+  }
 
   const cancelOrder = useCallback(
     (id: string) => {

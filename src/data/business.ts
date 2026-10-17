@@ -32,15 +32,37 @@ export const BAG_TINTS: Record<BagType, string> = {
   mixed: '#E3E8F4',
 };
 
-/** Pickup windows offered on step 3. The first 3 show as chips, the rest under "Otro". */
-export const PICKUP_WINDOWS: [string, string][] = [
-  ['17:00', '18:00'],
-  ['18:00', '19:00'],
-  ['19:00', '20:00'],
-  ['16:00', '17:00'],
-  ['20:00', '21:00'],
-  ['21:00', '22:00'],
-];
+const toMinutes = (time: string) => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
+const toTime = (minutes: number) =>
+  `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+
+/**
+ * One-hour pickup windows that fit inside the opening hours (decision 0011),
+ * earliest first. E.g. 07:00–21:00 → 07:00–08:00 … 20:00–21:00.
+ */
+export function pickupWindowsFor(opens: string, closes: string): [string, string][] {
+  const windows: [string, string][] = [];
+  for (let start = Math.ceil(toMinutes(opens) / 60) * 60; start + 60 <= toMinutes(closes); start += 60) {
+    windows.push([toTime(start), toTime(start + 60)]);
+  }
+  return windows;
+}
+
+/** The `count` windows shown first: the ones around `from`, or the last ones before closing. */
+export function nearbyWindows(windows: [string, string][], from: string, count: number) {
+  const at = windows.findIndex(([f]) => f === from);
+  const start = at < 0 ? windows.length - count : at - Math.floor(count / 2);
+  const clamped = Math.max(0, Math.min(start, windows.length - count));
+  return windows.slice(clamped, clamped + count);
+}
+
+/** True if the window lies inside the opening hours. */
+export function windowFits(from: string, to: string, opens: string, closes: string) {
+  return toMinutes(from) >= toMinutes(opens) && toMinutes(to) <= toMinutes(closes) && toMinutes(from) < toMinutes(to);
+}
+
+/** Opening and closing times offered at sign-up: every 30 minutes. */
+export const HALF_HOURS = Array.from({ length: 48 }, (_, i) => toTime(i * 30));
 
 export type BusinessBag = {
   id: string;
@@ -77,14 +99,6 @@ export type Pickup = {
   status: OrderStatus;
   /** When the customer placed the order (ms since 1970). */
   placedAt: number;
-};
-
-/** The signed-in business, as set during sign-up (napita-docs/design/flows/business-signup.md). */
-export const SAMPLE_BUSINESS = {
-  name: 'Panadería La Espiga',
-  type: 'bakery' as BagType,
-  pickupFrom: '18:00',
-  pickupTo: '19:00',
 };
 
 export const sampleBags: BusinessBag[] = [

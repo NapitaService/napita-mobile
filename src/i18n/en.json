@@ -11,9 +11,7 @@
     "seePlaces": "See places near me",
     "haveBusiness": "I have a business",
     "haveAccount": "Already have an account?",
-    "signIn": "Sign in",
-    "newHere": "New here?",
-    "createAccount": "Create your account"
+    "signIn": "Sign in"
   },
   "account": {
     "back": "Back",
@@ -43,7 +41,12 @@
     "phoneTooShort_other": "The number is missing {{count}} digits.",
     "phoneEmpty": "Enter your mobile number.",
     "nameMissing": "Enter your name.",
-    "warning": "Warning"
+    "warning": "Warning",
+    "businessTitle": "Register your business",
+    "businessSubtitle": "Start with the business's mobile number. You sign in with it and customers contact you on it.",
+    "businessPhone": "Business mobile",
+    "phoneTaken": "There's already an account with this number. Sign in with it.",
+    "phoneUnknown": "There's no account with this number. Check it or create an account."
   },
   "tabs": {
     "discover": "Discover",
@@ -122,7 +125,8 @@
     "confirmCancel": "Yes, cancel",
     "pastRowCancelled": "{{date}} · {{price}} · Cancelled",
     "noShowRule": "If you don't pick it up before they close ({{time}}), there's no refund.",
-    "pastRowNoShow": "{{date}} · {{price}} · Not picked up"
+    "pastRowNoShow": "{{date}} · {{price}} · Not picked up",
+    "noPast": "Your past orders will show here."
   },
   "favorites": {
     "title": "Favorites",
@@ -131,7 +135,8 @@
     "bagsToday_one": "{{count}} bag today · {{window}}",
     "bagsToday_other": "{{count}} bags today · {{window}}",
     "notPostedYet": "Hasn't posted yet today",
-    "usuallyPosts": "Usually posts around {{time}}"
+    "usuallyPosts": "Usually posts around {{time}}",
+    "empty": "You don't have any favorite places yet."
   },
   "profile": {
     "bagsCollected": "Bags picked up",
@@ -145,13 +150,7 @@
     "notifications": "Notifications",
     "location": "Location",
     "helpPrivacy": "Help and privacy",
-    "haveBusiness": "Have a business?",
-    "switchToBusiness": "Switch to business mode",
-    "signOut": "Sign out",
-    "guestTitle": "Create your account",
-    "guestBody": "To reserve bags, save favorites and see your orders.",
-    "createAccount": "Create account",
-    "signIn": "I have an account"
+    "signOut": "Log out"
   },
   "business": {
     "badge": "Business mode",
@@ -171,7 +170,12 @@
       "pending": "Waiting",
       "delivered": "Handed over",
       "cancelled": "Cancelled",
-      "noShow": "No-show"
+      "noShow": "No-show",
+      "welcome": "Welcome, {{name}}!",
+      "welcomeBody": "You're one step away from your first orders.",
+      "firstBag": "Create my first bag",
+      "firstBagHint": "Takes a minute",
+      "noPickups": "No orders yet today."
     },
     "bags": {
       "title": "Your bags",
@@ -190,7 +194,8 @@
       "oneMore": "One more",
       "tip": "Tip: enter the real value of what goes in the bag and set the price at about a third. Customers find out what's inside when they pick it up.",
       "deliveredCount_one": "{{count}} handed over",
-      "deliveredCount_other": "{{count}} handed over"
+      "deliveredCount_other": "{{count}} handed over",
+      "empty": "You don't have any bags yet. Create your first one and it goes live today."
     },
     "pickups": {
       "title": "Pickups",
@@ -218,9 +223,15 @@
     },
     "profile": {
       "title": "Your business",
-      "body": "Business details, hours and the account where you get paid."
+      "details": "Business details",
+      "hours": "Hours",
+      "open": "{{days}}, {{from}} to {{to}}",
+      "pickup": "Pickup: {{window}}",
+      "changeHours": "Change hours",
+      "signOut": "Log out",
+      "signOutHint": "To use the app as a customer, log out and sign in with a customer account.",
+      "more": "Coming soon: payout account and more settings."
     },
-    "switchToCustomer": "Switch to customer mode",
     "scanner": {
       "title": "Scan the customer's code",
       "hint": "Point at the QR code on the customer's phone. It confirms by itself, nothing else to tap.",
@@ -263,7 +274,7 @@
     "title": "New bag",
     "close": "Close",
     "back": "Back",
-    "step": "{{step}} of 3",
+    "step": "{{step}} of {{total}}",
     "next": "Next",
     "typeTitle": "What goes in the bag?",
     "typeSubtitle": "Pick the closest match. The exact contents are a surprise.",
@@ -332,5 +343,46 @@
     "dairy": "Dairy",
     "egg": "Egg",
     "nuts": "Nuts"
+  },
+  "signup": {
+    "heading": "Register your business",
+    "editHeading": "Your hours",
+    "continue": "Continue",
+    "create": "Create my business",
+    "save": "Save",
+    "detailsTitle": "Tell us about your business",
+    "detailsSubtitle": "This is how customers find you. It takes less than 2 minutes.",
+    "name": "Business name",
+    "namePlaceholder": "E.g. Panadería La Espiga",
+    "nameMissing": "Type the business name.",
+    "typeLabel": "What kind of business is it?",
+    "types": {
+      "bakery": "Bakery",
+      "restaurant": "Restaurant",
+      "cafe": "Café",
+      "pastry": "Pastry shop",
+      "market": "Market",
+      "other": "Other"
+    },
+    "address": "Address",
+    "addressPlaceholder": "E.g. Cra. 13 #85-32, Bogotá",
+    "addressMissing": "Type the business address.",
+    "phone": "Business mobile",
+    "phoneHint": "The number you created the account with. Customers see it to contact you.",
+    "hoursTitle": "When are you open, and when can people pick up?",
+    "hoursSubtitle": "Pickup is usually the last hour before closing. You can change it for each bag later.",
+    "days": "Days you're open",
+    "noDays": "Choose at least one day.",
+    "openingHours": "Opening hours",
+    "opens": "Opens",
+    "closes": "Closes",
+    "earlier": "{{label}}: earlier",
+    "later": "{{label}}: later",
+    "tooShort": "Closing must be at least one hour after opening.",
+    "closesHint": "Orders not picked up by {{time}} count as not collected.",
+    "pickupWindow": "Pickup time",
+    "otherWindow": "Choose another time",
+    "pickupHint": "Always within your opening hours.",
+    "paymentsLater": "You add payment details later, before your first sale. You don't need them now."
   }
 }

@@ -8,6 +8,7 @@ import { BellIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { favorites, getPlace, type FavoriteStatus } from '@/data/sample';
 import { useFormat } from '@/lib/use-format';
+import { useAccount } from '@/settings/account';
 import { colors, MIN_TOUCH } from '@/theme';
 
 /** Favoritos. Design: napita-docs/design/canvas/CustomerFavorites.dc.html */
@@ -15,6 +16,9 @@ export default function Favorites() {
   const { t } = useTranslation();
   const format = useFormat();
   const insets = useSafeAreaInsets();
+  const { account } = useAccount();
+  // Sample favorites for the demo customer only; new customers start with none.
+  const saved = account?.demo ? favorites : [];
   const [bells, setBells] = useState(() => Object.fromEntries(favorites.map((f) => [f.placeId, f.bell])));
 
   const statusText = (status: FavoriteStatus) => {
@@ -39,7 +43,8 @@ export default function Favorites() {
       </View>
 
       <View>
-        {favorites.map(({ placeId, status }) => {
+        {saved.length === 0 && <Text style={styles.intro}>{t('favorites.empty')}</Text>}
+        {saved.map(({ placeId, status }) => {
           const place = getPlace(placeId);
           const on = bells[placeId];
           const available = status.type === 'bagsToday';

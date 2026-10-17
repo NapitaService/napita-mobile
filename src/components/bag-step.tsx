@@ -20,7 +20,11 @@ import { Text } from '@/components/text';
 import { colors, MIN_TOUCH } from '@/theme';
 
 type Props = {
-  step: 1 | 2 | 3;
+  step: number;
+  /** Defaults to the "Nueva bolsa" flow: 3 steps, a close button on step 1. */
+  total?: number;
+  heading?: string;
+  onBack?: () => void;
   buttonLabel: string;
   onNext: () => void;
   nextDisabled?: boolean;
@@ -28,12 +32,14 @@ type Props = {
 };
 
 /**
- * Frame shared by the "Nueva bolsa" steps (design/canvas/BagStep1Type…3Schedule):
- * close/back button, "1 de 3", progress bar, and the button pinned at the bottom.
+ * Frame shared by the "Nueva bolsa" steps (design/canvas/BagStep1Type…3Schedule)
+ * and business sign-up (ShopOnboardDetails, ShopOnboardHours): close/back button,
+ * "1 de 3", progress bar, and the button pinned at the bottom.
  */
-export function BagStep({ step, buttonLabel, onNext, nextDisabled, children }: Props) {
+export function BagStep({ step, total = 3, heading, onBack, buttonLabel, onNext, nextDisabled, children }: Props) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const close = step === 1 && !heading;
 
   return (
     <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
@@ -42,18 +48,18 @@ export function BagStep({ step, buttonLabel, onNext, nextDisabled, children }: P
         <View style={styles.topRow}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel={step === 1 ? t('newBag.close') : t('newBag.back')}
-            onPress={() => router.back()}
+            accessibilityLabel={close ? t('newBag.close') : t('newBag.back')}
+            onPress={onBack ?? (() => router.back())}
             style={styles.round}>
-            {step === 1 ? <CloseIcon size={18} /> : <ChevronLeftIcon size={20} />}
+            {close ? <CloseIcon size={18} /> : <ChevronLeftIcon size={20} />}
           </Pressable>
           <Text font="bold" style={{ fontSize: 15 }}>
-            {t('newBag.title')}
+            {heading ?? t('newBag.title')}
           </Text>
-          <Text style={styles.stepText}>{t('newBag.step', { step })}</Text>
+          <Text style={styles.stepText}>{t('newBag.step', { step, total })}</Text>
         </View>
         <View style={styles.progress}>
-          <View style={[styles.progressFill, { width: `${(step / 3) * 100}%` }]} />
+          <View style={[styles.progressFill, { width: `${(step / total) * 100}%` }]} />
         </View>
       </View>
 

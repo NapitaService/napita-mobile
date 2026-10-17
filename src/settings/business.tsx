@@ -2,7 +2,6 @@ import { createContext, useCallback, useContext, useState, type ReactNode } from
 
 import {
   DEFAULT_ALLERGENS,
-  SAMPLE_BUSINESS,
   sampleBags,
   samplePickups,
   suggestPrices,
@@ -12,6 +11,7 @@ import {
   type Pickup,
 } from '@/data/business';
 import { isCancelled, type OrderStatus } from '@/data/sample';
+import { BAG_TYPE_FOR, DEFAULT_HOURS, useAccount, type BusinessProfile } from '@/settings/account';
 
 /** The bag being created in the "Nueva bolsa" flow. */
 export type BagDraft = {
@@ -29,24 +29,28 @@ export type BagDraft = {
 };
 
 /** Defaults so the common case is "Siguiente, Siguiente, Publicar" (design/README.md). */
-function newDraft(): BagDraft {
+function newDraft(business: BusinessProfile): BagDraft {
   const value = 39000;
+  const type = BAG_TYPE_FOR[business.type];
   return {
-    type: SAMPLE_BUSINESS.type,
+    type,
     customName: null,
-    allergens: DEFAULT_ALLERGENS[SAMPLE_BUSINESS.type],
+    allergens: DEFAULT_ALLERGENS[type],
     value,
     price: suggestPrices(value)[1],
     quantity: 3,
-    from: SAMPLE_BUSINESS.pickupFrom,
-    to: SAMPLE_BUSINESS.pickupTo,
+    from: business.pickupFrom,
+    to: business.pickupTo,
     repeatWeekly: true,
-    days: [0, 1, 2, 3, 4, 5],
+    days: business.openDays,
   };
 }
 
+/** Stands in while a new business hasn't finished sign-up (its screens aren't shown then). */
+const NO_BUSINESS: BusinessProfile = { name: '', type: 'other', address: '', ...DEFAULT_HOURS };
+
 type BusinessState = {
-  business: typeof SAMPLE_BUSINESS;
+  business: BusinessProfile;
   bags: BusinessBag[];
   pickups: Pickup[];
   /** Bags reserved and handed over for one bag today, counted from `pickups`. */
@@ -69,12 +73,27 @@ type BusinessState = {
 
 const BusinessContext = createContext<BusinessState | null>(null);
 
-/** Business-mode state. Sample data in memory until napita-backend exists. */
+/**
+ * Business-mode state for the signed-in business. In memory until napita-backend
+ * exists: the demo business gets sample bags and orders, new businesses start empty.
+ */
 export function BusinessProvider({ children }: { children: ReactNode }) {
-  const [bags, setBags] = useState(sampleBags);
-  const [pickups, setPickups] = useState(samplePickups);
+  const { account } = useAccount();
+  const demo = !!account?.demo;
+  const business = account?.business ?? NO_BUSINESS;
+  const [bags, setBags] = useState(() => (demo ? sampleBags : []));
+  const [pickups, setPickups] = useState(() => (demo ? samplePickups : []));
   const [receivingOrders, setReceivingOrders] = useState(true);
-  const [draft, setDraft] = useState(newDraft);
+  const [draft, setDraft] = useState(() => newDraft(business));
+
+  // Start over when someone else signs in.
+  const [owner, setOwner] = useState(account?.phone);
+  if (owner !== account?.phone) {
+    setOwner(account?.phone);
+    setBags(demo ? sampleBags : []);
+    setPickups(demo ? samplePickups : []);
+    setReceivingOrders(true);
+  }
 
   const countsFor = useCallback(
     (bagId: string) => {
@@ -108,7 +127,7 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateDraft = useCallback((changes: Partial<BagDraft>) => setDraft((d) => ({ ...d, ...changes })), []);
-  const startDraft = useCallback(() => setDraft(newDraft()), []);
+  const startDraft = useCallback(() => setDraft(newDraft(business)), [business]);
 
   const publishDraft = useCallback(
     (name: string) => {
@@ -124,7 +143,7 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
   return (
     <BusinessContext.Provider
       value={{
-        business: SAMPLE_BUSINESS,
+        business,
         bags,
         pickups,
         countsFor,

@@ -16,16 +16,31 @@ The design this app copies lives in the docs repo: [`design/README.md`](https://
 
 ## What works today
 
-- **Welcome screen** with an ES / EN switch, "Ver lugares cerca de mí" and "Tengo un negocio".
-- **Customer mode**, 5 tabs built to match the design: Descubrir, Mapa, Pedidos, Favoritos, Perfil.
-- **Cancel an order** in Pedidos until 1 hour before the pickup window (decision 0010): "Cancelar pedido" asks to confirm, then the order moves to Anteriores as "Cancelado". The bag goes back on sale, so the place's "Quedan" count goes up. After the deadline the button is replaced by a note.
-- **Create an account / sign in** (Welcome → "Crea tu cuenta", or Perfil): celular + 6-digit code only, with warnings for numbers that can't be a Colombian mobile. For now nothing is sent and any 6 digits work. See decision 0005 in the docs repo.
-- **Business mode**, 4 tabs. **Hoy** (today's numbers, who's coming) and **Bolsas** (your bags, +/− quantity, "Publicar hoy") are built, and **Entregas** (hand over orders) is built; Negocio is a placeholder.
-- **Hand over an order** on Entregas: scan the customer's QR with the camera (asks for camera permission the first time), type their 4-digit code (confirms on the last digit), or tap "Entregar" next to their name. A green "Entregado" screen with "Deshacer" follows; a wrong code shows "Este código no coincide". Next to "Entregar", **Cancelar** lets the business cancel an order (with a confirmation); its bags go back on sale (decision 0010). Counts on Hoy and Bolsas update. To try the scan, open Pedidos in customer mode on a second phone (code 4821).
-- **Create a bolsa** in 3 steps from Hoy → "Publicar más bolsas" or Bolsas → "Nueva bolsa": what goes in it, price (3 suggestions ending in .900), quantity and pickup time with "repeat weekly", then "¡Listo!" with a WhatsApp share. New bags appear in Bolsas until you close the app. The price step shows the value and price only; Ñapita's 20 % commission isn't shown in the app (decision 0007).
-- **Colombian Spanish by default, English as an option.** Switch in Perfil (or Negocio). The choice is remembered.
+- **Welcome / login screen**, the only way in (decision 0005), with an ES / EN switch:
+  - **"Ver lugares cerca de mí"** creates a **customer account** (name + celular → 6-digit code) and goes straight to Descubrir.
+  - **"Tengo un negocio"** creates a **business account** (celular → code), then 2 sign-up steps: business details, then **opening days and hours** and a pickup time that must fit inside them (decision 0011). Then straight to Hoy.
+  - **"Inicia sesión"** opens whichever side the account belongs to. The app stays signed in until you log out.
+  - Customer and business are separate accounts. To switch, use **Cerrar sesión** (Perfil or Negocio) and sign in with the other account.
+  - Warnings for numbers that can't be a Colombian mobile, a number that already has an account, or an unknown number when signing in. For now nothing is sent and any 6 digits work.
+- **Customer side**, 5 tabs built to match the design: Descubrir, Mapa, Pedidos, Favoritos, Perfil.
+- **Cancel an order** in Pedidos until the pickup window ends (decision 0010): "Cancelar pedido" shows the refund amount and asks to confirm, then the order moves to Anteriores as "Cancelado". The bag goes back on sale, so the place's "Quedan" count goes up. Pedidos also says that an order not picked up before closing time isn't refunded; such orders show as "No recogido" (decision 0008).
+- **Business side**, 4 tabs: **Hoy** (today's numbers with net sales, who's coming), **Bolsas** (your bags, +/− quantity, "Publicar hoy"), **Entregas** (hand over orders) and **Negocio** (details, hours with "Cambiar horario", language, Cerrar sesión). A new business sees "¡Bienvenidos!" with "Crear mi primera bolsa".
+- **Hand over an order** on Entregas: scan the customer's QR with the camera (asks for camera permission the first time), type their 4-digit code (confirms on the last digit), or tap "Entregar" next to their name. A green "Entregado" screen with "Deshacer" follows; a wrong code shows "Este código no coincide". For 15 minutes after an order is placed, **Cancelar · N min** lets the business cancel it (with a confirmation); its bags go back on sale (decision 0010). Orders not picked up show "No vino". To try the scan, sign in as the demo customer on a second phone and open Pedidos (code 4821).
+- **Create a bolsa** in 3 steps from Hoy → "Publicar más bolsas" or Bolsas → "Nueva bolsa": what goes in it, price (3 suggestions ending in .900), quantity and pickup time (only times inside the business's hours; closed days can't be picked) with "repeat weekly", then "¡Listo!" with a WhatsApp share. The price step shows the value and price only; Ñapita's 20 % commission isn't shown in the app (decision 0007).
+- **Colombian Spanish by default, English as an option.** Switch on the Welcome screen, Perfil or Negocio. The choice is remembered.
 - **Prices in COP** (`$12.900`), with a **USD** display option in Perfil → Moneda (`US$3,20`). Charges always stay in COP.
-- Everything uses **sample data** (`src/data/sample.ts`). There's no sign-in, checkout or backend yet.
+- Everything uses **sample data** (`src/data/sample.ts`, `src/data/business.ts`). There's no real sign-in, checkout or backend yet. Accounts are saved on the phone only.
+
+### Demo accounts
+
+Two accounts come with sample orders so there's something to look at. Tap **Inicia sesión** and use any 6 digits as the code:
+
+| Celular | Account |
+|---|---|
+| 300 000 0001 | Customer "Ana", with an order to pick up today and past orders |
+| 300 000 0002 | Business "Panadería La Espiga", with bags and today's orders |
+
+New accounts start empty.
 
 ## See it on your phone (Expo Go)
 
@@ -90,14 +105,18 @@ Claude Code can read the code, follow the team's rules and run the app for you.
 ```
 src/
 ├── app/                  Screens. Every file here is a screen (Expo Router).
-│   ├── index.tsx         Welcome
+│   ├── index.tsx         Welcome / login
+│   ├── cuenta/           Create an account or sign in, then the 6-digit code
+│   ├── negocio-nuevo/    Business sign-up: details, then opening hours
 │   ├── (customer)/       Customer tabs: descubrir, mapa, pedidos, favoritos, perfil
-│   └── (business)/       Business tabs: hoy, bolsas, entregas, negocio
+│   ├── (business)/       Business tabs: hoy, bolsas, entregas, negocio
+│   ├── nueva-bolsa/      Create a bolsa in 3 steps
+│   └── entrega/          Scan, "Entregado" and wrong-code screens
 ├── components/           Pieces shared by screens (icons, text, switches, map)
 ├── i18n/                 ALL app wording: es-CO.json (default) and en.json
 ├── lib/format.ts         $12.900, 6:00 p. m., a 1,1 km, sáb. 3 de oct.
-├── settings/             Language and currency choice
-├── data/sample.ts        Sample places, orders and favorites
+├── settings/             Accounts and sign-in, language and currency, business and order state
+├── data/                 Sample places, orders, bags (sample.ts, business.ts)
 └── theme.ts              Colors and fonts from the design
 ```
 
@@ -121,4 +140,4 @@ npm run check:i18n   # es-CO.json and en.json match, no banned words
 
 ## Not built yet
 
-Bag detail, checkout and payment (Wompi / Mercado Pago / PayU, see the docs repo), real sign-in (the screens exist but need `napita-backend`), the Negocio screen, and the business sign-up flow. See [`open-questions.md`](https://github.com/NapitaService/Napita-docs/blob/main/open-questions.md) in the docs repo.
+Bag detail, checkout and payment (Wompi / Mercado Pago / PayU, see the docs repo), real sign-in and saved data (the screens exist but need `napita-backend`), the payout account, and "Usar mi ubicación actual" at sign-up. See [`open-questions.md`](https://github.com/NapitaService/Napita-docs/blob/main/open-questions.md) in the docs repo.

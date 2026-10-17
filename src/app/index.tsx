@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -7,17 +7,25 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LogoBagIcon } from '@/components/icons';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
+import { homeFor, useAccount } from '@/settings/account';
 import { useSettings } from '@/settings/settings';
 import { colors } from '@/theme';
 
-/** Welcome screen. Design: napita-docs/design/canvas/Main.dc.html */
+/**
+ * Welcome / login screen: the only way into the app (decision 0005). Signed-in
+ * people skip it. Design: napita-docs/design/canvas/Main.dc.html
+ */
 export default function Welcome() {
   const { t } = useTranslation();
   const { language, setLanguage } = useSettings();
+  const { ready, account } = useAccount();
   const insets = useSafeAreaInsets();
 
-  const goCustomer = () => router.replace('/descubrir');
-  const goBusiness = () => router.replace('/hoy');
+  if (!ready) return null;
+  if (account) return <Redirect href={homeFor(account)} />;
+
+  const goCustomer = () => router.push({ pathname: '/cuenta', params: { tipo: 'cliente' } });
+  const goBusiness = () => router.push({ pathname: '/cuenta', params: { tipo: 'negocio' } });
 
   return (
     <View style={styles.screen}>
@@ -73,26 +81,16 @@ export default function Welcome() {
             {t('welcome.haveBusiness')}
           </Text>
         </Pressable>
-        <View style={styles.accountLinks}>
-          <View style={styles.signInRow}>
-            <Text style={styles.signInText}>{t('welcome.newHere')} </Text>
-            <Pressable accessibilityRole="link" onPress={() => router.push('/cuenta')} hitSlop={12}>
-              <Text font="bold" style={[styles.signInText, { color: colors.green }]}>
-                {t('welcome.createAccount')}
-              </Text>
-            </Pressable>
-          </View>
-          <View style={styles.signInRow}>
-            <Text style={styles.signInText}>{t('welcome.haveAccount')} </Text>
-            <Pressable
-              accessibilityRole="link"
-              onPress={() => router.push({ pathname: '/cuenta', params: { modo: 'entrar' } })}
-              hitSlop={12}>
-              <Text font="bold" style={[styles.signInText, { color: colors.green }]}>
-                {t('welcome.signIn')}
-              </Text>
-            </Pressable>
-          </View>
+        <View style={styles.signInRow}>
+          <Text style={styles.signInText}>{t('welcome.haveAccount')} </Text>
+          <Pressable
+            accessibilityRole="link"
+            onPress={() => router.push({ pathname: '/cuenta', params: { modo: 'entrar' } })}
+            hitSlop={12}>
+            <Text font="bold" style={[styles.signInText, { color: colors.green }]}>
+              {t('welcome.signIn')}
+            </Text>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -151,7 +149,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   secondaryText: { fontSize: 17, color: colors.ink },
-  accountLinks: { marginTop: 2 },
   signInRow: { flexDirection: 'row', justifyContent: 'center', minHeight: 40, alignItems: 'center' },
   signInText: { fontSize: 15, color: colors.grey },
 });

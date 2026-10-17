@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PrimaryButton } from '@/components/form';
-import { ChevronRightIcon, CoinsIcon, GlobeIcon, StorefrontIcon } from '@/components/icons';
+import { ChevronRightIcon, CoinsIcon, GlobeIcon } from '@/components/icons';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
 import { profileStats } from '@/data/sample';
@@ -31,7 +30,7 @@ export default function Profile() {
   return (
     <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
       <StatusBar style="dark" />
-      {account ? (
+      {account && (
         <View style={styles.header}>
           <View style={styles.avatar}>
             <Text font="display" style={{ fontSize: 24 }}>
@@ -46,24 +45,6 @@ export default function Profile() {
             )}
             <Text style={{ fontSize: 14, color: colors.grey }}>+57 {formatPhone(account.phone)}</Text>
           </View>
-        </View>
-      ) : (
-        <View style={styles.guest}>
-          <View style={{ gap: 4 }}>
-            <Text font="display" style={{ fontSize: 24 }}>
-              {t('profile.guestTitle')}
-            </Text>
-            <Text style={{ fontSize: 14, lineHeight: 20, color: colors.grey }}>{t('profile.guestBody')}</Text>
-          </View>
-          <PrimaryButton label={t('profile.createAccount')} onPress={() => router.push('/cuenta')} />
-          <Pressable
-            accessibilityRole="link"
-            onPress={() => router.push({ pathname: '/cuenta', params: { modo: 'entrar' } })}
-            style={styles.guestSignIn}>
-            <Text font="bold" style={{ fontSize: 15, color: colors.green }}>
-              {t('profile.signIn')}
-            </Text>
-          </Pressable>
         </View>
       )}
 
@@ -109,30 +90,18 @@ export default function Profile() {
         ))}
       </View>
 
-      <Pressable accessibilityRole="button" onPress={() => router.replace('/hoy')} style={styles.business}>
-        <StorefrontIcon color={colors.green} />
-        <View style={{ flex: 1, gap: 2 }}>
-          <Text font="bold" style={{ fontSize: 15 }}>
-            {t('profile.haveBusiness')}
-          </Text>
-          <Text style={{ fontSize: 13, color: colors.grey }}>{t('profile.switchToBusiness')}</Text>
-        </View>
-        <ChevronRightIcon size={16} color={colors.grey} />
+      {/* The only way to switch to a business account (decision 0005). */}
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => {
+          signOut();
+          router.replace('/');
+        }}
+        style={styles.signOut}>
+        <Text font="bold" style={{ fontSize: 15, color: colors.danger }}>
+          {t('profile.signOut')}
+        </Text>
       </Pressable>
-
-      {account && (
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => {
-            signOut();
-            router.replace('/');
-          }}
-          style={styles.signOut}>
-          <Text font="bold" style={{ fontSize: 15, color: colors.danger }}>
-            {t('profile.signOut')}
-          </Text>
-        </Pressable>
-      )}
     </ScrollView>
   );
 }
@@ -174,8 +143,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  guest: { backgroundColor: colors.white, borderRadius: 20, padding: 18, gap: 14 },
-  guestSignIn: { minHeight: 44, alignItems: 'center', justifyContent: 'center', marginTop: -6 },
   stats: {
     backgroundColor: colors.green,
     borderRadius: 20,
@@ -209,14 +176,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.divider,
   },
-  business: {
+  signOut: {
+    height: 48,
+    borderRadius: 14,
     backgroundColor: colors.white,
-    borderRadius: 18,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    justifyContent: 'center',
   },
-  signOut: { height: 44, alignItems: 'center', justifyContent: 'center' },
 });

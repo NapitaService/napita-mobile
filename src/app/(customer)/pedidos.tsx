@@ -49,15 +49,18 @@ export default function Orders() {
           {upcomingOrders.map((order) => (
             <UpcomingOrder key={order.id} order={order} />
           ))}
-          <View style={{ gap: 4 }}>
-            <Text font="bold" style={styles.sectionTitle}>
-              {t('orders.recent')}
-            </Text>
-            {pastOrders[0] && <PastOrder order={pastOrders[0]} />}
-          </View>
+          {pastOrders[0] && (
+            <View style={{ gap: 4 }}>
+              <Text font="bold" style={styles.sectionTitle}>
+                {t('orders.recent')}
+              </Text>
+              <PastOrder order={pastOrders[0]} />
+            </View>
+          )}
         </>
       ) : (
         <View style={{ gap: 8 }}>
+          {pastOrders.length === 0 && <Text style={styles.empty}>{t('orders.noPast')}</Text>}
           {pastOrders.map((order) => (
             <PastOrder key={order.id} order={order} />
           ))}

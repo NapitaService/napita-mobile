@@ -8,30 +8,43 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CodeBoxes } from '@/components/code-boxes';
 import { BackButton } from '@/components/form';
 import { Text } from '@/components/text';
-import { formatPhone, useAccount } from '@/settings/account';
+import { formatPhone, homeFor, useAccount, type Account } from '@/settings/account';
 import { colors } from '@/theme';
 
 const LENGTH = 6;
 
 /**
  * Enter the code sent by WhatsApp/SMS. Confirms by itself on the 6th digit
- * (design principle "Confirm automatically"). Until napita-backend exists any
- * 6 digits are accepted and nothing is really sent.
+ * (design principle "Confirm automatically"), then goes straight into the app:
+ * customers to Descubrir, new businesses to their two sign-up steps (decision 0005).
+ * Until napita-backend exists any 6 digits are accepted and nothing is really sent.
+ * Design: napita-docs/design/canvas/AccountCode.dc.html
  */
 export default function CodeScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { signIn } = useAccount();
-  const { phone = '', name = '' } = useLocalSearchParams<{ phone?: string; name?: string }>();
+  const { createAccount, findAccount, signIn } = useAccount();
+  const {
+    phone = '',
+    name = '',
+    tipo,
+  } = useLocalSearchParams<{ phone?: string; name?: string; tipo?: 'cliente' | 'negocio' }>();
   const [code, setCode] = useState('');
 
   const onChange = (digits: string) => {
     setCode(digits);
-    if (digits.length === LENGTH) {
-      signIn({ name, phone });
-      router.dismissAll();
-      router.replace('/descubrir');
+    if (digits.length !== LENGTH) return;
+    let account: Account | undefined;
+    if (tipo) {
+      account = { phone, name, type: tipo === 'negocio' ? 'business' : 'customer' };
+      createAccount(account);
+    } else {
+      account = findAccount(phone);
+      if (!account) return;
+      signIn(phone);
     }
+    router.dismissAll();
+    router.replace(homeFor(account));
   };
 
   return (

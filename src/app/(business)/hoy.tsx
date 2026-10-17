@@ -13,7 +13,10 @@ import { useFormat } from '@/lib/use-format';
 import { useBusiness } from '@/settings/business';
 import { colors } from '@/theme';
 
-/** Hoy (business dashboard). Design: napita-docs/design/canvas/ShopToday.dc.html */
+/**
+ * Hoy (business dashboard). Design: napita-docs/design/canvas/ShopToday.dc.html,
+ * and ShopTodayNew.dc.html for a new business with no bags yet.
+ */
 export default function BusinessToday() {
   const { t } = useTranslation();
   const format = useFormat();
@@ -52,61 +55,86 @@ export default function BusinessToday() {
         </View>
       </BusinessHeader>
 
-      <View style={styles.body}>
-        <View style={styles.stats}>
-          <Stat value={String(published)} label={t('business.today.published')} />
-          <Stat value={String(reserved)} label={t('business.today.reserved')} color={colors.green} />
-          <Stat value={formatCOP(sales)} label={t('business.today.sales')} small />
-        </View>
-
-        <Pressable accessibilityRole="button" onPress={newBag} style={styles.publish}>
-          <PlusIcon size={20} color={colors.white} />
-          <Text font="bold" style={{ fontSize: 16, color: colors.white }}>
-            {t('business.today.publishMore')}
-          </Text>
-        </Pressable>
-
-        <View style={{ gap: 8 }}>
-          <View style={styles.sectionHeader}>
-            <Text font="bold" style={{ fontSize: 17 }}>
-              {t('business.today.toCollect')}
+      {bags.length === 0 ? (
+        <View style={styles.body}>
+          <View style={styles.welcome}>
+            <Text font="display" style={{ fontSize: 24, lineHeight: 30 }}>
+              {t('business.today.welcome', { name: business.name })}
             </Text>
-            <Pressable accessibilityRole="link" onPress={() => router.navigate('/entregas')} hitSlop={12}>
-              <Text font="semibold" style={{ fontSize: 14, color: colors.green }}>
-                {t('business.today.seeAll')}
+            <Text style={{ fontSize: 15, lineHeight: 21, color: colors.grey }}>{t('business.today.welcomeBody')}</Text>
+            <Pressable accessibilityRole="button" onPress={newBag} style={styles.publish}>
+              <PlusIcon size={20} color={colors.white} />
+              <Text font="bold" style={{ fontSize: 16, color: colors.white }}>
+                {t('business.today.firstBag')}
               </Text>
             </Pressable>
-          </View>
-          <View style={styles.card}>
-            {pickups.map((p, i) => (
-              <View key={p.id} style={[styles.pickup, i === pickups.length - 1 && { borderBottomWidth: 0 }]}>
-                <View style={{ gap: 2 }}>
-                  <Text font="bold" style={{ fontSize: 15 }}>
-                    {p.name}
-                  </Text>
-                  <Text style={{ fontSize: 13, color: colors.grey }}>
-                    {t('business.today.pickupRow', {
-                      bags: t('business.today.bags', { count: p.quantity }),
-                      code: p.code,
-                    })}
-                  </Text>
-                </View>
-                <View style={[styles.chip, { backgroundColor: chipColors(p.status).bg }]}>
-                  <Text font="bold" style={{ fontSize: 12, color: chipColors(p.status).text }}>
-                    {p.status === 'handed_over'
-                      ? t('business.today.delivered')
-                      : isCancelled(p.status)
-                        ? t('business.today.cancelled')
-                        : p.status === 'no_show'
-                          ? t('business.today.noShow')
-                          : t('business.today.pending')}
-                  </Text>
-                </View>
-              </View>
-            ))}
+            <Text style={{ fontSize: 13, color: colors.grey, textAlign: 'center' }}>
+              {t('business.today.firstBagHint')}
+            </Text>
           </View>
         </View>
-      </View>
+      ) : (
+        <View style={styles.body}>
+          <View style={styles.stats}>
+            <Stat value={String(published)} label={t('business.today.published')} />
+            <Stat value={String(reserved)} label={t('business.today.reserved')} color={colors.green} />
+            <Stat value={formatCOP(sales)} label={t('business.today.sales')} small />
+          </View>
+
+          <Pressable accessibilityRole="button" onPress={newBag} style={styles.publish}>
+            <PlusIcon size={20} color={colors.white} />
+            <Text font="bold" style={{ fontSize: 16, color: colors.white }}>
+              {t('business.today.publishMore')}
+            </Text>
+          </Pressable>
+
+          <View style={{ gap: 8 }}>
+            <View style={styles.sectionHeader}>
+              <Text font="bold" style={{ fontSize: 17 }}>
+                {t('business.today.toCollect')}
+              </Text>
+              <Pressable accessibilityRole="link" onPress={() => router.navigate('/entregas')} hitSlop={12}>
+                <Text font="semibold" style={{ fontSize: 14, color: colors.green }}>
+                  {t('business.today.seeAll')}
+                </Text>
+              </Pressable>
+            </View>
+            <View style={styles.card}>
+              {pickups.length === 0 && (
+                <Text style={{ fontSize: 14, color: colors.grey, paddingVertical: 14 }}>
+                  {t('business.today.noPickups')}
+                </Text>
+              )}
+              {pickups.map((p, i) => (
+                <View key={p.id} style={[styles.pickup, i === pickups.length - 1 && { borderBottomWidth: 0 }]}>
+                  <View style={{ gap: 2 }}>
+                    <Text font="bold" style={{ fontSize: 15 }}>
+                      {p.name}
+                    </Text>
+                    <Text style={{ fontSize: 13, color: colors.grey }}>
+                      {t('business.today.pickupRow', {
+                        bags: t('business.today.bags', { count: p.quantity }),
+                        code: p.code,
+                      })}
+                    </Text>
+                  </View>
+                  <View style={[styles.chip, { backgroundColor: chipColors(p.status).bg }]}>
+                    <Text font="bold" style={{ fontSize: 12, color: chipColors(p.status).text }}>
+                      {p.status === 'handed_over'
+                        ? t('business.today.delivered')
+                        : isCancelled(p.status)
+                          ? t('business.today.cancelled')
+                          : p.status === 'no_show'
+                            ? t('business.today.noShow')
+                            : t('business.today.pending')}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -122,7 +150,12 @@ function Stat({ value, label, color, small }: { value: string; label: string; co
     <View style={styles.stat}>
       <Text
         font="display"
-        style={{ fontSize: small ? 19 : 28, lineHeight: 34, letterSpacing: small ? -0.4 : 0, color: color ?? colors.ink }}
+        style={{
+          fontSize: small ? 19 : 28,
+          lineHeight: 34,
+          letterSpacing: small ? -0.4 : 0,
+          color: color ?? colors.ink,
+        }}
         numberOfLines={1}
         adjustsFontSizeToFit>
         {value}
@@ -144,8 +177,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   body: { paddingTop: 18, paddingHorizontal: 20, gap: 16 },
+  welcome: { backgroundColor: colors.white, borderRadius: 20, padding: 18, gap: 12 },
   stats: { flexDirection: 'row', gap: 10 },
-  stat: { flex: 1, backgroundColor: colors.white, borderRadius: 16, paddingVertical: 14, paddingHorizontal: 12, gap: 2 },
+  stat: {
+    flex: 1,
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    gap: 2,
+  },
   publish: {
     height: 54,
     borderRadius: 16,

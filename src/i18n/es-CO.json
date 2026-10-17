@@ -11,9 +11,7 @@
     "seePlaces": "Ver lugares cerca de mí",
     "haveBusiness": "Tengo un negocio",
     "haveAccount": "¿Ya tienes cuenta?",
-    "signIn": "Inicia sesión",
-    "newHere": "¿Primera vez aquí?",
-    "createAccount": "Crea tu cuenta"
+    "signIn": "Inicia sesión"
   },
   "account": {
     "back": "Atrás",
@@ -44,7 +42,12 @@
     "phoneTooShort_other": "Le faltan {{count}} dígitos al número.",
     "phoneEmpty": "Escribe tu número de celular.",
     "nameMissing": "Escribe tu nombre.",
-    "warning": "Atención"
+    "warning": "Atención",
+    "businessTitle": "Registra tu negocio",
+    "businessSubtitle": "Empieza con el celular del negocio. Con él inicias sesión y te contactan los clientes.",
+    "businessPhone": "Celular del negocio",
+    "phoneTaken": "Ya hay una cuenta con este número. Inicia sesión con él.",
+    "phoneUnknown": "No hay ninguna cuenta con este número. Revísalo o crea una cuenta."
   },
   "tabs": {
     "discover": "Descubrir",
@@ -124,7 +127,8 @@
     "confirmCancel": "Sí, cancelar",
     "pastRowCancelled": "{{date}} · {{price}} · Cancelado",
     "noShowRule": "Si no la recoges antes de que cierren ({{time}}), no hay reembolso.",
-    "pastRowNoShow": "{{date}} · {{price}} · No recogido"
+    "pastRowNoShow": "{{date}} · {{price}} · No recogido",
+    "noPast": "Aquí verás tus pedidos anteriores."
   },
   "favorites": {
     "title": "Favoritos",
@@ -134,7 +138,8 @@
     "bagsToday_many": "{{count}} bolsas hoy · {{window}}",
     "bagsToday_other": "{{count}} bolsas hoy · {{window}}",
     "notPostedYet": "Todavía no ha publicado hoy",
-    "usuallyPosts": "Suele publicar cerca de las {{time}}"
+    "usuallyPosts": "Suele publicar cerca de las {{time}}",
+    "empty": "Todavía no tienes lugares favoritos."
   },
   "profile": {
     "bagsCollected": "Bolsas recogidas",
@@ -148,13 +153,7 @@
     "notifications": "Notificaciones",
     "location": "Ubicación",
     "helpPrivacy": "Ayuda y privacidad",
-    "haveBusiness": "¿Tienes un negocio?",
-    "switchToBusiness": "Cambiar a modo negocio",
-    "signOut": "Cerrar sesión",
-    "guestTitle": "Crea tu cuenta",
-    "guestBody": "Para reservar bolsas, guardar favoritos y ver tus pedidos.",
-    "createAccount": "Crear cuenta",
-    "signIn": "Ya tengo cuenta"
+    "signOut": "Cerrar sesión"
   },
   "business": {
     "badge": "Modo negocio",
@@ -175,7 +174,12 @@
       "pending": "Pendiente",
       "delivered": "Entregado",
       "cancelled": "Cancelado",
-      "noShow": "No vino"
+      "noShow": "No vino",
+      "welcome": "¡Bienvenidos, {{name}}!",
+      "welcomeBody": "Estás a un paso de recibir tus primeros pedidos.",
+      "firstBag": "Crear mi primera bolsa",
+      "firstBagHint": "Toma un minuto",
+      "noPickups": "Todavía no hay pedidos hoy."
     },
     "bags": {
       "title": "Tus bolsas",
@@ -195,7 +199,8 @@
       "tip": "Consejo: pon el valor real de lo que va en la bolsa y fija el precio en más o menos un tercio. Los clientes descubren qué trae al recogerla.",
       "deliveredCount_one": "{{count}} entregada",
       "deliveredCount_many": "{{count}} entregadas",
-      "deliveredCount_other": "{{count}} entregadas"
+      "deliveredCount_other": "{{count}} entregadas",
+      "empty": "Todavía no tienes bolsas. Crea la primera y la publicamos hoy mismo."
     },
     "pickups": {
       "title": "Entregas",
@@ -223,9 +228,15 @@
     },
     "profile": {
       "title": "Tu negocio",
-      "body": "Datos del negocio, horarios y cuenta para recibir pagos."
+      "details": "Datos del negocio",
+      "hours": "Horario",
+      "open": "{{days}}, {{from}} a {{to}}",
+      "pickup": "Entregas: {{window}}",
+      "changeHours": "Cambiar horario",
+      "signOut": "Cerrar sesión",
+      "signOutHint": "Para usar la app como cliente, cierra sesión y entra con una cuenta de cliente.",
+      "more": "Pronto: cuenta para recibir pagos y más ajustes."
     },
-    "switchToCustomer": "Cambiar a modo cliente",
     "scanner": {
       "title": "Escanea el código del cliente",
       "hint": "Apunta al código QR en el celular del cliente. Se confirma solo, sin tocar nada más.",
@@ -269,7 +280,7 @@
     "title": "Nueva bolsa",
     "close": "Cerrar",
     "back": "Atrás",
-    "step": "{{step}} de 3",
+    "step": "{{step}} de {{total}}",
     "next": "Siguiente",
     "typeTitle": "¿Qué va en la bolsa?",
     "typeSubtitle": "Elige lo que más se parezca. El contenido exacto es sorpresa.",
@@ -340,5 +351,46 @@
     "dairy": "Lácteos",
     "egg": "Huevo",
     "nuts": "Frutos secos"
+  },
+  "signup": {
+    "heading": "Registra tu negocio",
+    "editHeading": "Tu horario",
+    "continue": "Continuar",
+    "create": "Crear mi negocio",
+    "save": "Guardar",
+    "detailsTitle": "Cuéntanos de tu negocio",
+    "detailsSubtitle": "Así te encuentran los clientes. Toma menos de 2 minutos.",
+    "name": "Nombre del negocio",
+    "namePlaceholder": "Ej.: Panadería La Espiga",
+    "nameMissing": "Escribe el nombre del negocio.",
+    "typeLabel": "¿Qué tipo de negocio es?",
+    "types": {
+      "bakery": "Panadería",
+      "restaurant": "Restaurante",
+      "cafe": "Café",
+      "pastry": "Pastelería",
+      "market": "Mercado",
+      "other": "Otro"
+    },
+    "address": "Dirección",
+    "addressPlaceholder": "Ej.: Cra. 13 #85-32, Bogotá",
+    "addressMissing": "Escribe la dirección del negocio.",
+    "phone": "Celular del negocio",
+    "phoneHint": "Es el número con el que creaste la cuenta. Los clientes lo ven para contactarte.",
+    "hoursTitle": "¿Cuándo abren y cuándo pueden pasar a recoger?",
+    "hoursSubtitle": "La hora de entrega casi siempre es la última antes de cerrar. Después la puedes cambiar en cada bolsa.",
+    "days": "Días que abren",
+    "noDays": "Elige al menos un día.",
+    "openingHours": "Horario de atención",
+    "opens": "Abre",
+    "closes": "Cierra",
+    "earlier": "{{label}}: más temprano",
+    "later": "{{label}}: más tarde",
+    "tooShort": "Cierra al menos una hora después de abrir.",
+    "closesHint": "Los pedidos que no se recojan antes de las {{time}} cuentan como no recogidos.",
+    "pickupWindow": "Horario de entregas",
+    "otherWindow": "Elegir otro horario",
+    "pickupHint": "Siempre dentro de tu horario de atención.",
+    "paymentsLater": "Los datos de pago los agregas después, antes de tu primera venta. No necesitas tenerlos ahora."
   }
 }

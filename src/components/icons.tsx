@@ -206,3 +206,11 @@ export const CardIcon = (p: IconProps) => (
     <Path d="M3 10h18M7 15h3" />
   </Icon>
 );
+
+/** From ShopOnboardHours ("Los datos de pago los agregas después"). */
+export const InfoIcon = (p: IconProps) => (
+  <Icon strokeWidth={1.9} {...p}>
+    <Circle cx="12" cy="12" r="9" />
+    <Path d="M12 11v5M12 8h.01" />
+  </Icon>
+);

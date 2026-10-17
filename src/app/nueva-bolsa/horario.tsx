@@ -6,24 +6,30 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { BagStep, Option, StepTitle } from '@/components/bag-step';
 import { Text } from '@/components/text';
 import { Toggle } from '@/components/toggle';
-import { PICKUP_WINDOWS } from '@/data/business';
+import { nearbyWindows, pickupWindowsFor } from '@/data/business';
 import { formatCOP, formatDays, WEEKDAY_INITIALS, weekdayName } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
 import { useBusiness } from '@/settings/business';
 import { useSettings } from '@/settings/settings';
 import { colors, MIN_TOUCH } from '@/theme';
 
-/** Nueva bolsa, step 3: how many and when. Design: napita-docs/design/canvas/BagStep3Schedule.dc.html */
+/**
+ * Nueva bolsa, step 3: how many and when. Pickup times and days stay inside the
+ * business's opening hours (decision 0011).
+ * Design: napita-docs/design/canvas/BagStep3Schedule.dc.html
+ */
 export default function BagStepSchedule() {
   const { t } = useTranslation();
   const format = useFormat();
   const { language } = useSettings();
-  const { draft, updateDraft, publishDraft } = useBusiness();
+  const { business, draft, updateDraft, publishDraft } = useBusiness();
 
+  const allWindows = pickupWindowsFor(business.opens, business.closes);
   const isSelected = ([from, to]: [string, string]) => from === draft.from && to === draft.to;
-  // "Otro" reveals more windows. Open it already if the chosen one is among them.
-  const [showMore, setShowMore] = useState(() => PICKUP_WINDOWS.slice(3).some(isSelected));
-  const windows = showMore ? PICKUP_WINDOWS : PICKUP_WINDOWS.slice(0, 3);
+  // Three windows around the business's usual one; "Otro" shows every window inside the hours.
+  const [showMore, setShowMore] = useState(false);
+  const windows = showMore ? allWindows : nearbyWindows(allWindows, business.pickupFrom, 3);
+  if (!showMore && !windows.some(isSelected) && allWindows.some(isSelected)) setShowMore(true);
 
   const toggleDay = (day: number) =>
     updateDraft({ days: draft.days.includes(day) ? draft.days.filter((d) => d !== day) : [...draft.days, day] });
@@ -118,14 +124,17 @@ export default function BagStepSchedule() {
           <View style={styles.days} accessibilityLabel={t('newBag.daysLabel')}>
             {WEEKDAY_INITIALS[language].map((initial, day) => {
               const on = draft.days.includes(day);
+              // Days the business is closed can't be chosen.
+              const closed = !business.openDays.includes(day);
               return (
                 <Pressable
                   key={day}
                   accessibilityRole="checkbox"
                   accessibilityLabel={weekdayName(day, language)}
-                  accessibilityState={{ checked: on }}
+                  accessibilityState={{ checked: on, disabled: closed }}
+                  disabled={closed}
                   onPress={() => toggleDay(day)}
-                  style={[styles.day, on ? styles.dayOn : styles.dayOff]}>
+                  style={[styles.day, on ? styles.dayOn : styles.dayOff, closed && { opacity: 0.35 }]}>
                   <Text font="bold" style={{ fontSize: 15, color: on ? colors.white : colors.ink }}>
                     {initial}
                   </Text>

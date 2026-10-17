@@ -47,6 +47,8 @@ export default function RootLayout() {
               <Stack.Screen name="(business)" options={{ animation: 'fade' }} />
               <Stack.Screen name="cuenta/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
               <Stack.Screen name="cuenta/codigo" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen name="negocio-nuevo/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
+              <Stack.Screen name="negocio-nuevo/horario" options={{ contentStyle: { backgroundColor: colors.white } }} />
               <Stack.Screen name="nueva-bolsa/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
               <Stack.Screen name="nueva-bolsa/precio" options={{ contentStyle: { backgroundColor: colors.white } }} />
               <Stack.Screen name="nueva-bolsa/horario" options={{ contentStyle: { backgroundColor: colors.white } }} />
@@ -67,3 +69,4 @@ export default function RootLayout() {
     </SettingsProvider>
   );
 }
+

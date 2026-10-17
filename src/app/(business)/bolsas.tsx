@@ -39,6 +39,9 @@ export default function BusinessBags() {
         </Pressable>
       </View>
 
+      {bags.length === 0 && (
+        <Text style={{ fontSize: 15, lineHeight: 21, color: colors.grey }}>{t('business.bags.empty')}</Text>
+      )}
       {bags.map((bag) => (
         <BagCard key={bag.id} bag={bag} />
       ))}
