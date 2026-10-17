@@ -30,13 +30,15 @@ export default function Discover() {
   const [query, setQuery] = useState('');
 
   const places = usePlaces();
-  const visible = places.filter((p) => {
-    if (p.left === 0) return false;
+  const matches = places.filter((p) => {
     if (filter !== 'all' && p.category !== filter) return false;
     if (!query.trim()) return true;
     const haystack = normalize(`${p.name} ${t(`categories.${p.category}`)} ${t(`bagKinds.${p.category}`)}`);
     return haystack.includes(normalize(query.trim()));
   });
+  const visible = matches.filter((p) => p.offeringToday && p.left > 0);
+  // Businesses that turned off "Recibiendo pedidos hoy" still show, saying so (decision 0014).
+  const notToday = matches.filter((p) => !p.offeringToday);
   const featured = visible.filter((p) => p.featured);
   const lastOfTheDay = visible.filter((p) => !p.featured).sort((a, b) => a.pickupTo.localeCompare(b.pickupTo));
 
@@ -100,7 +102,7 @@ export default function Discover() {
         })}
       </ScrollView>
 
-      {visible.length === 0 && <Text style={styles.empty}>{t('discover.noResults')}</Text>}
+      {visible.length === 0 && notToday.length === 0 && <Text style={styles.empty}>{t('discover.noResults')}</Text>}
 
       {featured.length > 0 && (
         <View style={{ gap: 12 }}>
@@ -122,7 +124,7 @@ export default function Discover() {
         </View>
       )}
 
-      {lastOfTheDay.length > 0 && (
+      {lastOfTheDay.length + notToday.length > 0 && (
         <View style={{ paddingHorizontal: 20, gap: 10 }}>
           <Text font="bold" style={styles.sectionTitle}>
             {t('discover.lastOfTheDay')}
@@ -147,6 +149,29 @@ export default function Discover() {
               <Text font="extrabold" style={{ fontSize: 16, color: colors.green }}>
                 {format.price(place.price)}
               </Text>
+            </View>
+          ))}
+          {notToday.map((place) => (
+            <View
+              key={place.id}
+              style={styles.row}
+              accessible
+              accessibilityLabel={`${place.name}. ${t('common.notOfferingToday')}`}>
+              <BagImage
+                photo={place.photo}
+                logo={place.logo}
+                businessName={place.name}
+                tint={place.tint}
+                style={[styles.rowPhoto, { opacity: 0.45 }]}
+              />
+              <View style={{ flex: 1, gap: 2 }}>
+                <Text font="bold" style={{ fontSize: 15, color: colors.grey }}>
+                  {place.name}
+                </Text>
+                <Text font="semibold" style={{ fontSize: 13, color: colors.grey }}>
+                  {t('common.notOfferingToday')}
+                </Text>
+              </View>
             </View>
           ))}
         </View>

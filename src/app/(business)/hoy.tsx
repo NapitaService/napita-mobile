@@ -43,7 +43,7 @@ export default function BusinessToday() {
               {t('business.today.receiving')}
             </Text>
             <Text style={{ fontSize: 13, color: colors.white, opacity: 0.8 }}>
-              {t('business.today.pickupWindow', window)}
+              {receivingOrders ? t('business.today.pickupWindow', window) : t('business.today.notReceiving')}
             </Text>
           </View>
           <Toggle

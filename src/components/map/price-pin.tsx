@@ -6,17 +6,18 @@ import type { Place } from '@/data/sample';
 import { useFormat } from '@/lib/use-format';
 import { colors } from '@/theme';
 
-/** Price bubble on the map. Green when selected, "Agotado" when sold out. */
+/** Price bubble on the map. Green when selected, "Agotado" when sold out, "Sin bolsas hoy" when the business is off today. */
 export function PricePin({ place, selected }: { place: Place; selected: boolean }) {
   const { t } = useTranslation();
   const format = useFormat();
-  const soldOut = place.left === 0;
+  const off = !place.offeringToday;
+  const soldOut = place.left === 0 || off;
   return (
     <View style={[styles.pin, selected && styles.selected]}>
       <Text
         font={soldOut ? 'semibold' : 'bold'}
         style={{ fontSize: 13, color: selected ? colors.white : soldOut ? colors.grey : colors.ink }}>
-        {soldOut ? t('common.soldOut') : format.price(place.price)}
+        {off ? t('common.notOfferingTodayShort') : soldOut ? t('common.soldOut') : format.price(place.price)}
       </Text>
     </View>
   );

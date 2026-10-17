@@ -8,6 +8,7 @@ import { BagImage } from '@/components/bag-image';
 import { BellIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { favorites, getPlace, type FavoriteStatus } from '@/data/sample';
+import { usePlaces } from '@/settings/orders';
 import { useFormat } from '@/lib/use-format';
 import { useAccount } from '@/settings/account';
 import { colors, MIN_TOUCH } from '@/theme';
@@ -18,6 +19,7 @@ export default function Favorites() {
   const format = useFormat();
   const insets = useSafeAreaInsets();
   const { account } = useAccount();
+  const places = usePlaces();
   // Sample favorites for the demo customer only; new customers start with none.
   const saved = account?.demo ? favorites : [];
   const [bells, setBells] = useState(() => Object.fromEntries(favorites.map((f) => [f.placeId, f.bell])));
@@ -46,9 +48,11 @@ export default function Favorites() {
       <View>
         {saved.length === 0 && <Text style={styles.intro}>{t('favorites.empty')}</Text>}
         {saved.map(({ placeId, status }) => {
-          const place = getPlace(placeId);
+          const place = places.find((p) => p.id === placeId) ?? getPlace(placeId);
           const on = bells[placeId];
-          const available = status.type === 'bagsToday';
+          // A business that turned off "Recibiendo pedidos hoy" says so (decision 0014).
+          const off = !place.offeringToday;
+          const available = !off && status.type === 'bagsToday';
           return (
             <View key={placeId} style={styles.row}>
               <BagImage
@@ -68,7 +72,7 @@ export default function Favorites() {
                 <Text
                   font={available ? 'bold' : 'regular'}
                   style={[styles.secondary, available && { color: colors.green }]}>
-                  {statusText(status)}
+                  {off ? t('common.notOfferingToday') : statusText(status)}
                 </Text>
               </View>
               <Pressable

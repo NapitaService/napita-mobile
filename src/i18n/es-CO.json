@@ -65,7 +65,9 @@
     "left_one": "Queda {{count}}",
     "left_many": "Quedan {{count}}",
     "left_other": "Quedan {{count}}",
-    "soldOut": "Agotado"
+    "soldOut": "Agotado",
+    "notOfferingToday": "Hoy no ofrece bolsas",
+    "notOfferingTodayShort": "Sin bolsas hoy"
   },
   "categories": {
     "all": "Todo",
@@ -118,7 +120,7 @@
     "rate": "Calificar",
     "noUpcoming": "No tienes pedidos próximos.",
     "cancel": "Cancelar pedido",
-    "cancelClosed": "Ya no puedes cancelar este pedido: el horario de recogida terminó a las {{time}}.",
+    "cancelClosed": "Ya no puedes cancelar este pedido: el horario de recogida empezó a las {{time}}.",
     "confirmTitle": "¿Cancelar tu pedido?",
     "confirmBody": "{{quantity}} × {{kind}} en {{place}}. Te devolvemos {{refund}}.",
     "keep": "No, mantenerlo",
@@ -178,7 +180,8 @@
       "welcomeBody": "Estás a un paso de recibir tus primeros pedidos.",
       "firstBag": "Crear mi primera bolsa",
       "firstBagHint": "Toma un minuto",
-      "noPickups": "Todavía no hay pedidos hoy."
+      "noPickups": "Todavía no hay pedidos hoy.",
+      "notReceiving": "Apagado: los clientes ven que hoy no ofreces bolsas"
     },
     "bags": {
       "title": "Tus bolsas",

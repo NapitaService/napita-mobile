@@ -13,6 +13,7 @@ import {
 } from '@/data/business';
 import { isCancelled, type OrderStatus } from '@/data/sample';
 import { DEFAULT_HOURS, useAccount, type BusinessProfile } from '@/settings/account';
+import { useToday } from '@/settings/today';
 
 /** The bag being created in the "Nueva bolsa" flow. */
 export type BagDraft = {
@@ -86,7 +87,12 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
   const business = account?.business ?? NO_BUSINESS;
   const [bags, setBags] = useState(() => (demo ? sampleBags : []));
   const [pickups, setPickups] = useState(() => (demo ? samplePickups : []));
-  const [receivingOrders, setReceivingOrders] = useState(true);
+  const { offToday, setOffToday } = useToday();
+  const receivingOrders = !offToday.includes(business.name);
+  const setReceivingOrders = useCallback(
+    (on: boolean) => setOffToday(business.name, !on),
+    [business.name, setOffToday],
+  );
   const [draft, setDraft] = useState(() => newDraft(business));
 
   // Start over when someone else signs in.
@@ -95,7 +101,6 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
     setOwner(account?.phone);
     setBags(demo ? sampleBags : []);
     setPickups(demo ? samplePickups : []);
-    setReceivingOrders(true);
   }
 
   const countsFor = useCallback(
@@ -107,7 +112,7 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
         delivered: forBag.filter((p) => p.status === 'handed_over').reduce((sum, p) => sum + p.quantity, 0),
       };
     },
-    [pickups]
+    [pickups],
   );
 
   // Never below what customers already reserved.
@@ -116,7 +121,7 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
       const min = countsFor(id).reserved;
       setBags((all) => all.map((b) => (b.id === id ? { ...b, quantity: Math.min(50, Math.max(min, quantity)) } : b)));
     },
-    [countsFor]
+    [countsFor],
   );
 
   const setStatus = (pickupId: string, status: OrderStatus) =>
@@ -135,12 +140,9 @@ export function BusinessProvider({ children }: { children: ReactNode }) {
   const publishDraft = useCallback(
     (name: string) => {
       const { customName: _, ...bag } = draft;
-      setBags((all) => [
-        { ...bag, id: `bag-${Date.now()}`, name, usualQuantity: bag.quantity, live: true },
-        ...all,
-      ]);
+      setBags((all) => [{ ...bag, id: `bag-${Date.now()}`, name, usualQuantity: bag.quantity, live: true }, ...all]);
     },
-    [draft]
+    [draft],
   );
 
   return (

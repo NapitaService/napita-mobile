@@ -98,6 +98,8 @@ function PlaceCard({ place, onReserve, floating }: { place: Place; onReserve: ()
   const format = useFormat();
   const window = format.windowParts(place.pickupFrom, place.pickupTo);
   const soldOut = place.left === 0;
+  // "Recibiendo pedidos hoy" is off: no bags and no Reservar (decision 0014).
+  const off = !place.offeringToday;
 
   return (
     <View style={[styles.card, floating && styles.cardFloating]}>
@@ -114,20 +116,32 @@ function PlaceCard({ place, onReserve, floating }: { place: Place; onReserve: ()
             <Text font="bold" style={{ fontSize: 17, flexShrink: 1 }} numberOfLines={1}>
               {place.name}
             </Text>
-            <Text font="bold" style={{ fontSize: 12, color: soldOut ? colors.grey : colors.orange }}>
-              {soldOut ? t('common.soldOut') : t('common.left', { count: place.left })}
+            <Text font="bold" style={{ fontSize: 12, color: soldOut || off ? colors.grey : colors.orange }}>
+              {off
+                ? t('common.notOfferingTodayShort')
+                : soldOut
+                  ? t('common.soldOut')
+                  : t('common.left', { count: place.left })}
             </Text>
           </View>
           <Text style={styles.secondary}>
             {t(`bagKinds.${place.category}`)} · {format.distanceAway(place.distance)}
           </Text>
-          <Text style={styles.secondary}>{t('map.pickUpToday', window)}</Text>
-          <Text font="extrabold" style={{ fontSize: 18, color: colors.green, marginTop: 2 }}>
-            {format.price(place.price)}
-          </Text>
+          {off ? (
+            <Text font="semibold" style={[styles.secondary, { marginTop: 2 }]}>
+              {t('common.notOfferingToday')}
+            </Text>
+          ) : (
+            <>
+              <Text style={styles.secondary}>{t('map.pickUpToday', window)}</Text>
+              <Text font="extrabold" style={{ fontSize: 18, color: colors.green, marginTop: 2 }}>
+                {format.price(place.price)}
+              </Text>
+            </>
+          )}
         </View>
       </View>
-      {!soldOut && (
+      {!soldOut && !off && (
         <Pressable accessibilityRole="button" onPress={onReserve} style={styles.reserve}>
           <Text font="bold" style={{ fontSize: 16, color: colors.white }}>
             {t('map.reserve')}

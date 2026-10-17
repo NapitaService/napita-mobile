@@ -63,7 +63,9 @@
     "distanceAway": "{{distance}} away",
     "left_one": "{{count}} left",
     "left_other": "{{count}} left",
-    "soldOut": "Sold out"
+    "soldOut": "Sold out",
+    "notOfferingToday": "Not offering bags today",
+    "notOfferingTodayShort": "No bags today"
   },
   "categories": {
     "all": "All",
@@ -116,7 +118,7 @@
     "rate": "Rate",
     "noUpcoming": "You have no upcoming orders.",
     "cancel": "Cancel order",
-    "cancelClosed": "You can no longer cancel this order: the pickup window ended at {{time}}.",
+    "cancelClosed": "You can no longer cancel this order: the pickup window started at {{time}}.",
     "confirmTitle": "Cancel your order?",
     "confirmBody": "{{quantity}} × {{kind}} at {{place}}. We refund {{refund}}.",
     "keep": "No, keep it",
@@ -174,7 +176,8 @@
       "welcomeBody": "You're one step away from your first orders.",
       "firstBag": "Create my first bag",
       "firstBagHint": "Takes a minute",
-      "noPickups": "No orders yet today."
+      "noPickups": "No orders yet today.",
+      "notReceiving": "Off: customers see you're not offering bags today"
     },
     "bags": {
       "title": "Your bags",

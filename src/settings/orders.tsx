@@ -10,6 +10,7 @@ import {
 } from '@/data/sample';
 import { todayISO } from '@/lib/format';
 import { useAccount } from '@/settings/account';
+import { useToday } from '@/settings/today';
 
 type OrdersState = {
   upcoming: UpcomingOrder[];
@@ -50,14 +51,26 @@ export function OrdersProvider({ children }: { children: ReactNode }) {
       setUpcoming((all) => all.filter((o) => o.id !== id));
       setReturned((r) => ({ ...r, [order.placeId]: (r[order.placeId] ?? 0) + order.quantity }));
       setPast((all) => [
-        { id, placeId: order.placeId, date: todayISO(), paid: order.paid, status: 'cancelled_by_customer', rated: false },
+        {
+          id,
+          placeId: order.placeId,
+          date: todayISO(),
+          paid: order.paid,
+          status: 'cancelled_by_customer',
+          rated: false,
+        },
         ...all,
       ]);
     },
-    [upcoming]
+    [upcoming],
   );
 
-  const places = samplePlaces.map((p) => (returned[p.id] ? { ...p, left: p.left + returned[p.id] } : p));
+  const { offToday } = useToday();
+  const places = samplePlaces.map((p) => ({
+    ...p,
+    left: p.left + (returned[p.id] ?? 0),
+    offeringToday: p.offeringToday && !offToday.includes(p.name),
+  }));
 
   return <OrdersContext.Provider value={{ upcoming, past, cancelOrder, places }}>{children}</OrdersContext.Provider>;
 }

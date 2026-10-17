@@ -23,6 +23,11 @@ export type Place = {
   closes: string;
   /** Shown in "Para recoger hoy" on Descubrir. */
   featured: boolean;
+  /**
+   * False when the business turned off "Recibiendo pedidos hoy": customers see
+   * the place's card saying it isn't offering bags today, and can't reserve.
+   */
+  offeringToday: boolean;
   /** First photo of today's bag, if the business added one. */
   photo?: string;
   /** The business's logo, shown when the bag has no photo (decision 0013). */
@@ -50,6 +55,7 @@ export const places: Place[] = [
     pickupTo: '19:00',
     closes: '21:00',
     featured: true,
+    offeringToday: true,
     tint: '#F6E3C4',
     latitude: 4.6697,
     longitude: -74.0535,
@@ -66,6 +72,7 @@ export const places: Place[] = [
     pickupTo: '21:00',
     closes: '22:00',
     featured: true,
+    offeringToday: true,
     tint: '#D7EADB',
     latitude: 4.6612,
     longitude: -74.0503,
@@ -82,6 +89,7 @@ export const places: Place[] = [
     pickupTo: '17:30',
     closes: '19:00',
     featured: false,
+    offeringToday: true,
     tint: '#E3E8F4',
     latitude: 4.6728,
     longitude: -74.0598,
@@ -98,6 +106,7 @@ export const places: Place[] = [
     pickupTo: '18:00',
     closes: '19:00',
     featured: false,
+    offeringToday: true,
     tint: '#F2DCD3',
     latitude: 4.6602,
     longitude: -74.0611,
@@ -114,6 +123,7 @@ export const places: Place[] = [
     pickupTo: '19:15',
     closes: '21:00',
     featured: false,
+    offeringToday: true,
     tint: '#EFE6C9',
     latitude: 4.6706,
     longitude: -74.0551,
@@ -130,9 +140,28 @@ export const places: Place[] = [
     pickupTo: '20:00',
     closes: '21:00',
     featured: false,
+    offeringToday: true,
     tint: '#DDE8D0',
     latitude: 4.6638,
     longitude: -74.0516,
+  },
+  {
+    id: 'dulce-hora',
+    name: 'Pastelería Dulce Hora',
+    category: 'bakery',
+    address: 'Cl. 81 #11-40, Bogotá',
+    distance: 650,
+    price: 11900,
+    left: 0,
+    pickupFrom: '18:00',
+    pickupTo: '19:00',
+    closes: '20:00',
+    featured: false,
+    // Turned off "Recibiendo pedidos hoy" (sample).
+    offeringToday: false,
+    tint: '#F2DCD3',
+    latitude: 4.6671,
+    longitude: -74.0531,
   },
 ];
 
@@ -141,7 +170,6 @@ export function getPlace(id: string) {
   if (!place) throw new Error(`Unknown sample place: ${id}`);
   return place;
 }
-
 
 /**
  * Card payment fee deducted from refunds (napita-docs/decisions/0010).
@@ -156,22 +184,17 @@ export function refundAmount(paid: number) {
   return Math.max(0, paid - fee);
 }
 
-function toMinutes(time: string) {
-  const [h, m] = time.split(':').map(Number);
-  return h * 60 + m;
-}
-
 /**
- * Customers can cancel until the pickup window ends (decision 0010). The
+ * Customers can cancel until the pickup window begins (decision 0010). The
  * deadline will come from a napita-backend setting.
  */
-export function cancelDeadline(pickupTo: string) {
-  return pickupTo;
+export function cancelDeadline(pickupFrom: string) {
+  return pickupFrom;
 }
 
 /** Whether an order whose window starts in `startsInMinutes` can still be cancelled. */
-export function canStillCancel(startsInMinutes: number, pickupFrom: string, pickupTo: string) {
-  return startsInMinutes + (toMinutes(pickupTo) - toMinutes(pickupFrom)) > 0;
+export function canStillCancel(startsInMinutes: number) {
+  return startsInMinutes > 0;
 }
 
 /**
@@ -220,6 +243,7 @@ export type FavoriteStatus =
   | { type: 'usuallyPosts'; time: string };
 
 export const favorites: { placeId: string; bell: boolean; status: FavoriteStatus }[] = [
+  { placeId: 'dulce-hora', bell: true, status: { type: 'notPostedYet' } },
   { placeId: 'la-espiga', bell: true, status: { type: 'bagsToday', count: 3, from: '18:00', to: '19:00' } },
   { placeId: 'cocina-verde', bell: true, status: { type: 'bagsToday', count: 1, from: '20:30', to: '21:00' } },
   { placeId: 'el-rincon', bell: false, status: { type: 'notPostedYet' } },

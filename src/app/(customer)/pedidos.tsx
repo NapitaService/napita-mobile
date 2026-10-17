@@ -85,8 +85,8 @@ function UpcomingOrder({ order }: { order: UpcomingOrderType }) {
   const { cancelOrder } = useOrders();
   const [confirming, setConfirming] = useState(false);
   const place = getPlace(order.placeId);
-  const deadline = format.time(cancelDeadline(place.pickupTo));
-  const canCancel = canStillCancel(order.startsInMinutes, place.pickupFrom, place.pickupTo);
+  const deadline = format.time(cancelDeadline(place.pickupFrom));
+  const canCancel = canStillCancel(order.startsInMinutes);
 
   const openDirections = () => {
     const { latitude: lat, longitude: lng } = place;
@@ -170,7 +170,7 @@ function UpcomingOrder({ order }: { order: UpcomingOrderType }) {
           {t('orders.noShowRule', { time: format.time(place.closes) })}
         </Text>
 
-        {/* Cancel until the pickup window ends (napita-docs/decisions/0010). */}
+        {/* Cancel until the pickup window begins (napita-docs/decisions/0010). */}
         {!canCancel ? (
           <Text style={[styles.secondary, { lineHeight: 18 }]}>{t('orders.cancelClosed', { time: deadline })}</Text>
         ) : confirming ? (
