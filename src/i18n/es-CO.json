@@ -438,7 +438,7 @@
     "documentType": "Tipo de documento",
     "documentPlaceholder": "Número de documento",
     "documentInvalid": "Revisa el número de documento: debe tener entre 5 y 12 dígitos.",
-    "info": "La cuenta debe estar a nombre del negocio o de su dueño. Revisa bien los datos: si están mal, el pago no llega.",
+    "info": "La cuenta debe estar a nombre del negocio o de su dueño. Al guardarla te enviamos $300 de prueba para verificarla.",
     "save": "Guardar cuenta",
     "summaryBank": "{{bank}} · {{type}} · terminada en {{last}}",
     "summaryNequi": "Nequi · celular terminado en {{last}}",

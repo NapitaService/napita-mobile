@@ -429,7 +429,7 @@
     "documentType": "ID type",
     "documentPlaceholder": "ID number",
     "documentInvalid": "Check the ID number: it must have 5 to 12 digits.",
-    "info": "The account must be in the name of the business or its owner. Check the details carefully: if they're wrong, the payment won't arrive.",
+    "info": "The account must be in the name of the business or its owner. When you save it, we send a $300 test transfer to check it.",
     "save": "Save account",
     "summaryBank": "{{bank}} · {{type}} · ending in {{last}}",
     "summaryNequi": "Nequi · mobile ending in {{last}}",
