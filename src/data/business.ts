@@ -141,6 +141,17 @@ export const samplePickups: Pickup[] = [
 ];
 
 /**
+ * Ñapita's commission (napita-docs/decisions/0007). Not shown in the app, but
+ * business totals are shown net of it. PLACEHOLDER for the napita-backend setting.
+ */
+export const COMMISSION_PERCENT = 20;
+
+/** What the business receives for one bag: the price minus the commission (whole pesos). */
+export function netPrice(price: number) {
+  return price - Math.round((price * COMMISSION_PERCENT) / 100);
+}
+
+/**
  * Reads the code from a customer's QR ("napita:order:<id>:<code>", see the
  * customer Pedidos screen) or a typed 4-digit code. Returns null for anything else.
  */

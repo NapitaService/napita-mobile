@@ -6,6 +6,7 @@ import { BusinessHeader } from '@/components/business-screen';
 import { PlusIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { Toggle } from '@/components/toggle';
+import { netPrice } from '@/data/business';
 import { isCancelled, type OrderStatus } from '@/data/sample';
 import { formatCOP } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
@@ -21,8 +22,8 @@ export default function BusinessToday() {
   const live = bags.filter((b) => b.live);
   const published = live.reduce((sum, b) => sum + b.quantity, 0);
   const reserved = live.reduce((sum, b) => sum + countsFor(b.id).reserved, 0);
-  // Business side always shows pesos (napita-docs/product/currency-and-payments.md).
-  const sales = live.reduce((sum, b) => sum + countsFor(b.id).reserved * b.price, 0);
+  // Net of Ñapita's commission (decision 0007), always in pesos (product/currency-and-payments.md).
+  const sales = live.reduce((sum, b) => sum + countsFor(b.id).reserved * netPrice(b.price), 0);
   const window = format.windowParts(business.pickupFrom, business.pickupTo);
 
   const newBag = () => {

@@ -4,7 +4,7 @@
  * Amounts are whole pesos (COP). Times are "HH:MM" (24 h).
  */
 
-export type Category = 'bakery' | 'food' | 'cafe' | 'market' | 'vegan';
+export type Category = 'bakery' | 'food' | 'cafe' | 'market';
 
 export type Place = {
   id: string;
@@ -110,7 +110,7 @@ export const places: Place[] = [
   {
     id: 'huerta-viva',
     name: 'Huerta Viva',
-    category: 'vegan',
+    category: 'food',
     address: 'Cra. 11 #82-15, Bogotá',
     distance: 900,
     price: 13900,

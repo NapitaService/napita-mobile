@@ -12,7 +12,8 @@ import { useFormat } from '@/lib/use-format';
 import { usePlaces } from '@/settings/orders';
 import { colors, fonts, MIN_TOUCH } from '@/theme';
 
-const FILTERS: ('all' | Category)[] = ['all', 'bakery', 'food', 'cafe', 'market', 'vegan'];
+// No "Vegano" filter for now (napita-docs/decisions/0012).
+const FILTERS: ('all' | Category)[] = ['all', 'bakery', 'food', 'cafe', 'market'];
 
 /** Lowercase without accents, so "panaderia" finds "Panadería". */
 function normalize(text: string) {

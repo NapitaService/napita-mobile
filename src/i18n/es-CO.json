@@ -71,15 +71,13 @@
     "bakery": "Panadería",
     "food": "Comida",
     "cafe": "Café",
-    "market": "Mercado",
-    "vegan": "Vegano"
+    "market": "Mercado"
   },
   "bagKinds": {
     "bakery": "Bolsa de panadería",
     "food": "Bolsa de comida",
     "cafe": "Bolsa de café",
-    "market": "Bolsa de mercado",
-    "vegan": "Bolsa vegana"
+    "market": "Bolsa de mercado"
   },
   "discover": {
     "location": "{{area}} · a {{radius}} km",
@@ -164,7 +162,7 @@
       "pickupWindow": "Entregas de {{from}} a {{to}}",
       "published": "Bolsas publicadas",
       "reserved": "Reservadas",
-      "sales": "Ventas de hoy",
+      "sales": "Ventas netas de hoy",
       "publishMore": "Publicar más bolsas",
       "toCollect": "Por recoger",
       "seeAll": "Ver todo",

@@ -69,15 +69,13 @@
     "bakery": "Bakery",
     "food": "Meals",
     "cafe": "Café",
-    "market": "Market",
-    "vegan": "Vegan"
+    "market": "Market"
   },
   "bagKinds": {
     "bakery": "Bakery bag",
     "food": "Meal bag",
     "cafe": "Café bag",
-    "market": "Market bag",
-    "vegan": "Vegan bag"
+    "market": "Market bag"
   },
   "discover": {
     "location": "{{area}} · within {{radius}} km",
@@ -161,7 +159,7 @@
       "pickupWindow": "Pickups {{from}}–{{to}}",
       "published": "Bags posted",
       "reserved": "Reserved",
-      "sales": "Today's sales",
+      "sales": "Today's net sales",
       "publishMore": "Post more bags",
       "toCollect": "To pick up",
       "seeAll": "See all",
