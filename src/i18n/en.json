@@ -235,7 +235,7 @@
       "changeHours": "Change hours",
       "signOut": "Log out",
       "signOutHint": "To use the app as a customer, log out and sign in with a customer account.",
-      "more": "Coming soon: payout account and more settings."
+      "more": "Coming soon: more settings."
     },
     "scanner": {
       "title": "Scan the customer's code",
@@ -405,5 +405,37 @@
     "changeLogo": "Change logo",
     "removeLogo": "Remove",
     "logoHint": "Customers see it on your bags when they have no photo."
+  },
+  "payout": {
+    "title": "Payout account",
+    "subtitle": "This is where we send what you sell on Ñapita. It can be a bank account or Nequi.",
+    "methodLabel": "How you want to get paid",
+    "bank": "Bank account",
+    "nequi": "Nequi",
+    "bankLabel": "Bank",
+    "bankMissing": "Choose your bank.",
+    "accountType": "Account type",
+    "savings": "Savings",
+    "checking": "Checking",
+    "accountNumber": "Account number",
+    "accountNumberPlaceholder": "Numbers only",
+    "accountNumberInvalid": "Check the account number: it must have 6 to 20 digits.",
+    "nequiPhone": "Nequi mobile number",
+    "nequiPhoneInvalid": "Type a 10-digit Colombian mobile number starting with 3.",
+    "holderName": "Account holder's name",
+    "holderNamePlaceholder": "As it appears on the account",
+    "holderNameMissing": "Type the account holder's name.",
+    "document": "Account holder's ID",
+    "documentType": "ID type",
+    "documentPlaceholder": "ID number",
+    "documentInvalid": "Check the ID number: it must have 5 to 12 digits.",
+    "info": "The account must be in the name of the business or its owner. Check the details carefully: if they're wrong, the payment won't arrive.",
+    "save": "Save account",
+    "summaryBank": "{{bank}} · {{type}} · ending in {{last}}",
+    "summaryNequi": "Nequi · mobile ending in {{last}}",
+    "change": "Change account",
+    "missingTitle": "Add your payout account",
+    "missingBody": "Before your first sale. It can be a bank account or Nequi.",
+    "add": "Add account"
   }
 }

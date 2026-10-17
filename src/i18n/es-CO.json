@@ -241,7 +241,7 @@
       "changeHours": "Cambiar horario",
       "signOut": "Cerrar sesión",
       "signOutHint": "Para usar la app como cliente, cierra sesión y entra con una cuenta de cliente.",
-      "more": "Pronto: cuenta para recibir pagos y más ajustes."
+      "more": "Pronto: más ajustes."
     },
     "scanner": {
       "title": "Escanea el código del cliente",
@@ -414,5 +414,37 @@
     "changeLogo": "Cambiar logo",
     "removeLogo": "Quitar",
     "logoHint": "Los clientes lo ven en tus bolsas cuando no tienen foto."
+  },
+  "payout": {
+    "title": "Cuenta para recibir pagos",
+    "subtitle": "Aquí te enviamos lo que vendes en Ñapita. Puede ser una cuenta bancaria o Nequi.",
+    "methodLabel": "Cómo quieres recibir el dinero",
+    "bank": "Cuenta bancaria",
+    "nequi": "Nequi",
+    "bankLabel": "Banco",
+    "bankMissing": "Elige tu banco.",
+    "accountType": "Tipo de cuenta",
+    "savings": "Ahorros",
+    "checking": "Corriente",
+    "accountNumber": "Número de cuenta",
+    "accountNumberPlaceholder": "Solo números",
+    "accountNumberInvalid": "Revisa el número de cuenta: debe tener entre 6 y 20 dígitos.",
+    "nequiPhone": "Celular de Nequi",
+    "nequiPhoneInvalid": "Escribe un celular colombiano de 10 dígitos que empiece por 3.",
+    "holderName": "Nombre del titular",
+    "holderNamePlaceholder": "Como aparece en la cuenta",
+    "holderNameMissing": "Escribe el nombre del titular de la cuenta.",
+    "document": "Documento del titular",
+    "documentType": "Tipo de documento",
+    "documentPlaceholder": "Número de documento",
+    "documentInvalid": "Revisa el número de documento: debe tener entre 5 y 12 dígitos.",
+    "info": "La cuenta debe estar a nombre del negocio o de su dueño. Revisa bien los datos: si están mal, el pago no llega.",
+    "save": "Guardar cuenta",
+    "summaryBank": "{{bank}} · {{type}} · terminada en {{last}}",
+    "summaryNequi": "Nequi · celular terminado en {{last}}",
+    "change": "Cambiar cuenta",
+    "missingTitle": "Agrega tu cuenta para recibir pagos",
+    "missingBody": "Antes de tu primera venta. Puede ser una cuenta bancaria o Nequi.",
+    "add": "Agregar cuenta"
   }
 }

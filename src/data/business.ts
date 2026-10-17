@@ -234,3 +234,39 @@ export function suggestPrices(value: number): [number, number, number] {
   const suggested = Math.max(1900, Math.round(value / 3 / 1000) * 1000 - 100);
   return [Math.max(900, suggested - 2000), suggested, suggested + 3000];
 }
+
+/** Banks offered for payouts (napita-docs/decisions/0015). Shown as written. */
+export const BANKS = [
+  'Bancolombia',
+  'Banco de Bogotá',
+  'Davivienda',
+  'BBVA',
+  'Banco de Occidente',
+  'Banco Popular',
+  'Banco AV Villas',
+  'Scotiabank Colpatria',
+  'Banco Caja Social',
+  'Itaú',
+  'Banco Agrario',
+  'Nu Colombia',
+] as const;
+
+export type DocumentType = 'cc' | 'ce' | 'nit';
+
+/**
+ * Where Ñapita sends the business's money (napita-docs/decisions/0015): a
+ * bank account or Nequi, plus who it belongs to.
+ */
+export type PayoutAccount = {
+  holderName: string;
+  documentType: DocumentType;
+  documentNumber: string;
+} & (
+  | { method: 'bank'; bank: string; accountType: 'savings' | 'checking'; accountNumber: string }
+  | { method: 'nequi'; phone: string }
+);
+
+/** Last 4 digits only, so the full number is never on screen after saving. */
+export function lastDigits(number: string) {
+  return number.slice(-4);
+}

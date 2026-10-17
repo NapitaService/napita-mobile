@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 
-import type { BusinessType } from '@/data/business';
+import type { BusinessType, PayoutAccount } from '@/data/business';
 
 const ACCOUNTS_KEY = 'napita.accounts';
 const SESSION_KEY = 'napita.session';
@@ -19,6 +19,8 @@ export type BusinessProfile = {
   address: string;
   /** Logo picked at sign-up (local URI until napita-backend storage exists). Shown when a bag has no photo. */
   logo?: string;
+  /** Bank account or Nequi for payouts; added from Negocio before the first sale. */
+  payout?: PayoutAccount;
   openDays: number[];
   opens: string;
   closes: string;

@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { BusinessHeader } from '@/components/business-screen';
-import { ChevronRightIcon, GlobeIcon } from '@/components/icons';
+import { CardIcon, ChevronRightIcon, GlobeIcon } from '@/components/icons';
 import { LogoPicker } from '@/components/logo-picker';
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
+import { lastDigits } from '@/data/business';
 import { formatDays } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
 import { formatPhone, useAccount } from '@/settings/account';
@@ -74,6 +75,54 @@ export default function BusinessProfile() {
           </Pressable>
         </Section>
 
+        {/* Where Ñapita sends the business's money (decision 0015). */}
+        <Section title={t('payout.title')}>
+          {business.payout ? (
+            <>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                <CardIcon size={22} color={colors.green} />
+                <View style={{ flex: 1, gap: 2 }}>
+                  <Text font="bold" style={{ fontSize: 15 }}>
+                    {business.payout.method === 'bank'
+                      ? t('payout.summaryBank', {
+                          bank: business.payout.bank,
+                          type: t(`payout.${business.payout.accountType}`),
+                          last: lastDigits(business.payout.accountNumber),
+                        })
+                      : t('payout.summaryNequi', { last: lastDigits(business.payout.phone) })}
+                  </Text>
+                  <Text style={styles.line}>{business.payout.holderName}</Text>
+                </View>
+              </View>
+              <Pressable accessibilityRole="button" onPress={() => router.push('/negocio-pagos')} style={styles.link}>
+                <Text font="bold" style={{ fontSize: 15, color: colors.green }}>
+                  {t('payout.change')}
+                </Text>
+                <ChevronRightIcon size={16} color={colors.green} />
+              </Pressable>
+            </>
+          ) : (
+            <View style={styles.payoutMissing}>
+              <View style={{ gap: 2 }}>
+                <Text font="bold" style={{ fontSize: 15, color: colors.pendingText }}>
+                  {t('payout.missingTitle')}
+                </Text>
+                <Text style={{ fontSize: 13, lineHeight: 18, color: colors.pendingText }}>
+                  {t('payout.missingBody')}
+                </Text>
+              </View>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push('/negocio-pagos')}
+                style={styles.payoutButton}>
+                <Text font="bold" style={{ fontSize: 15, color: colors.white }}>
+                  {t('payout.add')}
+                </Text>
+              </Pressable>
+            </View>
+          )}
+        </Section>
+
         <View style={styles.card}>
           <View style={styles.row}>
             <View style={styles.label}>
@@ -130,6 +179,14 @@ const styles = StyleSheet.create({
   row: { minHeight: 56, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   label: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   note: { fontSize: 13, lineHeight: 18, color: colors.grey },
+  payoutMissing: { backgroundColor: colors.pendingBg, borderRadius: 14, padding: 14, gap: 12, marginVertical: -2 },
+  payoutButton: {
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: colors.pendingText,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   signOut: {
     height: 48,
     borderRadius: 14,
