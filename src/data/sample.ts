@@ -136,6 +136,19 @@ export function getPlace(id: string) {
  */
 export const CANCEL_HOURS_BEFORE = 1;
 
+/**
+ * Card payment fee deducted from refunds (napita-docs/decisions/0014).
+ * PLACEHOLDER until the payment provider is chosen; the real fee will come
+ * from napita-backend.
+ */
+export const SAMPLE_CARD_FEE = { percent: 3, fixed: 900 };
+
+/** What a customer gets back when they cancel in time: what they paid minus the card fee. */
+export function refundAmount(paid: number) {
+  const fee = Math.round((paid * SAMPLE_CARD_FEE.percent) / 100) + SAMPLE_CARD_FEE.fixed;
+  return Math.max(0, paid - fee);
+}
+
 /** Last moment to cancel, as "HH:MM": the pickup start minus CANCEL_HOURS_BEFORE ("18:00" → "17:00"). */
 export function cancelDeadline(pickupFrom: string) {
   const [h, m] = pickupFrom.split(':').map(Number);

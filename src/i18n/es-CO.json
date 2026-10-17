@@ -113,7 +113,7 @@
     "showCode": "Muestra este código al recoger",
     "directions": "Cómo llegar",
     "contact": "Contactar",
-    "cancelUntil": "Puedes cancelar hasta las {{time}}; te devolvemos lo que pagaste, menos la tarifa del pago con tarjeta.",
+    "cancelUntil": "Puedes cancelar hasta las {{time}}; te devolvemos {{refund}}.",
     "recent": "Recogidos hace poco",
     "pastRow": "{{date}} · {{price}}",
     "rate": "Calificar",
@@ -121,7 +121,7 @@
     "cancel": "Cancelar pedido",
     "cancelClosed": "Ya no puedes cancelar este pedido. Se podía hasta las {{time}}, 1 hora antes de recoger.",
     "confirmTitle": "¿Cancelar tu pedido?",
-    "confirmBody": "{{quantity}} × {{kind}} en {{place}}. Te devolvemos lo que pagaste ({{price}}), menos la tarifa del pago con tarjeta.",
+    "confirmBody": "{{quantity}} × {{kind}} en {{place}}. Te devolvemos {{refund}}.",
     "keep": "No, mantenerlo",
     "confirmCancel": "Sí, cancelar",
     "pastRowCancelled": "{{date}} · {{price}} · Cancelado"

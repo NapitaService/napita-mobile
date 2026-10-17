@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Segmented } from '@/components/segmented';
 import { Text } from '@/components/text';
-import { canStillCancel, cancelDeadline, getPlace, isCancelled, type PastOrder as PastOrderType, type UpcomingOrder as UpcomingOrderType } from '@/data/sample';
+import { canStillCancel, cancelDeadline, getPlace, isCancelled, refundAmount, type PastOrder as PastOrderType, type UpcomingOrder as UpcomingOrderType } from '@/data/sample';
 import { formatDuration } from '@/lib/format';
 import { useFormat } from '@/lib/use-format';
 import { useOrders } from '@/settings/orders';
@@ -143,7 +143,7 @@ function UpcomingOrder({ order }: { order: UpcomingOrderType }) {
 
         <Text style={[styles.secondary, { lineHeight: 18 }]}>
           {place.address}
-          {canCancel && ` · ${t('orders.cancelUntil', { time: deadline })}`}
+          {canCancel && ` · ${t('orders.cancelUntil', { time: deadline, refund: format.price(refundAmount(order.paid)) })}`}
         </Text>
 
         {/* Cancel until 1 hour before pickup (napita-docs/decisions/0010). */}
@@ -159,7 +159,7 @@ function UpcomingOrder({ order }: { order: UpcomingOrderType }) {
                 quantity: order.quantity,
                 kind: t(`bagKinds.${place.category}`),
                 place: place.name,
-                price: format.price(order.paid),
+                refund: format.price(refundAmount(order.paid)),
               })}
             </Text>
             <View style={{ flexDirection: 'row', gap: 10 }}>
