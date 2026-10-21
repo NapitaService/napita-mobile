@@ -12,6 +12,8 @@ export function AccountGuard({ type, children }: { type: AccountType; children: 
   const { ready, account } = useAccount();
   if (!ready) return null;
   if (!account) return <Redirect href="/" />;
-  if (account.type !== type || (type === 'business' && !account.business)) return <Redirect href={homeFor(account)} />;
+  // Businesses only get their tabs once the team approved them (decision 0016).
+  if (account.type !== type || (type === 'business' && (!account.business || account.review !== 'approved')))
+    return <Redirect href={homeFor(account)} />;
   return children;
 }

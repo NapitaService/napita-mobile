@@ -29,14 +29,36 @@ export type BusinessProfile = {
   pickupTo: string;
 };
 
+/** Persona natural (one person) or persona jurídica (a company); decides the documents asked for. */
+export type LegalType = 'natural' | 'juridica';
+
+/** A file the business picked (PDF or photo). Local URI until napita-backend storage exists. */
+export type DocumentFile = { name: string; uri: string };
+
+/** Documents a business sends at sign-up for the team to check (decision 0016). */
+export type BusinessDocuments = {
+  legalType: LegalType;
+  bankCertificate: DocumentFile;
+  rut: DocumentFile;
+  legalRepId: DocumentFile;
+  /** Cámara de Comercio; only for a persona jurídica. */
+  chamberOfCommerce?: DocumentFile;
+};
+
+/** The team's check of a new business (decision 0016). Missing until the documents are sent. */
+export type ReviewStatus = 'pending' | 'approved' | 'denied';
+
 export type Account = {
   /** 10 Colombian digits, without +57. Also the business's contact number. */
   phone: string;
   type: AccountType;
   /** Customer's first name; empty for business accounts. */
   name: string;
-  /** Missing until a new business finishes the two sign-up steps. */
+  /** Missing until a new business finishes its details and hours. */
   business?: BusinessProfile;
+  documents?: BusinessDocuments;
+  /** Businesses can only sell once the team approves them (decision 0016). */
+  review?: ReviewStatus;
   /** Demo accounts come with sample orders (see README). */
   demo?: boolean;
 };
@@ -58,6 +80,7 @@ export const DEMO_ACCOUNTS: Account[] = [
     type: 'business',
     name: '',
     demo: true,
+    review: 'approved',
     business: { name: 'Panadería La Espiga', type: 'bakery', address: 'Cra. 13 #85-32, Bogotá', ...DEFAULT_HOURS },
   },
 ];
@@ -75,6 +98,10 @@ type AccountState = {
   signOut: () => void;
   /** Saves the signed-in business's details and hours. */
   saveBusiness: (business: BusinessProfile) => void;
+  /** Sends the sign-up documents; the business then waits for the team's review. */
+  submitDocuments: (documents: BusinessDocuments) => void;
+  /** Only for testing until the team reviews in napita-backend. */
+  setReview: (review: ReviewStatus) => void;
 };
 
 const AccountContext = createContext<AccountState | null>(null);
@@ -119,6 +146,11 @@ export function AccountProvider({ children }: { children: ReactNode }) {
     saveAccounts(accounts.map((a) => (a.phone === phone ? { ...a, business } : a)));
   };
 
+  const updateSignedIn = (changes: Partial<Account>) =>
+    saveAccounts(accounts.map((a) => (a.phone === phone ? { ...a, ...changes } : a)));
+  const submitDocuments = (documents: BusinessDocuments) => updateSignedIn({ documents, review: 'pending' });
+  const setReview = (review: ReviewStatus) => updateSignedIn({ review });
+
   const account = (phone && accounts.find((a) => a.phone === phone)) || null;
 
   return (
@@ -131,6 +163,8 @@ export function AccountProvider({ children }: { children: ReactNode }) {
         signIn: startSession,
         signOut: () => startSession(null),
         saveBusiness,
+        submitDocuments,
+        setReview,
       }}>
       {children}
     </AccountContext.Provider>
@@ -148,10 +182,15 @@ export function useAccount() {
   return state;
 }
 
-/** Where an account lands after signing in. */
+/**
+ * Where an account lands after signing in. A new business goes through its
+ * sign-up steps, then waits on the review screen until the team approves it.
+ */
 export function homeFor(account: Account) {
   if (account.type === 'customer') return '/descubrir' as const;
-  return account.business ? ('/hoy' as const) : ('/negocio-nuevo' as const);
+  if (!account.business) return '/negocio-nuevo' as const;
+  if (!account.review) return '/negocio-nuevo/documentos' as const;
+  return account.review === 'approved' ? ('/hoy' as const) : ('/negocio-revision' as const);
 }
 
 /** "3001234567" → "300 123 4567" */

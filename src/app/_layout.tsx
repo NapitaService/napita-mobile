@@ -57,6 +57,19 @@ export default function RootLayout() {
                   name="negocio-nuevo/horario"
                   options={{ contentStyle: { backgroundColor: colors.white } }}
                 />
+                <Stack.Screen
+                  name="negocio-nuevo/documentos"
+                  options={{ contentStyle: { backgroundColor: colors.white } }}
+                />
+                <Stack.Screen
+                  name="negocio-revision"
+                  options={{
+                    contentStyle: { backgroundColor: colors.white },
+                    gestureEnabled: false,
+                    animation: 'fade',
+                  }}
+                />
+                <Stack.Screen name="negocio-pagos" options={{ contentStyle: { backgroundColor: colors.white } }} />
                 <Stack.Screen name="nueva-bolsa/index" options={{ contentStyle: { backgroundColor: colors.white } }} />
                 <Stack.Screen name="nueva-bolsa/precio" options={{ contentStyle: { backgroundColor: colors.white } }} />
                 <Stack.Screen

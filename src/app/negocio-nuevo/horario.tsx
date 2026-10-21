@@ -5,7 +5,6 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { BagStep, Option, StepTitle } from '@/components/bag-step';
 import { Warning } from '@/components/form';
-import { InfoIcon } from '@/components/icons';
 import { Text } from '@/components/text';
 import { HALF_HOURS, nearbyWindows, pickupWindowsFor, windowFits } from '@/data/business';
 import { WEEKDAY_INITIALS, weekdayName } from '@/lib/format';
@@ -16,7 +15,7 @@ import { useSettings } from '@/settings/settings';
 import { colors, MIN_TOUCH } from '@/theme';
 
 /**
- * Business sign-up, step 2 of 2: open days, opening hours and the usual pickup
+ * Business sign-up, step 2 of 3: open days, opening hours and the usual pickup
  * window, which must fit inside the hours (decision 0011). Closing time is when
  * orders not picked up become no-shows (decision 0008).
  * Also used from Negocio → "Cambiar horario" (`editar=1`).
@@ -70,16 +69,16 @@ export default function BusinessHours() {
       logo: params.logo,
       ...hours,
     });
-    router.dismissAll();
-    router.replace('/hoy');
+    // Last step: the documents the team checks (decision 0016).
+    router.push('/negocio-nuevo/documentos');
   };
 
   return (
     <BagStep
       step={2}
-      total={2}
+      total={3}
       heading={editing ? t('signup.editHeading') : t('signup.heading')}
-      buttonLabel={editing ? t('signup.save') : t('signup.create')}
+      buttonLabel={editing ? t('signup.save') : t('signup.continue')}
       onNext={finish}
       nextDisabled={tooShort || noDays}>
       <StepTitle title={t('signup.hoursTitle')} subtitle={t('signup.hoursSubtitle')} />
@@ -149,15 +148,6 @@ export default function BusinessHours() {
             </Pressable>
           )}
           <Text style={styles.hint}>{t('signup.pickupHint')}</Text>
-        </View>
-      )}
-
-      {!editing && (
-        <View style={styles.info}>
-          <InfoIcon size={22} color={colors.green} />
-          <Text style={{ flex: 1, fontSize: 14, lineHeight: 20, color: colors.segmentText }}>
-            {t('signup.paymentsLater')}
-          </Text>
         </View>
       )}
     </BagStep>
@@ -236,12 +226,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   hint: { fontSize: 13, lineHeight: 18, color: colors.grey },
-  info: {
-    flexDirection: 'row',
-    gap: 12,
-    alignItems: 'flex-start',
-    backgroundColor: colors.mist,
-    borderRadius: 16,
-    padding: 14,
-  },
 });

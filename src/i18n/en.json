@@ -364,7 +364,6 @@
     "heading": "Register your business",
     "editHeading": "Your hours",
     "continue": "Continue",
-    "create": "Create my business",
     "save": "Save",
     "detailsTitle": "Tell us about your business",
     "detailsSubtitle": "This is how customers find you. It takes less than 2 minutes.",
@@ -399,7 +398,6 @@
     "pickupWindow": "Pickup time",
     "otherWindow": "Choose another time",
     "pickupHint": "Always within your opening hours.",
-    "paymentsLater": "You add payment details later, before your first sale. You don't need them now.",
     "logo": "Business logo",
     "addLogo": "Add logo",
     "changeLogo": "Change logo",
@@ -447,5 +445,37 @@
     "rules": "We pay you what you sell every 2 weeks, with no minimum. Ñapita covers the transfer costs.",
     "history": "Past payouts",
     "none": "No payout"
+  },
+  "documents": {
+    "title": "Your business documents",
+    "subtitle": "Our team checks them before you start selling. You can upload a PDF or a photo.",
+    "legalType": "How is your business registered?",
+    "natural": "Individual",
+    "juridica": "Company",
+    "naturalHint": "One person owns the business, with their ID card (persona natural).",
+    "juridicaHint": "A company (e.g. S.A.S.) with a NIT, registered with the Chamber of Commerce (persona jurídica).",
+    "bankCertificate": "Bank certificate",
+    "bankCertificateHint": "For the account where you want to get paid, in the name of the business or its owner.",
+    "rut": "RUT",
+    "rutHint": "Tax registration (Registro Único Tributario) from the DIAN.",
+    "legalRepId": "Legal representative's ID",
+    "legalRepIdHint": "Both sides of the ID card. If you're an individual, it's your own ID.",
+    "chamberOfCommerce": "Chamber of Commerce certificate",
+    "chamberOfCommerceHint": "Certificado de existencia y representación legal.",
+    "upload": "Upload",
+    "change": "Change",
+    "missing": "This document is missing.",
+    "info": "Only the Ñapita team sees your documents. We use them to verify your business and your payouts.",
+    "send": "Send for review"
+  },
+  "review": {
+    "pendingPill": "Under review",
+    "title": "We're checking {{name}}",
+    "body": "Our team is checking your documents. We'll let you know when your business is approved so you can start selling on Ñapita.",
+    "received": "We received:",
+    "deniedPill": "Not approved",
+    "deniedTitle": "We couldn't approve your business",
+    "deniedBody": "We checked your documents and couldn't approve it for now. Write to us to find out what's missing.",
+    "devApprove": "(Test) Simulate the team's approval"
   }
 }

@@ -18,7 +18,7 @@ The design this app copies lives in the docs repo: [`design/README.md`](https://
 
 - **Welcome / login screen**, the only way in (decision 0005), with an ES / EN switch:
   - **"Ver lugares cerca de mí"** creates a **customer account** (name + celular → 6-digit code) and goes straight to Descubrir.
-  - **"Tengo un negocio"** creates a **business account** (celular → code), then 2 sign-up steps: business details, then **opening days and hours** and a pickup time that must fit inside them (decision 0011). Then straight to Hoy.
+  - **"Tengo un negocio"** creates a **business account** (celular → code), then 3 sign-up steps: business details (with logo), **opening days and hours** with a pickup time inside them (decision 0011), and **documents** (certificado bancario, RUT, ID of the legal representative, and Cámara de Comercio for a persona jurídica). Then the business waits on "Estamos revisando tu negocio" until the team approves it (decision 0016). For testing, that screen has a "(Prueba) Simular aprobación" button while running in Expo Go.
   - **"Inicia sesión"** opens whichever side the account belongs to. The app stays signed in until you log out.
   - Customer and business are separate accounts. To switch, use **Cerrar sesión** (Perfil or Negocio) and sign in with the other account.
   - Warnings for numbers that can't be a Colombian mobile, a number that already has an account, or an unknown number when signing in. For now nothing is sent and any 6 digits work.

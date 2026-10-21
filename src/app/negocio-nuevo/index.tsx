@@ -12,7 +12,7 @@ import { formatPhone, useAccount } from '@/settings/account';
 import { colors } from '@/theme';
 
 /**
- * Business sign-up, step 1 of 2: name, logo, type and address. Comes right after the
+ * Business sign-up, step 1 of 3: name, logo, type and address. Comes right after the
  * code, so the celular is already known (it's the login and the contact number).
  * Design: napita-docs/design/canvas/ShopOnboardDetails.dc.html
  */
@@ -47,7 +47,7 @@ export default function BusinessDetails() {
   return (
     <BagStep
       step={1}
-      total={2}
+      total={3}
       heading={t('signup.heading')}
       onBack={leave}
       buttonLabel={t('signup.continue')}

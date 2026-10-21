@@ -214,3 +214,19 @@ export const InfoIcon = (p: IconProps) => (
     <Path d="M12 11v5M12 8h.01" />
   </Icon>
 );
+
+/** "Estamos revisando tu negocio" (sign-up review). */
+export const ClockIcon = (p: IconProps) => (
+  <Icon strokeWidth={1.9} {...p}>
+    <Circle cx="12" cy="12" r="9" />
+    <Path d="M12 7v5l3 2" />
+  </Icon>
+);
+
+/** A document to upload at sign-up. */
+export const FileIcon = (p: IconProps) => (
+  <Icon strokeWidth={1.8} {...p}>
+    <Path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+    <Path d="M14 3v5h5M9 13h6M9 17h4" />
+  </Icon>
+);

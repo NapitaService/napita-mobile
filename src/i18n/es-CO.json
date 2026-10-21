@@ -373,7 +373,6 @@
     "heading": "Registra tu negocio",
     "editHeading": "Tu horario",
     "continue": "Continuar",
-    "create": "Crear mi negocio",
     "save": "Guardar",
     "detailsTitle": "Cuéntanos de tu negocio",
     "detailsSubtitle": "Así te encuentran los clientes. Toma menos de 2 minutos.",
@@ -408,7 +407,6 @@
     "pickupWindow": "Horario de entregas",
     "otherWindow": "Elegir otro horario",
     "pickupHint": "Siempre dentro de tu horario de atención.",
-    "paymentsLater": "Los datos de pago los agregas después, antes de tu primera venta. No necesitas tenerlos ahora.",
     "logo": "Logo del negocio",
     "addLogo": "Agregar logo",
     "changeLogo": "Cambiar logo",
@@ -456,5 +454,37 @@
     "rules": "Te pagamos cada 2 semanas lo que vendes, sin monto mínimo. Ñapita paga los costos de la transferencia.",
     "history": "Pagos anteriores",
     "none": "Sin pago"
+  },
+  "documents": {
+    "title": "Documentos de tu negocio",
+    "subtitle": "Nuestro equipo los revisa antes de que empieces a vender. Puedes subir un PDF o una foto.",
+    "legalType": "¿Cómo está registrado tu negocio?",
+    "natural": "Persona natural",
+    "juridica": "Persona jurídica",
+    "naturalHint": "Una persona dueña del negocio, con su cédula.",
+    "juridicaHint": "Una empresa (por ejemplo S.A.S.), con NIT y registro en la Cámara de Comercio.",
+    "bankCertificate": "Certificado bancario",
+    "bankCertificateHint": "De la cuenta donde quieres recibir tus pagos, a nombre del negocio o de su dueño.",
+    "rut": "RUT",
+    "rutHint": "Registro Único Tributario de la DIAN.",
+    "legalRepId": "Documento de identidad del representante legal",
+    "legalRepIdHint": "Cédula por ambos lados. Si eres persona natural, es tu propia cédula.",
+    "chamberOfCommerce": "Cámara de Comercio",
+    "chamberOfCommerceHint": "Certificado de existencia y representación legal.",
+    "upload": "Subir",
+    "change": "Cambiar",
+    "missing": "Falta subir este documento.",
+    "info": "Solo el equipo de Ñapita ve tus documentos. Los usamos para verificar tu negocio y tus pagos.",
+    "send": "Enviar para revisión"
+  },
+  "review": {
+    "pendingPill": "En revisión",
+    "title": "Estamos revisando {{name}}",
+    "body": "Nuestro equipo está revisando tus documentos. Te avisamos cuando tu negocio esté aprobado para que empieces a vender en Ñapita.",
+    "received": "Recibimos:",
+    "deniedPill": "No aprobado",
+    "deniedTitle": "No pudimos aprobar tu negocio",
+    "deniedBody": "Revisamos tus documentos y no pudimos aprobarlo por ahora. Escríbenos para saber qué falta.",
+    "devApprove": "(Prueba) Simular aprobación del equipo"
   }
 }
